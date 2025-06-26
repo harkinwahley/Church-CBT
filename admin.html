@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Exam Results</title>
+    <!-- Google Fonts Import for Comic Neue - for consistency -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables - Consistent with your main site */
+        :root{
+            --prime-txt:#2c3e50; /* Dark blue */
+            --btn-green:#4CAF50; /* Green */
+            --btn-green-h:#45a049; /* Darker green */
+            --bg-grad-s:#ffecd2; /* Peach start */
+            --bg-grad-e:#fcb69f; /* Pinkish end */
+            --card-bg:#fff;      /* White */
+            --brdr-clr:#ddd;     /* Light grey */
+            --timer-clr:#e74c3c; /* Red */
+            --txt-light:#fff;    /* White text */
+        }
+
+        body {
+            font-family: 'Comic Neue', cursive;
+            margin: 0; padding: 20px;
+            background: linear-gradient(to right, var(--bg-grad-s), var(--bg-grad-e));
+            color: var(--prime-txt);
+            display: flex; justify-content: center; align-items: flex-start; /* Align to top */
+            min-height: 100vh;
+            font-size: 18px; line-height: 1.5;
+        }
+
+        .container {
+            background-color: var(--card-bg); border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,.15); padding: 30px;
+            width: 100%; max-width: 900px; /* Wider for table */
+            box-sizing: border-box; margin: 20px auto; /* Centered with margin */
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Comic Neue', cursive;
+            color: var(--btn-green); font-size: 2.8em;
+            margin-bottom: 30px; text-shadow: 1px 1px 3px rgba(0,0,0,.08);
+        }
+
+        table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            font-size: 1.05em;
+        }
+
+        th, td {
+            border: 1px solid var(--brdr-clr); padding: 12px; text-align: left;
+        }
+
+        th {
+            background-color: var(--btn-green); color: var(--txt-light);
+            font-weight: bold;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f0fff0; /* Light green for even rows */
+        }
+        tbody tr:hover {
+            background-color: #e6ffe6; /* Lighter green on hover */
+        }
+
+        button {
+            display: inline-block; background-color: var(--btn-green);
+            color: var(--txt-light); padding: 14px 28px; margin: 30px auto 0;
+            border: none; border-radius: 25px; font-size: 1.1em; cursor: pointer;
+            transition: background-color .3s,transform .2s;
+            font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,.1);
+        }
+
+        button:hover {
+            background-color: var(--btn-green-h); transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,.15);
+        }
+
+        #access-denied {
+            font-family: 'Comic Neue', cursive;
+            color: var(--timer-clr); font-size: 2em;
+            text-align: center; margin-top: 50px;
+        }
+
+        /* Basic modal for confirmation instead of browser confirm() */
+        .custom-modal {
+            display: none; /* Hidden by default */
+            position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto;
+            background-color: rgba(0,0,0,0.4); /* Dark overlay */
+        }
+
+        .modal-content {
+            background-color: var(--card-bg); margin: 15% auto; padding: 20px;
+            border: 1px solid #888; border-radius: 10px;
+            width: 80%; max-width: 400px; text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .modal-buttons button {
+            margin: 10px; padding: 10px 20px;
+            font-size: 1em; border-radius: 20px;
+            box-shadow: none; /* Remove extra shadow for modal buttons */
+        }
+
+        .modal-buttons button.cancel {
+            background-color: #ccc; color: var(--prime-txt);
+        }
+        .modal-buttons button.cancel:hover {
+            background-color: #bbb; transform: none;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 20px; margin: 10px auto; }
+            h1 { font-size: 2em; }
+            th, td { padding: 8px; font-size: 0.9em; }
+            button { padding: 10px 20px; font-size: 1em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="admin-panel">
+        <h1>Exam Results Admin Panel</h1>
+        <table id="resultsTable">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Exam Name</th>
+                    <th>Score</th>
+                    <th>Percentage</th>
+                    <th>Missed Questions</th> <!-- NEW COLUMN -->
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Results will be loaded here by JavaScript -->
+            </tbody>
+        </table>
+        <button id="clearResultsBtn">Clear All Results</button>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="confirmModal" class="custom-modal">
+        <div class="modal-content">
+            <p id="modalMessage">Are you sure you want to clear all exam results? This cannot be undone.</p>
+            <div class="modal-buttons">
+                <button id="modalConfirmBtn">Yes, Clear</button>
+                <button id="modalCancelBtn" class="cancel">No, Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const resultsTableBody = document.querySelector('#resultsTable tbody');
+            const clearResultsBtn = document.getElementById('clearResultsBtn');
+            const confirmModal = document.getElementById('confirmModal');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            let pendingAction = null; // To store the function to execute on modal confirm
+
+            function showModal(message, onConfirm) {
+                document.getElementById('modalMessage').textContent = message;
+                pendingAction = onConfirm;
+                confirmModal.style.display = 'block';
+            }
+
+            function hideModal() {
+                confirmModal.style.display = 'none';
+                pendingAction = null;
+            }
+
+            modalConfirmBtn.addEventListener('click', () => {
+                if (pendingAction) {
+                    pendingAction();
+                }
+                hideModal();
+            });
+
+            modalCancelBtn.addEventListener('click', hideModal);
+
+            // Simple "admin" password check (NOT SECURE - FOR DEMO ONLY)
+            // In a real application, this authentication would happen on a server.
+            const password = prompt("Enter admin password to view results:");
+            if (password !== "admin123") { // Replace with a real, hashed password in a real app (server-side)
+                document.body.innerHTML = '<div id="access-denied">Access Denied: Incorrect Password.</div>';
+                return; // Stop script execution
+            }
+
+            function loadResults() {
+                resultsTableBody.innerHTML = ''; // Clear previous results
+                let results = JSON.parse(localStorage.getItem('examResults')) || [];
+
+                if (results.length === 0) {
+                    const row = resultsTableBody.insertRow();
+                    row.innerHTML = '<td colspan="6" style="text-align: center; padding: 20px;">No exam results found.</td>'; // Updated colspan
+                    return;
+                }
+
+                results.forEach(result => {
+                    const row = resultsTableBody.insertRow();
+                    row.insertCell().textContent = result.name;
+                    row.insertCell().textContent = result.examName || 'Sunday School Exam'; // Default if not specified
+                    row.insertCell().textContent = `${result.score}/${result.totalQuestions}`;
+                    row.insertCell().textContent = result.percentage;
+                    
+                    // --- Calculate and display missed questions ---
+                    const missedQuestionsCell = row.insertCell();
+                    let missedQNums = [];
+                    // Ensure correctAnswers and answers exist before iterating
+                    if (result.correctAnswers && result.answers) {
+                        for (let i = 1; i <= result.totalQuestions; i++) {
+                            // Convert question number to string key for objects if necessary
+                            const qNumStr = String(i);
+                            if (result.answers[qNumStr] !== result.correctAnswers[qNumStr]) {
+                                missedQNums.push(i); // Add question number if answer is incorrect
+                            }
+                        }
+                    }
+                    
+                    if (missedQNums.length > 0) {
+                        missedQuestionsCell.textContent = missedQNums.join(', ');
+                        missedQuestionsCell.style.color = 'red'; // Highlight missed questions
+                        missedQuestionsCell.style.fontWeight = 'bold';
+                    } else {
+                        missedQuestionsCell.textContent = 'None';
+                        missedQuestionsCell.style.color = 'green';
+                    }
+                    // --- End calculate and display missed questions ---
+
+                    row.insertCell().textContent = result.timestamp;
+                });
+            }
+
+            function clearAllResults() {
+                localStorage.removeItem('examResults');
+                loadResults(); // Reload to show empty state
+                // You could add a temporary success message here
+            }
+
+            clearResultsBtn.addEventListener('click', () => {
+                showModal('Are you sure you want to clear all exam results? This cannot be undone.', clearAllResults);
+            });
+
+            loadResults(); // Load results when the admin page loads
+        });
+    </script>
+</body>
+</html>
