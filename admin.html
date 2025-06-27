@@ -238,6 +238,35 @@
     </script>
 
     <script>
+        // ALL EXAM QUESTIONS DEFINED HERE - MUST MATCH index.html
+        const ALL_QUESTIONS = [
+            { id: 1, questionText: "1. What kind of leaders were Moses and Joshua?", options: {a: "Bad leaders", b: "Corrupt leaders", c: "Good leaders"}, correctAnswer: 'c' },
+            { id: 2, questionText: "2. Whom did God instruct to go up against the Canaanites?", options: {a: "Israel", b: "Judah", c: "Jesus"}, correctAnswer: 'b' },
+            { id: 3, questionText: "3. What was the disobedience of the Israelites?", options: {a: "They love God", b: "They worshipped idols", c: "They worship Hindus"}, correctAnswer: 'b' },
+            { id: 4, questionText: "4. What was the result of their disobedience?", options: {a: "They became prey of their enemies", b: "They were in the wilderness for 40 years", c: "They became very hungry"}, correctAnswer: 'a' },
+            { id: 5, questionText: "5. Who was Othniel and what role did he play in Israel?", options: {a: "He was the first judge to deliver Israel", b: "He was a corrupt leader", c: "He led Israel to idolatry"}, correctAnswer: 'a' },
+            { id: 6, questionText: "6. Who led the battle against Sisera?", options: {a: "Deborah", b: "Jael", c: "Jabin"}, correctAnswer: 'b' },
+            { id: 7, questionText: "7. Who prophesied the death of Sisera?", options: {a: "Jael", b: "Deborah", c: "Solomon"}, correctAnswer: 'b' },
+            { id: 8, questionText: "8. Who is Gideon?", options: {a: "The mighty man of valour", b: "The man with dread", c: "The big man"}, correctAnswer: 'a' },
+            { id: 9, questionText: "9. SIN can be defined as ________ ", options: {a: "Sun in Netherlands", b: "Simple Instruction Neglected", c: "Something in Nigeria"}, correctAnswer: 'b' },
+            { id: 10, questionText: "10. What is an Angel?", options: {a: "God's Servant to serve God's people", b: "Angels are human beings", c: "They are servants of Satan"}, correctAnswer: 'a' },
+            { id: 11, questionText: "11. How many daughters did Lot have?", options: {a: "4", b: "3", c: "2"}, correctAnswer: 'c' },
+            { id: 12, questionText: "12. Who looked back?", options: {a: "Deborah", b: "Lot's Wife", c: "Sarah"}, correctAnswer: 'b' },
+            { id: 13, questionText: "13. What is the name of Sarah's maidservant?", options: {a: "Hager", b: "Abigael", c: "Lola"}, correctAnswer: 'a' },
+            { id: 14, questionText: "14. Who is the father of Ismael?", options: {a: "Abraham", b: "Jacob", c: "Isaac"}, correctAnswer: 'a' },
+            { id: 15, questionText: "15. All these people are those Angels communicated to through dream except ______", options: {a: "Joseph", b: "Solomon", c: "Mary"}, correctAnswer: 'c' },
+            { id: 16, questionText: "16. All these people are those that angels communicated to one-on-one except ______", options: {a: "Mary", b: "Abraham", c: "Daniel"}, correctAnswer: 'c' },
+            { id: 17, questionText: "17. Are Angels ghost?", options: {a: "I don't know", b: "Yes", c: "No"}, correctAnswer: 'c' },
+            { id: 18, questionText: "18. What is the name of the Angel that wages war against Satan?", options: {a: "Angel Uriel", b: "Angel Michael", c: "Angel Echabod"}, correctAnswer: 'b' },
+            { id: 19, questionText: "19. Who was the first Pastor of the first gospel Church?", options: {a: "Peter", b: "Luke", c: "John"}, correctAnswer: 'a' },
+            { id: 20, questionText: "20. How can one become prey to the devil?", options: {a: "Without Prayer", b: "With Prayer", c: "By Praising God"}, correctAnswer: 'a' }
+        ];
+
+        // Helper to get a question object by its original ID
+        function getQuestionById(id) {
+            return ALL_QUESTIONS.find(q => q.id === id);
+        }
+
         // Cached DOM elements
         const DOM = {};
 
@@ -337,12 +366,20 @@
                     // --- Calculate and display missed questions ---
                     const missedQuestionsCell = row.insertCell();
                     const missedQNums = [];
-                    // Ensure answers and correctAnswers exist before iterating
-                    if (result.answers && result.correctAnswers && result.totalQuestions) {
-                        for (let i = 1; i <= result.totalQuestions; i++) {
-                            const qNumStr = String(i); // Convert number to string for object key access
-                            if (result.answers[qNumStr] && result.answers[qNumStr] !== result.correctAnswers[qNumStr]) {
-                                missedQNums.push(i); // Add question number if answer is incorrect
+                    // Use the `shuffledOrder` if available, otherwise iterate through expected question IDs
+                    const questionsToCheck = result.shuffledOrder || ALL_QUESTIONS.map(q => q.id);
+
+                    if (result.answers) { // Ensure answers exist
+                        for (const qId of questionsToCheck) {
+                            const questionObj = getQuestionById(qId);
+                            if (questionObj) { // Ensure question exists in our master list
+                                const candidateAnswer = result.answers[qId];
+                                const correctAnswer = questionObj.correctAnswer;
+
+                                // Check if candidate answered and if it's incorrect
+                                if (candidateAnswer !== undefined && candidateAnswer !== correctAnswer) {
+                                    missedQNums.push(qId); // Add the original question ID
+                                }
                             }
                         }
                     }

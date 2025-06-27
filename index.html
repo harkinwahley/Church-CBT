@@ -225,217 +225,8 @@
     <div class="container" id="exam-page" style="display:none;">
         <div class="timer" id="countdown">10:00</div>
 
-        <!-- Question 1 -->
-        <div class="question" id="question1" style="display:none;">
-            <h3>1. What kind of leaders were Moses and Joshua?</h3>
-            <div class="options">
-                <label><input type="radio" name="q1" value="a"> Bad leaders</label>
-                <label><input type="radio" name="q1" value="b"> Corrupt leaders</label>
-                <label><input type="radio" name="q1" value="c"> Good leaders</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="nextQuestion(1)">Next</button></div>
-        </div>
-        <!-- Question 2 -->
-        <div class="question" id="question2" style="display:none;">
-            <h3>2. Whom did God instruct to go up against the Canaanites?</h3>
-            <div class="options">
-                <label><input type="radio" name="q2" value="a"> Israel</label>
-                <label><input type="radio" name="q2" value="b"> Judah</label>
-                <label><input type="radio" name="q2" value="c"> Jesus</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(2)">Previous</button><button onclick="nextQuestion(2)">Next</button></div>
-        </div>
-        <!-- Question 3 -->
-        <div class="question" id="question3" style="display:none;">
-            <h3>3. What was the disobedience of the Israelites?</h3>
-            <div class="options">
-                <label><input type="radio" name="q3" value="a"> They love God</label>
-                <label><input type="radio" name="q3" value="b"> They worshipped idols</label>
-                <label><input type="radio" name="q3" value="c"> They worship Hindus</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(3)">Previous</button><button onclick="nextQuestion(3)">Next</button></div>
-        </div>
-        <!-- Question 4 -->
-        <div class="question" id="question4" style="display:none;">
-            <h3>4. What was the result of their disobedience?</h3>
-            <div class="options">
-                <label><input type="radio" name="q4" value="a"> They became prey of their enemies</label>
-                <label><input type="radio" name="q4" value="b"> They were in the wilderness for 40 years</label>
-                <label><input type="radio" name="q4" value="c"> They became very hungry</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(4)">Previous</button><button onclick="nextQuestion(4)">Next</button></div>
-        </div>
-        <!-- Question 5 -->
-        <div class="question" id="question5" style="display:none;">
-            <h3>5.Who was Othniel and what role did he play in Israel?</h3>
-            <div class="options">
-                <label><input type="radio" name="q5" value="a"> He was the first judge to deliver Israel</label>
-                <label><input type="radio" name="q5" value="b"> He was a corrupt leader</label>
-                <label><input type="radio" name="q5" value="c"> He led Israel to idolatry</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(5)">Previous</button><button onclick="nextQuestion(5)">Next</button></div>
-        </div>
+        <div id="question-container"></div>
 
-        <!-- Question 6 -->
-        <div class="question" id="question6" style="display:none;">
-            <h3>6. Who led the battle against Sisera?</h3>
-            <div class="options">
-                <label><input type="radio" name="q6" value="a"> Deborah</label>
-                <label><input type="radio" name="q6" value="b"> Jael</label>
-                <label><input type="radio" name="q6" value="c"> Jabin</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(6)">Previous</button><button onclick="nextQuestion(6)">Next</button></div>
-        </div>
-        <!-- Question 7 -->
-        <div class="question" id="question7" style="display:none;">
-            <h3>7. Who prophesied the death of Sisera?</h3>
-            <div class="options">
-                <label><input type="radio" name="q7" value="a"> Jael</label>
-                <label><input type="radio" name="q7" value="b"> Deborah</label>
-                <label><input type="radio" name="q7" value="c"> Solomon</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(7)">Previous</button><button onclick="nextQuestion(7)">Next</button></div>
-        </div>
-        <!-- Question 8 -->
-        <div class="question" id="question8" style="display:none;">
-            <h3>8. Who is Gideon?</h3>
-            <div class="options">
-                <label><input type="radio" name="q8" value="a"> The mighty man of valour</label>
-                <label><input type="radio" name="q8" value="b"> The man with dread</label>
-                <label><input type="radio" name="q8" value="c"> The big man</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(8)">Previous</button><button onclick="nextQuestion(8)">Next</button></div>
-        </div>
-        <!-- Question 9 -->
-        <div class="question" id="question9" style="display:none;">
-            <h3>9. SIN can be defined as ________ </h3>
-            <div class="options">
-                <label><input type="radio" name="q9" value="a"> Sun in Netherlands</label>
-                <label><input type="radio" name="q9" value="b"> Simple Instruction Neglected</label>
-                <label><input type="radio" name="q9" value="c"> Something in Nigeria</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(9)">Previous</button><button onclick="nextQuestion(9)">Next</button></div>
-        </div>
-        <!-- Question 10 -->
-        <div class="question" id="question10" style="display:none;">
-            <h3>10. What is an Angel?</h3>
-            <div class="options">
-                <label><input type="radio" name="q10" value="a"> God's Servant to serve God's people</label>
-                <label><input type="radio" name="q10" value="b"> Angels are human beings</label>
-                <label><input type="radio" name="q10" value="c"> They are servants of Satan</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(10)">Previous</button><button onclick="nextQuestion(10)">Next</button></div>
-        </div>
-        <!-- Question 11 -->
-        <div class="question" id="question11" style="display:none;">
-            <h3>11. How many daughters did Lot have?</h3>
-            <div class="options">
-                <label><input type="radio" name="q11" value="a"> 4</label>
-                <label><input type="radio" name="q11" value="b"> 3</label>
-                <label><input type="radio" name="q11" value="c"> 2</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(11)">Previous</button><button onclick="nextQuestion(11)">Next</button></div>
-        </div>
-        <!-- Question 12 -->
-        <div class="question" id="question12" style="display:none;">
-            <h3>12. Who looked back?</h3>
-            <div class="options">
-                <label><input type="radio" name="q12" value="a"> Deborah</label>
-                <label><input type="radio" name="q12" value="b"> Lot's Wife</label>
-                <label><input type="radio" name="q12" value="c"> Sarah</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(12)">Previous</button><button onclick="nextQuestion(12)">Next</button></div>
-        </div>
-        <!-- Question 13 -->
-        <div class="question" id="question13" style="display:none;">
-            <h3>13. What is the name of Sarah's maidservant?</h3>
-            <div class="options">
-                <label><input type="radio" name="q13" value="a"> Hager</label>
-                <label><input type="radio" name="q13" value="b"> Abigael</label>
-                <label><input type="radio" name="q13" value="c"> Lola</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(13)">Previous</button><button onclick="nextQuestion(13)">Next</button></div>
-        </div>
-        <!-- Question 14 -->
-        <div class="question" id="question14" style="display:none;">
-            <h3>14. Who is the father of Ismael?</h3>
-            <div class="options">
-                <label><input type="radio" name="q14" value="a"> Abraham</label>
-                <label><input type="radio" name="q14" value="b"> Jacob</label>
-                <label><input type="radio" name="q14" value="c"> Isaac</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(14)">Previous</button><button onclick="nextQuestion(14)">Next</button></div>
-        </div>
-        <!-- Question 15 -->
-        <div class="question" id="question15" style="display:none;">
-            <h3>15. All these people are those Angels communicated to through dream except ______</h3>
-            <div class="options">
-                <label><input type="radio" name="q15" value="a"> Joseph</label>
-                <label><input type="radio" name="q15" value="b"> Solomon</label>
-                <label><input type="radio" name="q15" value="c"> Mary</label>
-            </div>
-            <div class="navigation-buttons">
-                <button onclick="previousQuestion(15)">Previous</button>
-                <button onclick="nextQuestion(15)">Next</button></div>
-        </div>
-        <!-- Question 16 -->
-        <div class="question" id="question16" style="display:none;">
-            <h3>16. All these people are those that angels communicated to one-on-one except ______</h3>
-            <div class="options">
-                <label><input type="radio" name="q16" value="a"> Mary</label>
-                <label><input type="radio" name="q16" value="b"> Abraham</label>
-                <label><input type="radio" name="q16" value="c"> Daniel</label>
-            </div>
-            <div class="navigation-buttons">
-                <button onclick="previousQuestion(16)">Previous</button>
-                <button onclick="nextQuestion(16)">Next</button></div>
-        </div>
-        <!-- Question 17 -->
-        <div class="question" id="question17" style="display:none;">
-            <h3>17. Are Angels ghost?</h3>
-            <div class="options">
-                <label><input type="radio" name="q17" value="a"> I don't know</label>
-                <label><input type="radio" name="q17" value="b"> Yes</label>
-                <label><input type="radio" name="q17" value="c"> No</label>
-            </div>
-            <div class="navigation-buttons"> <button onclick="previousQuestion(17)">Previous</button>
-                <button onclick="nextQuestion(17)">Next</button> </div>
-        </div>
-        <!-- Question 18 -->
-        <div class="question" id="question18" style="display:none;">
-            <h3>18. What is the name of the Angel that wages war against Satan?</h3>
-            <div class="options">
-                <label><input type="radio" name="q18" value="a"> Angel Uriel</label>
-                <label><input type="radio" name="q18" value="b"> Angel Michael</label>
-                <label><input type="radio" name="q18" value="c"> Angel Echabod</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(18)">Previous</button>
-                <button onclick="nextQuestion(18)">Next</button></div>
-        </div>
-        <!-- Question 19 -->
-        <div class="question" id="question19" style="display:none;">
-            <h3>19. Who was the first Pastor of the first gospel Church?</h3>
-            <div class="options">
-                <label><input type="radio" name="q19" value="a"> Peter</label>
-                <label><input type="radio" name="q19" value="b"> Luke</label>
-                <label><input type="radio" name="q19" value="c"> John</label>
-            </div>
-            <div class="navigation-buttons"><button onclick="previousQuestion(19)">Previous</button>
-                <button onclick="nextQuestion(19)">Next</button></div>
-        </div>
-        <!-- Question 20 -->
-        <div class="question" id="question20" style="display:none;">
-            <h3>20. How can one become prey to the devil?</h3>
-            <div class="options">
-                <label><input type="radio" name="q20" value="a"> Without Prayer</label>
-                <label><input type="radio" name="q20" value="b"> With Prayer</label>
-                <label><input type="radio" name="q20" value="c"> By Praising God</label>
-            </div>
-            <div class="navigation-buttons">
-                <button onclick="previousQuestion(20)">Previous</button>
-                <button onclick="nextQuestion(20)">Submit</button>
-            </div>
-        </div>
         <div id="submit-section" style="display:none;">
             <button onclick="confirmSubmit()">Submit Exam</button>
         </div>
@@ -463,7 +254,6 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
@@ -491,18 +281,36 @@
     <script>
         let generatedId = '';
         let userName = ''; // Stores full name: "First Last"
-        let currentQuestion = 1;
-        let totalQuestions = 20;
-        let answers = {};
+        let currentQuestionIndex = 0; // Use 0-based index for shuffled array
+        let shuffledQuestions = []; // Array to hold the shuffled questions
+        let answers = {}; // Stores answers by original question ID { qId: 'selectedOption' }
         let timer;
 
-        // Define correct answers from the provided HTML
-        const CORRECT_ANSWERS = {
-            1: 'c', 2: 'b', 3: 'b', 4: 'a', 5: 'a',
-            6: 'b', 7: 'b', 8: 'a', 9: 'b', 10: 'a',
-            11: 'c', 12: 'b', 13: 'a', 14: 'a', 15: 'c',
-            16: 'c', 17: 'c', 18: 'b', 19: 'a', 20: 'a'
-        };
+        // ALL EXAM QUESTIONS DEFINED HERE
+        const ALL_QUESTIONS = [
+            { id: 1, questionText: "1. What kind of leaders were Moses and Joshua?", options: {a: "Bad leaders", b: "Corrupt leaders", c: "Good leaders"}, correctAnswer: 'c' },
+            { id: 2, questionText: "2. Whom did God instruct to go up against the Canaanites?", options: {a: "Israel", b: "Judah", c: "Jesus"}, correctAnswer: 'b' },
+            { id: 3, questionText: "3. What was the disobedience of the Israelites?", options: {a: "They love God", b: "They worshipped idols", c: "They worship Hindus"}, correctAnswer: 'b' },
+            { id: 4, questionText: "4. What was the result of their disobedience?", options: {a: "They became prey of their enemies", b: "They were in the wilderness for 40 years", c: "They became very hungry"}, correctAnswer: 'a' },
+            { id: 5, questionText: "5. Who was Othniel and what role did he play in Israel?", options: {a: "He was the first judge to deliver Israel", b: "He was a corrupt leader", c: "He led Israel to idolatry"}, correctAnswer: 'a' },
+            { id: 6, questionText: "6. Who led the battle against Sisera?", options: {a: "Deborah", b: "Jael", c: "Jabin"}, correctAnswer: 'b' },
+            { id: 7, questionText: "7. Who prophesied the death of Sisera?", options: {a: "Jael", b: "Deborah", c: "Solomon"}, correctAnswer: 'b' },
+            { id: 8, questionText: "8. Who is Gideon?", options: {a: "The mighty man of valour", b: "The man with dread", c: "The big man"}, correctAnswer: 'a' },
+            { id: 9, questionText: "9. SIN can be defined as ________ ", options: {a: "Sun in Netherlands", b: "Simple Instruction Neglected", c: "Something in Nigeria"}, correctAnswer: 'b' },
+            { id: 10, questionText: "10. What is an Angel?", options: {a: "God's Servant to serve God's people", b: "Angels are human beings", c: "They are servants of Satan"}, correctAnswer: 'a' },
+            { id: 11, questionText: "11. How many daughters did Lot have?", options: {a: "4", b: "3", c: "2"}, correctAnswer: 'c' },
+            { id: 12, questionText: "12. Who looked back?", options: {a: "Deborah", b: "Lot's Wife", c: "Sarah"}, correctAnswer: 'b' },
+            { id: 13, questionText: "13. What is the name of Sarah's maidservant?", options: {a: "Hager", b: "Abigael", c: "Lola"}, correctAnswer: 'a' },
+            { id: 14, questionText: "14. Who is the father of Ismael?", options: {a: "Abraham", b: "Jacob", c: "Isaac"}, correctAnswer: 'a' },
+            { id: 15, questionText: "15. All these people are those Angels communicated to through dream except ______", options: {a: "Joseph", b: "Solomon", c: "Mary"}, correctAnswer: 'c' },
+            { id: 16, questionText: "16. All these people are those that angels communicated to one-on-one except ______", options: {a: "Mary", b: "Abraham", c: "Daniel"}, correctAnswer: 'c' },
+            { id: 17, questionText: "17. Are Angels ghost?", options: {a: "I don't know", b: "Yes", c: "No"}, correctAnswer: 'c' },
+            { id: 18, questionText: "18. What is the name of the Angel that wages war against Satan?", options: {a: "Angel Uriel", b: "Angel Michael", c: "Angel Echabod"}, correctAnswer: 'b' },
+            { id: 19, questionText: "19. Who was the first Pastor of the first gospel Church?", options: {a: "Peter", b: "Luke", c: "John"}, correctAnswer: 'a' },
+            { id: 20, questionText: "20. How can one become prey to the devil?", options: {a: "Without Prayer", b: "With Prayer", c: "By Praising God"}, correctAnswer: 'a' }
+        ];
+
+        let totalQuestions = ALL_QUESTIONS.length; // Dynamically set total questions
 
         // Cached DOM elements
         const DOM = {};
@@ -531,6 +339,21 @@
             pendingAction = null;
         }
 
+        // Fisher-Yates (Knuth) Shuffle Algorithm
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            // While there remain elements to shuffle.
+            while (currentIndex !== 0) {
+                // Pick a remaining element.
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                // And swap it with the current element.
+                [array[currentIndex], array[randomIndex]] = [
+                    array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
         // Event listeners and DOM caching
         document.addEventListener('DOMContentLoaded', () => {
             // Cache common DOM elements
@@ -553,6 +376,7 @@
             DOM.generatedIdInput = document.getElementById('generated-id-input');
             DOM.countdownDisplay = document.getElementById('countdown');
             DOM.submitSection = document.getElementById('submit-section');
+            DOM.questionContainer = document.getElementById('question-container'); // New: Placeholder for dynamic questions
 
             // Event listeners for the confirmation modal buttons
             DOM.modalConfirmBtn.addEventListener('click', () => {
@@ -597,17 +421,11 @@
             const loginName = DOM.loginNameInput.value.trim();
             const loginId = DOM.generatedIdInput.value.trim();
 
-            // For now, only check the ID against the generatedId from the current session.
-            // For persistence across page reloads/different devices, you'd need to store
-            // generatedId and associated user data (like password hash) in Firestore/Auth
-            // when they sign up, and then verify against that stored data here.
             if (loginId !== generatedId) {
                 showMessageBox('Invalid ID. Please try again.');
                 return;
             }
 
-            // If userName was not set (e.g., page refresh after signup but before login)
-            // try to use the loginName, though this is less robust without persistent storage.
             if (!userName) {
                  userName = loginName;
             }
@@ -616,11 +434,16 @@
             DOM.instructionsPage.style.display = 'block';
         }
 
-        // Load Questions
+        // Load Questions - Now shuffles and displays the first question
         function loadQuestions() {
             DOM.instructionsPage.style.display = 'none';
             DOM.examPage.style.display = 'block';
-            document.getElementById('question' + currentQuestion).style.display = 'block'; // Always start with Q1
+
+            // Shuffle the questions when the exam begins
+            shuffledQuestions = shuffleArray([...ALL_QUESTIONS]); // Create a shallow copy to shuffle
+
+            currentQuestionIndex = 0; // Start at the first question in the shuffled array (0-based)
+            displayQuestion(currentQuestionIndex); // Display the first shuffled question
             startTimer();
         }
 
@@ -642,22 +465,76 @@
         }
 
         // Helper to manage question display
-        function displayQuestion(qNum) {
-            // Hide current question
-            document.getElementById(`question${currentQuestion}`).style.display = 'none';
+        // qIndex is the 0-based index in the shuffledQuestions array
+        function displayQuestion(qIndex) {
+            DOM.questionContainer.innerHTML = ''; // Clear previous question
 
-            // Update currentQuestion and show the new one
-            currentQuestion = qNum;
-            document.getElementById(`question${currentQuestion}`).style.display = 'block';
-
-            // Re-select the previously chosen answer if it exists
-            const selectedOption = document.querySelector(`input[name="q${currentQuestion}"][value="${answers[currentQuestion]}"]`);
-            if (selectedOption) {
-                selectedOption.checked = true;
+            const q = shuffledQuestions[qIndex];
+            if (!q) {
+                // Should not happen if logic is correct, but as a safeguard
+                showMessageBox('Error: Question not found.');
+                return;
             }
 
-            // Show submit button only on the last question
-            if (currentQuestion === totalQuestions) {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+
+            const questionText = document.createElement('h3');
+            // Display question number based on its position in the shuffled order
+            questionText.textContent = `${qIndex + 1}. ${q.questionText.substring(q.questionText.indexOf(' ') + 1)}`; // Remove original number if present
+
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+
+            // Iterate over options object (a, b, c, ...)
+            for (const optionKey in q.options) {
+                const label = document.createElement('label');
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'currentQ'; // Use a generic name as questions are dynamic
+                input.value = optionKey;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(q.options[optionKey])); // Option text
+                optionsDiv.appendChild(label);
+            }
+
+            const navigationDiv = document.createElement('div');
+            navigationDiv.className = 'navigation-buttons';
+
+            if (qIndex > 0) {
+                const prevBtn = document.createElement('button');
+                prevBtn.textContent = 'Previous';
+                prevBtn.onclick = () => previousQuestion(qIndex);
+                navigationDiv.appendChild(prevBtn);
+            }
+
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = (qIndex === totalQuestions - 1) ? 'Submit' : 'Next';
+            nextBtn.onclick = () => nextQuestion(qIndex);
+            navigationDiv.appendChild(nextBtn);
+
+
+            questionDiv.appendChild(questionText);
+            questionDiv.appendChild(optionsDiv);
+            questionDiv.appendChild(navigationDiv);
+
+            DOM.questionContainer.appendChild(questionDiv);
+
+            // Set currentQuestionIndex to the one being displayed
+            currentQuestionIndex = qIndex;
+
+            // Re-select the previously chosen answer if it exists for this original question ID
+            const currentQId = shuffledQuestions[currentQuestionIndex].id;
+            if (answers[currentQId]) {
+                const selectedOption = document.querySelector(`input[name="currentQ"][value="${answers[currentQId]}"]`);
+                if (selectedOption) {
+                    selectedOption.checked = true;
+                }
+            }
+
+            // Show submit button only on the last question in the shuffled order
+            if (currentQuestionIndex === totalQuestions - 1) {
                 DOM.submitSection.style.display = 'block';
             } else {
                 DOM.submitSection.style.display = 'none';
@@ -665,32 +542,35 @@
         }
 
         // Navigate to the next question
-        function nextQuestion(qNum) {
-            const selectedOption = document.querySelector(`input[name="q${qNum}"]:checked`);
+        function nextQuestion(qIndex) {
+            const currentQId = shuffledQuestions[qIndex].id;
+            const selectedOption = document.querySelector(`input[name="currentQ"]:checked`);
+
             if (selectedOption) {
-                answers[qNum] = selectedOption.value;
+                answers[currentQId] = selectedOption.value; // Store answer by original question ID
             } else {
                 showMessageBox('Please select an answer before proceeding.');
                 return; // Prevent moving if no option is selected
             }
 
-            if (qNum === totalQuestions) {
+            if (qIndex === totalQuestions - 1) { // If it's the last question
                 confirmSubmit(); // Call confirmSubmit for the final question
                 return;
             }
 
-            displayQuestion(qNum + 1);
+            displayQuestion(qIndex + 1);
         }
 
         // Navigate to the previous question
-        function previousQuestion(qNum) {
-            if (qNum > 1) {
-                // Store current answer before going back
-                const selectedOption = document.querySelector(`input[name="q${qNum}"]:checked`);
+        function previousQuestion(qIndex) {
+            if (qIndex > 0) {
+                const currentQId = shuffledQuestions[qIndex].id;
+                // Store current answer before going back (in case user changes it then goes back)
+                const selectedOption = document.querySelector(`input[name="currentQ"]:checked`);
                 if (selectedOption) {
-                    answers[qNum] = selectedOption.value;
+                    answers[currentQId] = selectedOption.value;
                 }
-                displayQuestion(qNum - 1);
+                displayQuestion(qIndex - 1);
             }
         }
 
@@ -706,7 +586,6 @@
             const score = calculateScore();
 
             DOM.examPage.style.display = 'none';
-            // Only show result page with "Your result will be sent shortly..."
             DOM.resultPage.style.display = 'block';
 
             const examResult = {
@@ -716,13 +595,14 @@
                 score: score,
                 totalQuestions: totalQuestions,
                 percentage: ((score / totalQuestions) * 100).toFixed(2) + '%',
-                answers: answers,
-                correctAnswers: CORRECT_ANSWERS
+                answers: answers, // Candidate's answers by original question ID
+                shuffledOrder: shuffledQuestions.map(q => q.id), // The order in which questions were presented (original IDs)
+                // We don't need to save ALL_QUESTIONS or CORRECT_ANSWERS here
+                // as the admin panel can compute based on the original ALL_QUESTIONS
             };
 
             // Store exam result in Firebase
             try {
-                // Use the globally exposed Firebase functions
                 if (window.db && window.collection && window.addDoc) {
                     const docRef = await window.addDoc(window.collection(window.db, "examResults"), examResult);
                     console.log("Exam result saved to Firestore with ID: ", docRef.id);
@@ -739,8 +619,9 @@
         // Score Calculation Function
         function calculateScore() {
             let score = 0;
-            for (let i = 1; i <= totalQuestions; i++) {
-                if (answers[i] === CORRECT_ANSWERS[i]) {
+            for (let i = 0; i < shuffledQuestions.length; i++) {
+                const q = shuffledQuestions[i];
+                if (answers[q.id] === q.correctAnswer) { // Compare using original ID and its correct answer
                     score++;
                 }
             }
