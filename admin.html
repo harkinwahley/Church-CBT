@@ -26,184 +26,179 @@
             margin: 0; padding: 20px;
             background: linear-gradient(to right, var(--bg-grad-s), var(--bg-grad-e));
             color: var(--prime-txt);
-            text-align: center;
-            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            align-items: flex-start; /* Align to top to prevent table being squished */
+            min-height: 100vh;
+            font-size: 16px;
+            line-height: 1.6;
         }
 
         .container {
             background-color: var(--card-bg);
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 20px rgba(0,0,0,.15);
             padding: 30px;
-            width: 90%;
-            max-width: 900px; /* Adjusted max-width for wider table */
+            width: 100%;
+            max-width: 900px; /* Increased max-width for table */
             box-sizing: border-box;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-family: 'Comic Neue', cursive;
-            color: var(--btn-green);
-            font-size: 2.8em;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.08);
+            margin: 20px;
+            text-align: center; /* Center content within container */
         }
 
         h2 {
-            color: var(--prime-txt);
             font-size: 2.2em;
+            color: var(--prime-txt);
             margin-bottom: 25px;
         }
 
-        button {
+        .btn {
+            display: inline-block;
             background-color: var(--btn-green);
             color: var(--txt-light);
             padding: 12px 25px;
+            margin: 20px 10px 0;
             border: none;
             border-radius: 25px;
-            font-size: 1em;
+            font-size: 1.0em;
             cursor: pointer;
             transition: background-color .3s, transform .2s;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,.1);
         }
 
-        button:hover {
+        .btn:hover {
             background-color: var(--btn-green-h);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 12px rgba(0,0,0,.15);
         }
 
-        input[type="email"],
-        input[type="password"] {
-            width: calc(100% - 24px);
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid var(--brdr-clr);
-            border-radius: 8px;
-            font-size: 1em;
-            box-sizing: border-box;
+        /* Table Styles */
+        .results-section {
+            margin-top: 30px;
+            overflow-x: auto; /* Enable horizontal scrolling for tables */
         }
 
-        table {
+        #resultsTable {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        th, td {
+        #resultsTable th, #resultsTable td {
             border: 1px solid var(--brdr-clr);
-            padding: 12px 8px;
+            padding: 12px 15px;
             text-align: left;
             font-size: 0.95em;
         }
 
-        th {
+        #resultsTable th {
             background-color: var(--btn-green);
             color: var(--txt-light);
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.9em;
+            letter-spacing: 0.05em;
         }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+        #resultsTable tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
 
-        /* Basic modal for confirmation */
+        #resultsTable tbody tr:hover {
+            background-color: #e6ffe6; /* Light green on hover */
+        }
+
+        /* Custom Message Box for Notifications */
+        #customMessageBox {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background-color: white; padding: 25px; border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1001; text-align: center;
+            font-family: 'Comic Neue', cursive; color: #2c3e50; max-width: 80%;
+            border: 2px solid var(--btn-green);
+            display: none; /* Hidden by default */
+        }
+        #customMessageBox button {
+            background-color: #4CAF50; color: white; padding: 10px 20px;
+            border: none; border-radius: 20px; cursor: pointer; margin-top: 15px;
+            font-weight: bold; box-shadow: none;
+        }
+        #customMessageBox button:hover {
+            background-color: #45a049; transform: none;
+        }
+
+        /* Custom Confirmation Modal */
         .custom-modal {
             display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto;
+            background-color: rgba(0,0,0,0.4);
         }
-
         .modal-content {
-            background-color: var(--card-bg);
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            border-radius: 10px;
-            width: 80%; /* Could be more or less, depending on screen size */
-            max-width: 400px;
-            text-align: center;
+            background-color: var(--card-bg); margin: 15% auto; padding: 20px;
+            border: 1px solid #888; border-radius: 10px;
+            width: 80%; max-width: 400px; text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-
         .modal-buttons button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 1em;
-            border-radius: 20px;
-            box-shadow: none; /* Remove extra shadow for modal buttons */
+            margin: 10px; padding: 10px 20px;
+            font-size: 1em; border-radius: 20px;
+            box-shadow: none;
         }
 
         .modal-buttons button.cancel {
-            background-color: #ccc;
-            color: var(--prime-txt);
+            background-color: #ccc; color: var(--prime-txt);
         }
         .modal-buttons button.cancel:hover {
-            background-color: #bbb;
-            transform: none;
+            background-color: #bbb; transform: none;
         }
 
-        #logout-btn {
-            background-color: #e74c3c;
-            margin-top: 20px;
-        }
-        #logout-btn:hover {
-            background-color: #c0392b;
-        }
-
-        #clearResultsBtn {
-            background-color: #f39c12;
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-        }
-        #clearResultsBtn:hover {
-            background-color: #e67e22;
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            #resultsTable th, #resultsTable td {
+                padding: 10px;
+                font-size: 0.85em;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="login-section">
-        <h1>Admin Login</h1>
-        <input type="email" id="adminEmail" placeholder="Email">
-        <input type="password" id="adminPassword" placeholder="Password">
-        <button id="loginBtn">Login</button>
+    <div class="container">
+        <h2>Admin Panel - Exam Results</h2>
+        <button class="btn" onclick="loadResults()">Refresh Results</button>
+        <button class="btn" id="clearResultsBtn">Clear All Results</button>
+
+        <div class="results-section">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Exam ID</th>
+                        <th>Score</th>
+                        <th>Total Qs</th>
+                        <th>Percentage</th>
+                        <th>Missed Qs</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="7">Loading exam results...</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="container" id="admin-panel" style="display:none;">
-        <h1>Exam Results Admin Panel</h1>
-        <p>Welcome, Admin! Here are the latest exam results.</p>
-        <button id="loadResultsBtn">Refresh Results</button>
-        <button id="clearResultsBtn">Clear All Results</button>
-        <table>
-            <thead>
-                <tr>
-                    <th>Candidate ID</th>
-                    <th>Name</th>
-                    <th>Score</th>
-                    <th>Percentage</th>
-                    <th>Missed Qs</th>
-                    <th>Timestamp</th>
-                </tr>
-            </thead>
-            <tbody id="resultsTableBody">
-                <tr><td colspan="6">No results to display.</td></tr>
-            </tbody>
-        </table>
-        <button id="logout-btn">Logout</button>
+    <div id="customMessageBox" style="display:none;">
+        <p id="messageBoxText"></p>
+        <button onclick="hideMessageBox()">OK</button>
     </div>
 
     <div id="confirmModal" class="custom-modal">
@@ -218,8 +213,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, deleteDoc, doc, query } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, deleteDoc, query } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -233,133 +227,120 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Make Firebase functions and db accessible globally for simplicity with standard script blocks
-        window.auth = auth;
+        // Make Firebase functions globally accessible (for simplicity with non-module scripts)
         window.db = db;
-        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
-        window.signOut = signOut;
-        window.onAuthStateChanged = onAuthStateChanged;
         window.collection = collection;
         window.getDocs = getDocs;
         window.deleteDoc = deleteDoc;
-        window.doc = doc;
-        window.query = query; // Export query for potential future use or if needed by direct calls
+        window.query = query;
     </script>
 
     <script>
-        const loginSection = document.getElementById('login-section');
-        const adminPanel = document.getElementById('admin-panel');
-        const adminEmailInput = document.getElementById('adminEmail');
-        const adminPasswordInput = document.getElementById('adminPassword');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logout-btn');
-        const resultsTableBody = document.getElementById('resultsTableBody');
-        const loadResultsBtn = document.getElementById('loadResultsBtn');
-        const clearResultsBtn = document.getElementById('clearResultsBtn');
+        // Cached DOM elements
+        const DOM = {};
 
-        // Custom Modal Elements
-        const confirmModal = document.getElementById('confirmModal');
-        const modalMessage = document.getElementById('modalMessage');
-        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-        const modalCancelBtn = document.getElementById('modalCancelBtn');
-        let pendingAction = null; // Stores the function to be executed on confirmation
+        // --- Custom Message Box for Notifications ---
+        function showMessageBox(message) {
+            DOM.messageBoxText.textContent = message;
+            DOM.customMessageBox.style.display = 'block';
+        }
 
-        // --- Custom Modal Functions ---
+        function hideMessageBox() {
+            DOM.customMessageBox.style.display = 'none';
+        }
+
+        // --- Custom Confirmation Modal for Yes/No prompts ---
+        let pendingAction = null; // To store the function to execute on modal confirm
+
         function showModal(message, onConfirm) {
-            modalMessage.textContent = message;
+            DOM.modalMessage.textContent = message;
             pendingAction = onConfirm;
-            confirmModal.style.display = 'block';
+            DOM.confirmModal.style.display = 'block';
         }
 
         function hideModal() {
-            confirmModal.style.display = 'none';
+            DOM.confirmModal.style.display = 'none';
             pendingAction = null;
         }
 
-        modalConfirmBtn.addEventListener('click', () => {
-            if (pendingAction) {
-                pendingAction();
-            }
-            hideModal();
+        // Event listeners and DOM caching
+        document.addEventListener('DOMContentLoaded', () => {
+            DOM.customMessageBox = document.getElementById('customMessageBox');
+            DOM.messageBoxText = document.getElementById('messageBoxText');
+            DOM.confirmModal = document.getElementById('confirmModal');
+            DOM.modalMessage = document.getElementById('modalMessage');
+            DOM.modalConfirmBtn = document.getElementById('modalConfirmBtn');
+            DOM.modalCancelBtn = document.getElementById('modalCancelBtn');
+            const clearResultsBtn = document.getElementById('clearResultsBtn'); // Get button reference
+
+            // Event listeners for the confirmation modal buttons
+            DOM.modalConfirmBtn.addEventListener('click', () => {
+                if (pendingAction) {
+                    pendingAction();
+                }
+                // hideModal is now called in the async functions after their operation
+            });
+
+            DOM.modalCancelBtn.addEventListener('click', hideModal);
+
+            clearResultsBtn.addEventListener('click', () => {
+                showModal('Are you sure you want to clear all exam results? This cannot be undone.', clearAllResults);
+            });
+
+            loadResults(); // Load results when the admin page loads
         });
 
-        modalCancelBtn.addEventListener('click', hideModal);
-
-        // --- Authentication ---
-        loginBtn.addEventListener('click', async () => {
-            const email = adminEmailInput.value;
-            const password = adminPasswordInput.value;
-            try {
-                await window.signInWithEmailAndPassword(window.auth, email, password);
-                // Auth state change will handle UI update
-            } catch (error) {
-                alert(`Login Failed: ${error.message}`);
-            }
-        });
-
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await window.signOut(window.auth);
-                // Auth state change will handle UI update
-            } catch (error) {
-                console.error("Error logging out:", error);
-                alert("Error logging out.");
-            }
-        });
-
-        // Listen for auth state changes
-        window.onAuthStateChanged(window.auth, (user) => {
-            if (user) {
-                // User is signed in
-                loginSection.style.display = 'none';
-                adminPanel.style.display = 'block';
-                loadResults(); // Load results when admin logs in
-            } else {
-                // User is signed out
-                loginSection.style.display = 'block';
-                adminPanel.style.display = 'none';
-                adminEmailInput.value = '';
-                adminPasswordInput.value = '';
-                resultsTableBody.innerHTML = '<tr><td colspan="6">No results to display.</td></tr>'; // Clear results on logout
-            }
-        });
-
-        // --- Exam Results Management ---
-        loadResultsBtn.addEventListener('click', loadResults);
-
+        // Function to load results from Firestore
         async function loadResults() {
-            resultsTableBody.innerHTML = '<tr><td colspan="6">Loading results...</td></tr>';
-            try {
-                const querySnapshot = await window.getDocs(window.collection(window.db, "examResults"));
-                resultsTableBody.innerHTML = ''; // Clear existing rows
+            const tableBody = document.getElementById('resultsTable').querySelector('tbody');
+            tableBody.innerHTML = '<tr><td colspan="7">Loading exam results...</td></tr>'; // Show loading message
 
-                if (querySnapshot.empty) {
-                    resultsTableBody.innerHTML = '<tr><td colspan="6">No exam results found.</td></tr>';
+            try {
+                if (!window.db || !window.collection || !window.getDocs) {
+                    console.error("Firebase Firestore functions not initialized or accessible.");
+                    showMessageBox("Error: Firebase is not configured for loading results. Check console for details.");
+                    tableBody.innerHTML = '<tr><td colspan="7">Error loading results. See console.</td></tr>';
                     return;
                 }
 
+                const querySnapshot = await window.getDocs(window.collection(window.db, "examResults"));
+                const results = [];
                 querySnapshot.forEach((doc) => {
-                    const result = doc.data();
-                    const row = resultsTableBody.insertRow();
-                    row.id = doc.id; // Set row ID to document ID for easy deletion
+                    results.push({ id: doc.id, ...doc.data() }); // Include document ID and data
+                });
 
-                    // Add Candidate ID column
-                    const candidateIdCell = row.insertCell();
-                    candidateIdCell.textContent = result.examId || 'N/A'; // Use result.examId
+                tableBody.innerHTML = ''; // Clear loading message
 
-                    row.insertCell().textContent = result.name;
-                    row.insertCell().textContent = `${result.score}/${result.totalQuestions}`;
-                    row.insertCell().textContent = result.percentage;
+                if (results.length === 0) {
+                    const row = tableBody.insertRow();
+                    const cell = row.insertCell();
+                    cell.colSpan = 7; // Span all columns
+                    cell.textContent = 'No exam results found yet.';
+                    cell.style.textAlign = 'center';
+                    cell.style.padding = '20px';
+                    return;
+                }
 
-                    // Calculate and display missed questions
+                // Sort results by timestamp (most recent first)
+                results.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                results.forEach(result => {
+                    const row = tableBody.insertRow();
+                    row.insertCell().textContent = result.name || 'N/A';
+                    row.insertCell().textContent = result.examId || 'N/A';
+                    row.insertCell().textContent = result.score !== undefined ? result.score : 'N/A';
+                    row.insertCell().textContent = result.totalQuestions !== undefined ? result.totalQuestions : 'N/A';
+                    row.insertCell().textContent = result.percentage || 'N/A';
+
+                    // --- Calculate and display missed questions ---
                     const missedQuestionsCell = row.insertCell();
-                    let missedQNums = [];
-                    if (result.answers && result.correctAnswers) {
+                    const missedQNums = [];
+                    // Ensure answers and correctAnswers exist before iterating
+                    if (result.answers && result.correctAnswers && result.totalQuestions) {
                         for (let i = 1; i <= result.totalQuestions; i++) {
-                            const qNumStr = i.toString(); // Ensure key matches
+                            const qNumStr = String(i); // Convert number to string for object key access
                             if (result.answers[qNumStr] && result.answers[qNumStr] !== result.correctAnswers[qNumStr]) {
                                 missedQNums.push(i); // Add question number if answer is incorrect
                             }
@@ -378,29 +359,46 @@
 
                     row.insertCell().textContent = result.timestamp;
                 });
-            } catch (error) {
-                console.error("Error loading exam results:", error);
-                resultsTableBody.innerHTML = '<tr><td colspan="6" style="color:red;">Error loading results. Please try again.</td></tr>';
+
+            } catch (e) {
+                console.error("Error loading documents from Firestore: ", e);
+                showMessageBox("Error loading exam results. Please check your internet connection and Firebase rules. See console for details.");
+                tableBody.innerHTML = '<tr><td colspan="7">Failed to load results.</td></tr>';
             }
         }
 
-        clearResultsBtn.addEventListener('click', () => {
-            showModal('Are you sure you want to clear ALL exam results? This cannot be undone.', clearAllResults);
-        });
-
+        // Function to clear all results from Firestore
         async function clearAllResults() {
             try {
+                if (!window.db || !window.collection || !window.getDocs || !window.deleteDoc) {
+                    console.error("Firebase Firestore functions not initialized or accessible.");
+                    showMessageBox("Error: Firebase is not configured for clearing results. Check console for details.");
+                    hideModal();
+                    return;
+                }
+
                 const querySnapshot = await window.getDocs(window.collection(window.db, "examResults"));
+                if (querySnapshot.empty) {
+                    showMessageBox("No results to clear.");
+                    hideModal();
+                    return;
+                }
+
+                // Delete each document found
                 const deletePromises = [];
-                querySnapshot.forEach((document) => {
-                    deletePromises.push(window.deleteDoc(window.doc(window.db, "examResults", document.id)));
+                querySnapshot.forEach((doc) => {
+                    deletePromises.push(window.deleteDoc(doc.ref));
                 });
+
                 await Promise.all(deletePromises);
-                alert("All exam results cleared successfully!");
-                loadResults(); // Reload to show empty state
-            } catch (error) {
-                console.error("Error clearing all results:", error);
-                alert("Failed to clear all exam results. Please check console for details.");
+                console.log("All exam results successfully deleted from Firestore.");
+                showMessageBox("All exam results cleared successfully!");
+                loadResults(); // Reload the table to show empty state
+            } catch (e) {
+                console.error("Error clearing documents from Firestore: ", e);
+                showMessageBox("Error clearing exam results. Please check your Firebase permissions. See console for details.");
+            } finally {
+                hideModal(); // Always hide modal after attempt
             }
         }
     </script>
