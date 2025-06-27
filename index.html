@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
     <style>
         :root{
-            --prime-txt:#2c3e50; --btn-green:#4CAF50; --btn-green-h:#45a049; --bg-grad-s:#ffecd2; --bg-grad-e:#fcb69f; 
-            --card-bg:#fff; --brdr-clr:#ddd; --timer-clr:#e74c3c; --txt-light:#fff;   
+            --prime-txt:#2c3e50; --btn-green:#4CAF50; --btn-green-h:#45a049; --bg-grad-s:#ffecd2; --bg-grad-e:#fcb69f;
+            --card-bg:#fff; --brdr-clr:#ddd; --timer-clr:#e74c3c; --txt-light:#fff;
         }
 
         body{
@@ -23,668 +23,534 @@
         .container{
             background-color:var(--card-bg);border-radius:15px;
             box-shadow:0 8px 20px rgba(0,0,0,.15);padding:30px;
-            width:100%;max-width:550px;box-sizing:border-box;margin:20px;
+            width:90%;max-width:600px;box-sizing:border-box;
+            margin:20px auto;
         }
 
-        /* Headings & Timer */
-        h2,h3{margin:10px 0 25px;color:var(--prime-txt);font-weight:700;}
-        h2{font-size:2.5em;}
-        h3{font-size:1.8em;}
-
-        .timer{
-            font-size:2.2em;color:var(--timer-clr);margin-bottom:25px;
-            font-weight:bold;
+        h1{
+            font-family:'Comic Neue',cursive;color:var(--btn-green);
+            font-size:2.8em;margin-bottom:20px;text-shadow:1px 1px 3px rgba(0,0,0,.08);
         }
 
-        /* Input Fields */
-        input[type="text"],input[type="password"]{
-            width:calc(100% - 24px);padding:12px;margin-top:15px;
-            border:2px solid var(--btn-green);border-radius:8px;
-            font-size:1.1em;color:var(--prime-txt);box-sizing:border-box;
-            transition:border-color .3s,box-shadow .3s;
-        }
-        input[type="text"]:focus,input[type="password"]:focus{
-            border-color:var(--btn-green-h);outline:none;
-            box-shadow:0 0 8px rgba(76,175,80,.3);
+        h2{
+            color:var(--prime-txt);font-size:2.2em;margin-bottom:25px;
         }
 
-        button,.btn{
-            display:inline-block;background-color:var(--btn-green);
-            color:var(--txt-light);padding:14px 28px;margin:20px 10px 0; /* Adjusted margin for multiple buttons */
-            border:none;border-radius:25px;font-size:1.1em;cursor:pointer;
-            transition:background-color .3s,transform .2s;
+        p{
+            margin-bottom:15px;
+        }
+
+        .input-group label{
+            display:block;margin-bottom:8px;font-weight:bold;
+        }
+
+        .input-group input[type="text"]{
+            width:calc(100% - 24px);padding:12px;
+            margin-bottom:20px;border:1px solid var(--brdr-clr);
+            border-radius:8px;font-size:1em;box-sizing:border-box;
+        }
+
+        .question-container{
+            border:1px solid var(--brdr-clr);border-radius:10px;
+            padding:25px;margin-bottom:20px;background-color:#f9f9f9;
+            text-align:left;
+        }
+
+        .question-text{
+            font-size:1.4em;margin-bottom:15px;font-weight:bold;
+            color:var(--prime-txt);
+        }
+
+        .options-list{
+            list-style:none;padding:0;margin:0;
+        }
+
+        .options-list li{
+            margin-bottom:10px;
+        }
+
+        .options-list label{
+            display:flex;align-items:center;cursor:pointer;
+            font-size:1.1em;
+        }
+
+        .options-list input[type="radio"]{
+            margin-right:10px;transform:scale(1.2);
+        }
+
+        .timer-bar{
+            background-color:#eee;border-radius:5px;
+            height:15px;margin-bottom:20px;overflow:hidden;
+        }
+
+        .timer-fill{
+            height:100%;background-color:var(--timer-clr);
+            width:100%;transition:width .5s linear;
+        }
+
+        .timer-display{
+            font-size:1.5em;font-weight:bold;color:var(--timer-clr);
+            margin-bottom:20px;
+        }
+
+        .navigation-buttons button{
+            background-color:var(--btn-green);color:var(--txt-light);
+            padding:12px 25px;border:none;border-radius:25px;
+            font-size:1em;cursor:pointer;transition:background-color .3s,transform .2s;
             font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,.1);
+            margin:0 10px;
         }
-        button:hover,.btn:hover{
+
+        .navigation-buttons button:hover{
             background-color:var(--btn-green-h);transform:translateY(-2px);
             box-shadow:0 6px 12px rgba(0,0,0,.15);
         }
 
-        #logo {
-            width: 150px; 
-            height: auto; 
-            margin-bottom: 25px;
-            border-radius: 10px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .navigation-buttons button:disabled{
+            background-color:#ccc;cursor:not-allowed;box-shadow:none;
+            transform:none;
+        }
 
-        .question{
-            background:var(--card-bg);padding:25px;border-radius:15px;
-            box-shadow:0 4px 10px rgba(0,0,0,.1);margin-top:25px;
-            text-align:left;
+        .final-score{
+            font-size:2.5em;font-weight:bold;color:var(--btn-green);
+            margin-top:20px;
         }
-        .options{display:flex;flex-direction:column;gap:15px;}
-        .options label{
-            display:flex;align-items:center;padding:15px;
-            border:2px solid var(--brdr-clr);border-radius:10px;
-            cursor:pointer;font-size:1.1em;
-            transition:background-color .2s,border-color .2s,transform .1s;
-            background-color:#f9f9f9;
+
+        #result-details p{
+            font-size:1.2em;margin-bottom:10px;
         }
-        .options label:hover{
-            background-color:#f0f0f0;border-color:var(--btn-green);
-            transform:translateY(-1px);
-        }
-        .options input[type="radio"],.options input[type="checkbox"]{
-            margin-right:15px;transform:scale(1.4);
-            -webkit-appearance:none;appearance:none;
-            width:22px;height:22px;
-            border:2px solid var(--btn-green);border-radius:50%;
-            outline:none;cursor:pointer;position:relative;flex-shrink:0;
-            transition:background-color .2s,border-color .2s;
-        }
-        .options input[type="checkbox"]{border-radius:6px;}
-        .options input[type="radio"]:checked,.options input[type="checkbox"]:checked{
-            background-color:var(--btn-green);border-color:var(--btn-green);
-        }
-        .options input[type="radio"]:checked::before{
-            content:'';width:10px;height:10px;
-            background-color:var(--txt-light);border-radius:50%;
-            position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-        }
-        .options input[type="checkbox"]:checked::before{
-            content:'✔';font-size:14px;color:var(--txt-light);
-            position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-        }
-        .options input[type="radio"]:checked+label,
-        .options input[type="checkbox"]:checked+label{
+
+        #start-exam-btn{
             background-color:var(--btn-green);color:var(--txt-light);
-            border-color:var(--btn-green);
-            box-shadow:0 2px 8px rgba(76,175,80,.3);
+            padding:18px 35px;border:none;border-radius:30px;
+            font-size:1.2em;cursor:pointer;transition:background-color .3s,transform .2s;
+            font-weight:bold;box-shadow:0 5px 15px rgba(0,0,0,.15);
         }
-        .options input[type="radio"]:checked+label:hover,.options input[type="checkbox"]:checked+label:hover{
-            background-color:var(--btn-green);
+
+        #start-exam-btn:hover{
+            background-color:var(--btn-green-h);transform:translateY(-3px);
+            box-shadow:0 8px 18px rgba(0,0,0,.2);
         }
-        #result-page fieldset{
-            border:3px solid var(--btn-green);border-radius:20px;
-            padding:30px;margin-top:25px;background-color:#f0fff0;
-            box-shadow:0 6px 15px rgba(0,0,0,.1);
-        }
-        #result-page legend{
-            font-family:'Comic Neue',cursive;font-size:2em;
-            font-weight:bold;color:var(--btn-green);padding:0 20px;text-align:center;
-        }
-        #result-page p,#result-page div b{
-            font-size:1.3em;color:var(--prime-txt);margin:12px 0;
-        }
-        .congratulations-message{
-            color:var(--btn-green);font-weight:bold;font-size:1.6em;
-            margin-bottom:20px;
-        }
-        .navigation-buttons { 
-            display: flex;justify-content: center;gap: 20px; margin-top: 30px;
-        }
-        .hidden{display:none;}
-        #submit-section{margin-top:30px;}
-        #customMessageBox {
-            position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);
-            background-color:white; padding:25px; border-radius:15px;
-            box-shadow:0 5px 15px rgba(0,0,0,0.3); z-index:1001; text-align:center;
-            font-family:'Comic Neue', cursive; color:#2c3e50; max-width:80%;
-            border: 2px solid var(--btn-green); 
-        }
-        #customMessageBox button {
-            background-color:#4CAF50; color:white; padding:10px 20px;
-            border:none; border-radius:20px; cursor:pointer; margin-top:15px;
-            font-weight:bold; box-shadow: none;
-        }
-        #customMessageBox button:hover {
-            background-color:#45a049; transform:none;
-        }
+
+        /* Basic modal for confirmation */
         .custom-modal {
-            display: none; 
-            position: fixed; z-index: 1000; left: 0; top: 0;
-            width: 100%; height: 100%; overflow: auto;
-            background-color: rgba(0,0,0,0.4);
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
         }
+
         .modal-content {
-            background-color: var(--card-bg); margin: 15% auto; padding: 20px;
-            border: 1px solid #888; border-radius: 10px;
-            width: 80%; max-width: 400px; text-align: center;
+            background-color: var(--card-bg);
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 400px;
+            text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
+
         .modal-buttons button {
-            margin: 10px; padding: 10px 20px;
-            font-size: 1em; border-radius: 20px;
-            box-shadow: none; 
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 20px;
+            box-shadow: none; /* Remove extra shadow for modal buttons */
         }
 
         .modal-buttons button.cancel {
-            background-color: #ccc; color: var(--prime-txt);
+            background-color: #ccc;
+            color: var(--prime-txt);
         }
         .modal-buttons button.cancel:hover {
-            background-color: #bbb; transform: none;
+            background-color: #bbb;
+            transform: none;
         }
-        @media (max-width:600px){
-            body{padding:10px;}
-            .container{padding:20px;margin:10px;}
-            h2{font-size:2em;}
-            h3{font-size:1.5em;}
-            .timer{font-size:1.8em;}
-            input[type="text"],input[type="password"]{width:calc(100% - 20px);padding:10px;font-size:1em;}
-            button,.btn{padding:10px 20px;font-size:1em;margin-top:15px;}
-            .question h3{font-size:1.3em;}
-            .options label{padding:12px;font-size:1em;}
-            .options input[type="radio"],.options input[type="checkbox"]{transform:scale(1.2);margin-right:10px;}
-            .navigation-buttons {
-                flex-direction: column; 
-                gap: 10px;
-            }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px; margin: 10px auto; }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.8em; }
+            .question-text { font-size: 1.2em; }
+            .options-list label { font-size: 1em; }
+            .navigation-buttons button { padding: 10px 15px; font-size: 0.9em; margin: 0 5px; }
+            #start-exam-btn { padding: 15px 25px; font-size: 1.1em; }
         }
     </style>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <div class="container" id="signup-page">
-        <img src="./assets/-CHURCH LOGO-.jpg" alt="Church Logo" id="logo">
-        <h2>THE WAY OF GOD BIBLE MINISTRY</h2>
-        <h3>Sunday School Exam - Sign Up</h3>
-        <div class="form-group"><input type="text" placeholder="First Name" id="first-name"></div>
-        <div class="form-group"><input type="text" placeholder="Last Name" id="last-name"></div>
-        <div class="form-group"><input type="password" placeholder="Password" id="password"></div>
-        <button onclick="generateID()">Sign Up</button>
+    <div class="container" id="welcomePage">
+        <h1>THE WAY OF GOD BIBLE MINISTRY</h1>
+        <h2>Sunday School Exam</h2>
+        <p>Welcome, dear student! This exam is designed to test your understanding of our Sunday School lessons. Please enter your name to begin.</p>
+        <div class="input-group">
+            <label for="userNameInput">Your Name:</label>
+            <input type="text" id="userNameInput" placeholder="Enter your name" required>
+        </div>
+        <button id="start-exam-btn">Start Exam</button>
     </div>
 
-    <div class="container" id="login-page" style="display:none;">
-        <h2>Login to Exam</h2>
-        <div class="form-group"><input type="text" placeholder="Your Name" id="login-name"></div>
-        <div class="form-group"><input type="text" placeholder="Generated ID" id="generated-id"></div>
-        <button onclick="startExam()">Log In</button>
+    <div class="container" id="examPage" style="display:none;">
+        <div class="timer-display" id="timer-display">Time Left: 15:00</div>
+        <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
+
+        <div class="question-container">
+            <div class="question-text" id="question-text"></div>
+            <ul class="options-list" id="options-list">
+                </ul>
+        </div>
+
+        <div class="navigation-buttons">
+            <button id="prev-btn">Previous</button>
+            <button id="next-btn">Next</button>
+            <button id="submit-btn">Submit Exam</button>
+        </div>
     </div>
 
-    <div class="container" id="instructions-page" style="display:none;">
-        <h2>Exam Instructions</h2>
-        <p>
-            - Read all questions carefully<br>
-            - Choose only ONE option<br>
-            - You have 10 minutes to complete<br>
-            - Exam malpractice is strictly prohibited
-        </p>
-        <button onclick="loadQuestions()">Begin Exam</button>
+    <div class="container" id="resultPage" style="display:none;">
+        <h1>Exam Completed!</h1>
+        <p>Thank you for taking the exam, <span id="display-user-name"></span>!</p>
+        <p class="final-score">Your Score: <span id="final-score"></span></p>
+        <div id="result-details">
+            <p>Percentage: <span id="display-percentage"></span></p>
+            <p>Missed Questions: <span id="display-missed-questions"></span></p>
+            </div>
     </div>
 
-<div class="container" id="exam-page" style="display:none;">
-    <div class="timer" id="countdown">10:00</div>
-    
-    <div class="question" id="question1" style="display:none;">
-        <h3>1. What kind of leaders were Moses and Joshua?</h3>
-        <div class="options">
-            <label><input type="radio" name="q1" value="a"> Bad leaders</label>
-            <label><input type="radio" name="q1" value="b"> Corrupt leaders</label>
-            <label><input type="radio" name="q1" value="c"> Good leaders</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="nextQuestion(1)">Next</button></div>
-    </div>
-    <div class="question" id="question2" style="display:none;">
-        <h3>2. Whom did God instruct to go up against the Canaanites?</h3>
-        <div class="options">
-            <label><input type="radio" name="q2" value="a"> Israel</label>
-            <label><input type="radio" name="q2" value="b"> Judah</label>
-            <label><input type="radio" name="q2" value="c"> Jesus</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(2)">Previous</button><button onclick="nextQuestion(2)">Next</button></div>
-    </div>
-    <div class="question" id="question3" style="display:none;">
-        <h3>3. What was the disobedience of the Israelites?</h3>
-        <div class="options">
-            <label><input type="radio" name="q3" value="a"> They love God</label>
-            <label><input type="radio" name="q3" value="b"> They worshipped idols</label>
-            <label><input type="radio" name="q3" value="c"> They worship Hindus</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(3)">Previous</button><button onclick="nextQuestion(3)">Next</button></div>
-    </div>
-    <div class="question" id="question4" style="display:none;">
-        <h3>4. What was the result of their disobedience?</h3>
-        <div class="options">
-            <label><input type="radio" name="q4" value="a"> They became prey of their enemies</label>
-            <label><input type="radio" name="q4" value="b"> They were in the wilderness for 40 years</label>
-            <label><input type="radio" name="q4" value="c"> They became very hungry</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(4)">Previous</button><button onclick="nextQuestion(4)">Next</button></div>
-    </div>
-    <div class="question" id="question5" style="display:none;">
-        <h3>5.Who was Othniel and what role did he play in Israel?</h3>
-        <div class="options">
-            <label><input type="radio" name="q5" value="a"> He was the first judge to deliver Israel</label>
-            <label><input type="radio" name="q5" value="b"> He was a corrupt leader</label>
-            <label><input type="radio" name="q5" value="c"> He led Israel to idolatry</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(5)">Previous</button><button onclick="nextQuestion(5)">Next</button></div>
-    </div> 
-            
-    <div class="question" id="question6" style="display:none;">
-        <h3>6. Who led the battle against Sisera?</h3>
-        <div class="options">
-            <label><input type="radio" name="q6" value="a"> Deborah</label>
-            <label><input type="radio" name="q6" value="b"> Jael</label>
-            <label><input type="radio" name="q6" value="c"> Jabin</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(6)">Previous</button><button onclick="nextQuestion(6)">Next</button></div>
-    </div>
-    <div class="question" id="question7" style="display:none;">
-        <h3>7. Who prophesied the death of Sisera?</h3>
-        <div class="options">
-            <label><input type="radio" name="q7" value="a"> Jael</label>
-            <label><input type="radio" name="q7" value="b"> Deborah</label>
-            <label><input type="radio" name="q7" value="c"> Solomon</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(7)">Previous</button><button onclick="nextQuestion(7)">Next</button></div>
-    </div>
-    <div class="question" id="question8" style="display:none;">
-        <h3>8. Who is Gideon?</h3>
-        <div class="options">
-            <label><input type="radio" name="q8" value="a"> The mighty man of valour</label>
-            <label><input type="radio" name="q8" value="b"> The man with dread</label>
-            <label><input type="radio" name="q8" value="c"> The big man</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(8)">Previous</button><button onclick="nextQuestion(8)">Next</button></div>
-    </div>
-    <div class="question" id="question9" style="display:none;">
-        <h3>9. SIN can be defined as ________ </h3>
-        <div class="options">
-            <label><input type="radio" name="q9" value="a"> Sun in Netherlands</label>
-            <label><input type="radio" name="q9" value="b"> Simple Instruction Neglected</label>
-            <label><input type="radio" name="q9" value="c"> Something in Nigeria</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(9)">Previous</button><button onclick="nextQuestion(9)">Next</button></div>
-    </div>
-    <div class="question" id="question10" style="display:none;">
-        <h3>10. What is an Angel?</h3>
-        <div class="options">
-            <label><input type="radio" name="q10" value="a"> God's Servant to serve God's people</label>
-            <label><input type="radio" name="q10" value="b"> Angels are human beings</label>
-            <label><input type="radio" name="q10" value="c"> They are servants of Satan</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(10)">Previous</button><button onclick="nextQuestion(10)">Next</button></div>
-    </div>
-    <div class="question" id="question11" style="display:none;">
-        <h3>11. How many daughters did Lot have?</h3>
-        <div class="options">
-            <label><input type="radio" name="q11" value="a"> 4</label>
-            <label><input type="radio" name="q11" value="b"> 3</label>
-            <label><input type="radio" name="q11" value="c"> 2</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(11)">Previous</button><button onclick="nextQuestion(11)">Next</button></div>
-    </div>
-    <div class="question" id="question12" style="display:none;">
-        <h3>12. Who looked back?</h3>
-        <div class="options">
-            <label><input type="radio" name="q12" value="a"> Deborah</label>
-            <label><input type="radio" name="q12" value="b"> Lot's Wife</label>
-            <label><input type="radio" name="q12" value="c"> Sarah</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(12)">Previous</button><button onclick="nextQuestion(12)">Next</button></div>
-    </div>
-    <div class="question" id="question13" style="display:none;">
-        <h3>13. What is the name of Sarah's maidservant?</h3>
-        <div class="options">
-            <label><input type="radio" name="q13" value="a"> Hager</label>
-            <label><input type="radio" name="q13" value="b"> Abigael</label>
-            <label><input type="radio" name="q13" value="c"> Lola</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(13)">Previous</button><button onclick="nextQuestion(13)">Next</button></div>
-    </div>
-    <div class="question" id="question14" style="display:none;">
-        <h3>14. Who is the father of Ismael?</h3>
-        <div class="options">
-            <label><input type="radio" name="q14" value="a"> Abraham</label>
-            <label><input type="radio" name="q14" value="b"> Jacob</label>
-            <label><input type="radio" name="q14" value="c"> Isaac</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(14)">Previous</button><button onclick="nextQuestion(14)">Next</button></div>
-    </div>
-    <div class="question" id="question15" style="display:none;">
-        <h3>15. All these people are those Angels communicated to through dream except ______</h3>
-        <div class="options">
-            <label><input type="radio" name="q15" value="a"> Joseph</label>
-            <label><input type="radio" name="q15" value="b"> Solomon</label>
-            <label><input type="radio" name="q15" value="c"> Mary</label>
-        </div>
-        <div class="navigation-buttons">
-            <button onclick="previousQuestion(15)">Previous</button>
-            <button onclick="nextQuestion(15)">Next</button></div>
-    </div>
-    <div class="question" id="question16" style="display:none;">
-        <h3>16. All these people are those that angels communicated to one-on-one except ______</h3>
-        <div class="options">
-            <label><input type="radio" name="q16" value="a"> Mary</label>
-            <label><input type="radio" name="q16" value="b"> Abraham</label>
-            <label><input type="radio" name="q16" value="c"> Daniel</label>
-        </div>
-        <div class="navigation-buttons">
-            <button onclick="previousQuestion(16)">Previous</button>
-            <button onclick="nextQuestion(16)">Next</button></div>
-    </div>
-    <div class="question" id="question17" style="display:none;">
-        <h3>17. Are Angels ghost?</h3>
-        <div class="options">
-            <label><input type="radio" name="q17" value="a"> I don't know</label>
-            <label><input type="radio" name="q17" value="b"> Yes</label>
-            <label><input type="radio" name="q17" value="c"> No</label>
-        </div>
-        <div class="navigation-buttons"> <button onclick="previousQuestion(17)">Previous</button>
-            <button onclick="nextQuestion(17)">Next</button> </div>
-    </div>
-    <div class="question" id="question18" style="display:none;">
-        <h3>18. What is the name of the Angel that wages war against Satan?</h3>
-        <div class="options">
-            <label><input type="radio" name="q18" value="a"> Angel Uriel</label>
-            <label><input type="radio" name="q18" value="b"> Angel Michael</label>
-            <label><input type="radio" name="q18" value="c"> Angel Echabod</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(18)">Previous</button>
-            <button onclick="nextQuestion(18)">Next</button></div>
-    </div>
-    <div class="question" id="question19" style="display:none;">
-        <h3>19. Who was the first Pastor of the first gospel Church?</h3>
-        <div class="options">
-            <label><input type="radio" name="q19" value="a"> Peter</label>
-            <label><input type="radio" name="q19" value="b"> Luke</label>
-            <label><input type="radio" name="q19" value="c"> John</label>
-        </div>
-        <div class="navigation-buttons"><button onclick="previousQuestion(19)">Previous</button>
-            <button onclick="nextQuestion(19)">Next</button></div>
-    </div>
-    <div class="question" id="question20" style="display:none;">
-        <h3>20. How can one become prey to the devil?</h3>
-        <div class="options">
-            <label><input type="radio" name="q20" value="a"> Without Prayer</label>
-            <label><input type="radio" name="q20" value="b"> With Prayer</label>
-            <label><input type="radio" name="q20" value="c"> By Praising God</label>
-        </div>
-        <div class="navigation-buttons">
-            <button onclick="previousQuestion(20)">Previous</button>
-            <button onclick="nextQuestion(20)">Submit</button>
-        </div>
-    </div>
-    <div id="submit-section" style="display:none;">
-        <button onclick="confirmSubmit()">Submit Exam</button>
-    </div>
-</div>
-    <div class="container" id="result-page" style="display:none;">
-        <fieldset>
-            <legend><b>EXAM SUCCESSFUL</b></legend>
-            <br>
-            <div><center class="congratulations-message">🎉 CONGRATULATIONS! 🎉 You have successfully ended the examinations .......</center></div>
-            <br>
-            <div><center><b>Your result will be sent shortly...</b></center></div>
-        </fieldset>
-    </div>
-    <div id="customMessageBox" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:25px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.3); z-index:1001; text-align:center; font-family:'Comic Neue', cursive; color:#2c3e50; max-width:80%;">
-        <p id="messageBoxText"></p>
-        <button onclick="hideMessageBox()">OK</button>
-    </div>
     <div id="confirmModal" class="custom-modal">
         <div class="modal-content">
-            <p id="modalMessage">Are you sure you want to proceed?</p>
+            <p id="modalMessage">Are you sure you want to submit the exam?</p>
             <div class="modal-buttons">
-                <button id="modalConfirmBtn">Yes</button>
-                <button id="modalCancelBtn" class="cancel">No</button>
+                <button id="modalConfirmBtn">Yes, Submit</button>
+                <button id="modalCancelBtn" class="cancel">No, Cancel</button>
             </div>
         </div>
     </div>
 
-<script>
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyBcAU4wF6scW2wmBmDn2BbE8Lf_jbXsCrU",
-    authDomain: "sunday-cbt.firebaseapp.com",
-    projectId: "sunday-cbt",
-    storageBucket: "sunday-cbt.firebasestorage.app",
-    messagingSenderId: "1081445319494",
-    appId: "1:1081445319494:web:8149a46380b55ae85c5b47"
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // --- Firebase Configuration ---
+      const firebaseConfig = {
+  apiKey: "AIzaSyBcAU4wF6scW2wmBmDn2BbE8Lf_jbXsCrU",
+  authDomain: "sunday-cbt.firebaseapp.com",
+  projectId: "sunday-cbt",
+  storageBucket: "sunday-cbt.firebasestorage.app",
+  messagingSenderId: "1081445319494",
+  appId: "1:1081445319494:web:8149a46380b55ae85c5b47"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(); // Get Firestore instance
+        // --- End Firebase Configuration ---
 
-let generatedId = '';
-let userName = '';
-let currentQuestion = 1;
-let totalQuestions = 20;
-let answers = {};
-let timer;
 
-// Define correct answers to avoid duplication
-const CORRECT_ANSWERS = {
-    1: 'c', 2: 'b', 3: 'b', 4: 'a', 5: 'a',
-    6: 'b', 7: 'b', 8: 'a', 9: 'b', 10: 'a',
-    11: 'c', 12: 'b', 13: 'a', 14: 'a', 15: 'c',
-    16: 'c', 17: 'c', 18: 'b', 19: 'a', 20: 'a'
-};
+        // DOM Elements
+        const DOM = {
+            welcomePage: document.getElementById('welcomePage'),
+            examPage: document.getElementById('examPage'),
+            resultPage: document.getElementById('resultPage'),
+            userNameInput: document.getElementById('userNameInput'),
+            startExamBtn: document.getElementById('start-exam-btn'),
+            timerDisplay: document.getElementById('timer-display'),
+            timerFill: document.getElementById('timer-fill'),
+            questionText: document.getElementById('question-text'),
+            optionsList: document.getElementById('options-list'),
+            prevBtn: document.getElementById('prev-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            submitBtn: document.getElementById('submit-btn'),
+            displayUserName: document.getElementById('display-user-name'),
+            finalScore: document.getElementById('final-score'),
+            displayPercentage: document.getElementById('display-percentage'),
+            displayMissedQuestions: document.getElementById('display-missed-questions'),
+            confirmModal: document.getElementById('confirmModal'),
+            modalMessage: document.getElementById('modalMessage'),
+            modalConfirmBtn: document.getElementById('modalConfirmBtn'),
+            modalCancelBtn: document.getElementById('modalCancelBtn')
+        };
 
-// Cached DOM elements - populated on DOMContentLoaded
-const DOM = {};
+        // Exam Data
+        const QUESTIONS = [
+            {
+                question: "Who founded THE WAY OF GOD BIBLE MINISTRY?",
+                options: ["A. Pastor T.B. Joshua", "B. Prophet Samson Olanrewaju", "C. Pastor E.A. Adeboye", "D. Bishop David Oyedepo"],
+                correct: "B. Prophet Samson Olanrewaju"
+            },
+            {
+                question: "What is the primary focus of THE WAY OF GOD BIBLE MINISTRY?",
+                options: ["A. Prosperity teachings", "B. Evangelism and discipleship", "C. Social activism", "D. Political engagement"],
+                correct: "B. Evangelism and discipleship"
+            },
+            {
+                question: "Which book of the Bible is primarily focused on the law?",
+                options: ["A. Genesis", "B. Exodus", "C. Leviticus", "D. Numbers"],
+                correct: "C. Leviticus"
+            },
+            {
+                question: "Who was the first king of Israel?",
+                options: ["A. David", "B. Solomon", "C. Saul", "D. Samuel"],
+                correct: "C. Saul"
+            },
+            {
+                question: "Which disciple betrayed Jesus?",
+                options: ["A. Peter", "B. Judas Iscariot", "C. John", "D. Thomas"],
+                correct: "B. Judas Iscariot"
+            },
+            {
+                question: "What is the longest book in the Bible?",
+                options: ["A. Isaiah", "B. Psalms", "C. Jeremiah", "D. Ezekiel"],
+                correct: "B. Psalms"
+            },
+            {
+                question: "Who built the ark before the great flood?",
+                options: ["A. Moses", "B. Abraham", "C. Noah", "D. Jacob"],
+                correct: "C. Noah"
+            },
+            {
+                question: "In which city was Jesus born?",
+                options: ["A. Nazareth", "B. Jerusalem", "C. Bethlehem", "D. Galilee"],
+                correct: "C. Bethlehem"
+            },
+            {
+                question: "What is the last book of the New Testament?",
+                options: ["A. Romans", "B. Revelation", "C. Matthew", "D. Acts"],
+                correct: "B. Revelation"
+            },
+            {
+                question: "How many days and nights did Jesus fast in the desert?",
+                options: ["A. 7 days and 7 nights", "B. 20 days and 20 nights", "C. 40 days and 40 nights", "D. 3 days and 3 nights"],
+                correct: "C. 40 days and 40 nights"
+            }
+        ];
 
-// --- Custom Message Box for Notifications ---
-function showMessageBox(message) {
-    DOM.messageBoxText.textContent = message;
-    DOM.customMessageBox.style.display = 'block';
-}
+        // Dynamically create CORRECT_ANSWERS object from QUESTIONS array
+        const CORRECT_ANSWERS = {};
+        QUESTIONS.forEach((q, index) => {
+            CORRECT_ANSWERS[index + 1] = q.correct;
+        });
 
-function hideMessageBox() {
-    DOM.customMessageBox.style.display = 'none';
-}
+        let currentQuestionIndex = 0;
+        let answers = {};
+        let userName = '';
+        let timer;
+        const EXAM_DURATION_SECONDS = 15 * 60; // 15 minutes
+        let timeRemaining = EXAM_DURATION_SECONDS;
+        const totalQuestions = QUESTIONS.length;
+        let generatedId = ''; // To store the unique ID for this exam session
 
-// --- Custom Confirmation Modal for Yes/No prompts ---
-let pendingAction = null; // To store the function to execute on modal confirm
 
-function showModal(message, onConfirm) {
-    DOM.modalMessage.textContent = message;
-    pendingAction = onConfirm;
-    DOM.confirmModal.style.display = 'block';
-}
+        // --- Custom Modal Functions ---
+        let pendingAction = null; // Stores the function to be executed on confirmation
 
-function hideModal() {
-    DOM.confirmModal.style.display = 'none';
-    pendingAction = null;
-}
-
-// Event listeners and DOM caching
-document.addEventListener('DOMContentLoaded', () => {
-    // Cache common DOM elements
-    DOM.customMessageBox = document.getElementById('customMessageBox');
-    DOM.messageBoxText = document.getElementById('messageBoxText');
-    DOM.confirmModal = document.getElementById('confirmModal');
-    DOM.modalMessage = document.getElementById('modalMessage');
-    DOM.modalConfirmBtn = document.getElementById('modalConfirmBtn');
-    DOM.modalCancelBtn = document.getElementById('modalCancelBtn');
-
-    DOM.signupPage = document.getElementById('signup-page');
-    DOM.loginPage = document.getElementById('login-page');
-    DOM.instructionsPage = document.getElementById('instructions-page');
-    DOM.examPage = document.getElementById('exam-page');
-    DOM.resultPage = document.getElementById('result-page');
-    DOM.firstNameInput = document.getElementById('first-name');
-    DOM.lastNameInput = document.getElementById('last-name');
-    DOM.passwordInput = document.getElementById('password');
-    DOM.loginNameInput = document.getElementById('login-name');
-    DOM.generatedIdInput = document.getElementById('generated-id');
-    DOM.countdownDisplay = document.getElementById('countdown');
-    DOM.submitSection = document.getElementById('submit-section'); // Though this section is largely redundant now
-
-    // Event listeners for the confirmation modal buttons
-    DOM.modalConfirmBtn.addEventListener('click', () => {
-        if (pendingAction) {
-            pendingAction();
+        function showModal(message, onConfirm) {
+            DOM.modalMessage.textContent = message;
+            pendingAction = onConfirm;
+            DOM.confirmModal.style.display = 'block';
         }
-        hideModal();
-    });
 
-    DOM.modalCancelBtn.addEventListener('click', hideModal);
-});
-// Generate unique ID for signup
-function generateID() {
-    const firstName = DOM.firstNameInput.value;
-    const lastName = DOM.lastNameInput.value;
-    const password = DOM.passwordInput.value; // Password is still collected but not used for Firebase Auth here
-
-    if (!firstName || !lastName || !password) {
-        showMessageBox('Please fill all fields');
-        return;
-    }
-    generatedId = 
-        firstName.substring(0, 3).toUpperCase() + 
-        lastName.substring(lastName.length - 3).toUpperCase() + 
-        Math.floor(1000 + Math.random() * 9000);
-
-    DOM.signupPage.style.display = 'none';
-    DOM.loginPage.style.display = 'block';
-    showMessageBox(`Your Generated ID is: ${generatedId}. Please remember it!`);
-}
-// Login Function
-function startExam() {
-    const loginName = DOM.loginNameInput.value;
-    const loginId = DOM.generatedIdInput.value;
-
-    if (loginId !== generatedId) { // This still relies on `generatedId` being in memory.
-        showMessageBox('Invalid ID. Please try again.');
-        return;
-    }
-
-    userName = loginName;
-
-    DOM.loginPage.style.display = 'none';
-    DOM.instructionsPage.style.display = 'block';
-}
-
-// Load Questions
-function loadQuestions() {
-    DOM.instructionsPage.style.display = 'none';
-    DOM.examPage.style.display = 'block';
-    document.getElementById('question1').style.display = 'block'; // Always start with Q1
-    startTimer();
-}
-// Timer Function
-function startTimer() {
-    let timeLeft = 600; // 10 minutes
-
-    timer = setInterval(() => {
-        const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-        const seconds = (timeLeft % 60).toString().padStart(2, '0');
-        DOM.countdownDisplay.textContent = `${minutes}:${seconds}`;
-
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            submitExam(); // Auto submit when time ends
+        function hideModal() {
+            DOM.confirmModal.style.display = 'none';
+            pendingAction = null;
         }
-        timeLeft--;
-    }, 1000);
-}
-// Helper to manage question display
-function displayQuestion(qNum) {
-    // Hide current question and submit section (if visible)
-    document.getElementById(`question${currentQuestion}`).style.display = 'none';
-    DOM.submitSection.style.display = 'none';
 
-    // Update currentQuestion and show the new one
-    currentQuestion = qNum;
-    document.getElementById(`question${currentQuestion}`).style.display = 'block';
+        DOM.modalConfirmBtn.addEventListener('click', () => {
+            if (pendingAction) {
+                pendingAction();
+            }
+            hideModal();
+        });
 
-    // Re-select the previously chosen answer if it exists
-    if (answers[currentQuestion]) {
-        const selectedOption = document.querySelector(`input[name="q${currentQuestion}"][value="${answers[currentQuestion]}"]`);
-        if (selectedOption) {
-            selectedOption.checked = true;
+        DOM.modalCancelBtn.addEventListener('click', hideModal);
+
+        // --- Exam Flow Functions ---
+
+        // Generate a simple unique ID for the exam
+        function generateUniqueId() {
+            return 'exam_' + Date.now() + Math.floor(Math.random() * 1000);
         }
-    }
-}
-// Navigate to the next question
-function nextQuestion(qNum) {
-    const selectedOption = document.querySelector(`input[name="q${qNum}"]:checked`);
-    if (selectedOption) {
-        answers[qNum] = selectedOption.value;
-    } else {
-        showMessageBox('Please select an answer before proceeding.');
-        return; // Prevent moving if no option is selected
-    }
 
-    if (qNum === totalQuestions) {
-        confirmSubmit(); // Call confirmSubmit for the final question
-        return;
-    }
-    
-    displayQuestion(qNum + 1);
-}
-// Navigate to the previous question
-function previousQuestion(qNum) {
-    if (qNum > 1) {
-        // Store current answer before going back
-        const selectedOption = document.querySelector(`input[name="q${qNum}"]:checked`);
-        if (selectedOption) {
-            answers[qNum] = selectedOption.value;
+        // Start Exam Function
+        DOM.startExamBtn.addEventListener('click', () => {
+            userName = DOM.userNameInput.value.trim();
+            if (userName) {
+                generatedId = generateUniqueId(); // Generate ID when exam starts
+                DOM.welcomePage.style.display = 'none';
+                DOM.examPage.style.display = 'block';
+                displayQuestion(currentQuestionIndex);
+                startTimer();
+            } else {
+                alert('Please enter your name to start the exam.');
+            }
+        });
+
+        // Display Question
+        function displayQuestion(index) {
+            currentQuestionIndex = index;
+            const question = QUESTIONS[index];
+            DOM.questionText.textContent = `${index + 1}. ${question.question}`;
+
+            DOM.optionsList.innerHTML = '';
+            question.options.forEach(option => {
+                const li = document.createElement('li');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'question' + (index + 1);
+                radio.value = option;
+                radio.id = `q${index + 1}-option-${option.charAt(0)}`;
+                radio.checked = (answers[index + 1] === option); // Retain selection
+
+                const label = document.createElement('label');
+                label.htmlFor = `q${index + 1}-option-${option.charAt(0)}`;
+                label.textContent = option;
+
+                li.appendChild(radio);
+                li.appendChild(label);
+                DOM.optionsList.appendChild(li);
+            });
+
+            updateNavigationButtons();
         }
-        displayQuestion(qNum - 1);
-    }
-}
-// Confirm Submission - Now uses custom modal
-function confirmSubmit() {
-    showModal('Are you sure you want to submit the exam?', submitExam);
-}
-// Submit Exam
-function submitExam() {
-    clearInterval(timer); // Stop the timer
 
-    const score = calculateScore();
-
-    DOM.examPage.style.display = 'none';
-    DOM.resultPage.style.display = 'block';
-
-    const examResult = {
-        name: userName,
-        examId: generatedId,
-        timestamp: new Date().toLocaleString(),
-        score: score,
-        totalQuestions: totalQuestions,
-        percentage: ((score / totalQuestions) * 100).toFixed(2) + '%',
-        answers: answers,
-        correctAnswers: CORRECT_ANSWERS // Uses the global constant
-    };
-
-    storeExamResult(examResult);
-}
-// Score Calculation Function
-function calculateScore() {
-    let score = 0;
-    for (let i = 1; i <= totalQuestions; i++) {
-        if (answers[i] === CORRECT_ANSWERS[i]) { // Uses the global constant
-            score++;
+        // Timer Functions
+        function startTimer() {
+            timer = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                updateTimerBar();
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    alert('Time is up! Submitting your exam.');
+                    submitExam();
+                }
+            }, 1000);
         }
-    }
-    return score;
-}
-// Function to send results to Firestore
-async function storeExamResult(result) {
-    try {
-        await db.collection('examResults').add(result);
-        console.log("Exam result successfully written to Firestore!");
-        // You can add a success message or redirect here if needed
-    } catch (error) {
-        console.error("Error writing exam result to Firestore: ", error);
-        showMessageBox("There was an error saving your result. Please try again later or contact support.");
-    }
-}
-</script>
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            DOM.timerDisplay.textContent = `Time Left: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimerBar() {
+            const percentage = (timeRemaining / EXAM_DURATION_SECONDS) * 100;
+            DOM.timerFill.style.width = percentage + '%';
+        }
+
+        // Navigation Buttons
+        DOM.nextBtn.addEventListener('click', () => {
+            saveCurrentAnswer();
+            if (currentQuestionIndex < totalQuestions - 1) {
+                displayQuestion(currentQuestionIndex + 1);
+            }
+        });
+
+        DOM.prevBtn.addEventListener('click', () => {
+            saveCurrentAnswer();
+            if (currentQuestionIndex > 0) {
+                displayQuestion(currentQuestionIndex - 1);
+            }
+        });
+
+        DOM.submitBtn.addEventListener('click', () => {
+            saveCurrentAnswer();
+            confirmSubmit(); // Use custom modal for confirmation
+        });
+
+        // Update Button States
+        function updateNavigationButtons() {
+            DOM.prevBtn.disabled = currentQuestionIndex === 0;
+            DOM.nextBtn.disabled = currentQuestionIndex === totalQuestions - 1;
+            DOM.submitBtn.style.display = (currentQuestionIndex === totalQuestions - 1) ? 'inline-block' : 'none';
+        }
+
+        // Save Answer
+        function saveCurrentAnswer() {
+            const qNum = currentQuestionIndex + 1;
+            const selectedOption = document.querySelector(`input[name="question${qNum}"]:checked`);
+            if (selectedOption) {
+                answers[qNum] = selectedOption.value;
+            }
+        }
+
+        // Confirm Submission - Now uses custom modal
+        function confirmSubmit() {
+            showModal('Are you sure you want to submit the exam?', submitExam);
+        }
+
+        // Submit Exam
+        function submitExam() {
+            clearInterval(timer); // Stop the timer
+
+            const score = calculateScore();
+
+            DOM.examPage.style.display = 'none';
+            DOM.resultPage.style.display = 'block';
+
+            const examResult = {
+                name: userName,
+                examId: generatedId,
+                timestamp: new Date().toLocaleString(),
+                score: score,
+                totalQuestions: totalQuestions,
+                percentage: ((score / totalQuestions) * 100).toFixed(2) + '%',
+                answers: answers,
+                correctAnswers: CORRECT_ANSWERS // Uses the global constant
+            };
+
+            storeExamResult(examResult);
+
+            // Display results on the page
+            DOM.displayUserName.textContent = userName;
+            DOM.finalScore.textContent = `${score}/${totalQuestions}`;
+            DOM.displayPercentage.textContent = examResult.percentage;
+
+            let missedQNums = [];
+            for (let i = 1; i <= totalQuestions; i++) {
+                if (answers[i] !== CORRECT_ANSWERS[i]) {
+                    missedQNums.push(i);
+                }
+            }
+            if (missedQNums.length > 0) {
+                DOM.displayMissedQuestions.textContent = missedQNums.join(', ');
+                DOM.displayMissedQuestions.style.color = 'red';
+                DOM.displayMissedQuestions.style.fontWeight = 'bold';
+            } else {
+                DOM.displayMissedQuestions.textContent = 'None';
+                DOM.displayMissedQuestions.style.color = 'green';
+            }
+        }
+
+        // Score Calculation Function
+        function calculateScore() {
+            let score = 0;
+            for (let i = 1; i <= totalQuestions; i++) {
+                if (answers[i] === CORRECT_ANSWERS[i]) { // Uses the global constant
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        // Function to send results to Firestore
+        async function storeExamResult(result) {
+            try {
+                // Add a new document to the 'examResults' collection
+                const docRef = await db.collection('examResults').add(result);
+                console.log("Exam result saved to Firestore with ID: ", docRef.id);
+            } catch (e) {
+                console.error("Error adding document to Firestore: ", e);
+                alert("Failed to save exam results. Please try again or contact support.");
+            }
+        }
+    </script>
 </body>
 </html>
