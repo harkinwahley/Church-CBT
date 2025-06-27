@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>THE WAY OF GOD BIBLE MINISTRY - Sunday School Exam</title>
-    <!-- Google Fonts Import for Comic Neue -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
@@ -192,9 +191,10 @@
             }
         }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <!-- Sign Up Page -->
     <div class="container" id="signup-page">
         <img src="./assets/-CHURCH LOGO-.jpg" alt="Church Logo" id="logo">
         <h2>THE WAY OF GOD BIBLE MINISTRY</h2>
@@ -205,7 +205,6 @@
         <button onclick="generateID()">Sign Up</button>
     </div>
 
-    <!-- Login Page -->
     <div class="container" id="login-page" style="display:none;">
         <h2>Login to Exam</h2>
         <div class="form-group"><input type="text" placeholder="Your Name" id="login-name"></div>
@@ -213,7 +212,6 @@
         <button onclick="startExam()">Log In</button>
     </div>
 
-    <!-- Exam Instructions Page -->
     <div class="container" id="instructions-page" style="display:none;">
         <h2>Exam Instructions</h2>
         <p>
@@ -225,11 +223,9 @@
         <button onclick="loadQuestions()">Begin Exam</button>
     </div>
 
-<!-- Questions Page -->
 <div class="container" id="exam-page" style="display:none;">
     <div class="timer" id="countdown">10:00</div>
     
-    <!-- Question 1 -->
     <div class="question" id="question1" style="display:none;">
         <h3>1. What kind of leaders were Moses and Joshua?</h3>
         <div class="options">
@@ -239,7 +235,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="nextQuestion(1)">Next</button></div>
     </div>
-    <!-- Question 2 -->
     <div class="question" id="question2" style="display:none;">
         <h3>2. Whom did God instruct to go up against the Canaanites?</h3>
         <div class="options">
@@ -249,7 +244,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(2)">Previous</button><button onclick="nextQuestion(2)">Next</button></div>
     </div>
-    <!-- Question 3 -->
     <div class="question" id="question3" style="display:none;">
         <h3>3. What was the disobedience of the Israelites?</h3>
         <div class="options">
@@ -259,7 +253,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(3)">Previous</button><button onclick="nextQuestion(3)">Next</button></div>
     </div>
-    <!-- Question 4 -->
     <div class="question" id="question4" style="display:none;">
         <h3>4. What was the result of their disobedience?</h3>
         <div class="options">
@@ -269,7 +262,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(4)">Previous</button><button onclick="nextQuestion(4)">Next</button></div>
     </div>
-    <!-- Question 5 -->
     <div class="question" id="question5" style="display:none;">
         <h3>5.Who was Othniel and what role did he play in Israel?</h3>
         <div class="options">
@@ -280,7 +272,6 @@
         <div class="navigation-buttons"><button onclick="previousQuestion(5)">Previous</button><button onclick="nextQuestion(5)">Next</button></div>
     </div> 
             
-    <!-- Question 6 -->
     <div class="question" id="question6" style="display:none;">
         <h3>6. Who led the battle against Sisera?</h3>
         <div class="options">
@@ -290,7 +281,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(6)">Previous</button><button onclick="nextQuestion(6)">Next</button></div>
     </div>
-    <!-- Question 7 -->
     <div class="question" id="question7" style="display:none;">
         <h3>7. Who prophesied the death of Sisera?</h3>
         <div class="options">
@@ -300,7 +290,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(7)">Previous</button><button onclick="nextQuestion(7)">Next</button></div>
     </div>
-    <!-- Question 8 -->
     <div class="question" id="question8" style="display:none;">
         <h3>8. Who is Gideon?</h3>
         <div class="options">
@@ -310,7 +299,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(8)">Previous</button><button onclick="nextQuestion(8)">Next</button></div>
     </div>
-    <!-- Question 9 -->
     <div class="question" id="question9" style="display:none;">
         <h3>9. SIN can be defined as ________ </h3>
         <div class="options">
@@ -320,7 +308,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(9)">Previous</button><button onclick="nextQuestion(9)">Next</button></div>
     </div>
-    <!-- Question 10 -->
     <div class="question" id="question10" style="display:none;">
         <h3>10. What is an Angel?</h3>
         <div class="options">
@@ -330,7 +317,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(10)">Previous</button><button onclick="nextQuestion(10)">Next</button></div>
     </div>
-    <!-- Question 11 -->
     <div class="question" id="question11" style="display:none;">
         <h3>11. How many daughters did Lot have?</h3>
         <div class="options">
@@ -340,7 +326,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(11)">Previous</button><button onclick="nextQuestion(11)">Next</button></div>
     </div>
-    <!-- Question 12 -->
     <div class="question" id="question12" style="display:none;">
         <h3>12. Who looked back?</h3>
         <div class="options">
@@ -350,7 +335,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(12)">Previous</button><button onclick="nextQuestion(12)">Next</button></div>
     </div>
-    <!-- Question 13 -->
     <div class="question" id="question13" style="display:none;">
         <h3>13. What is the name of Sarah's maidservant?</h3>
         <div class="options">
@@ -360,7 +344,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(13)">Previous</button><button onclick="nextQuestion(13)">Next</button></div>
     </div>
-    <!-- Question 14 -->
     <div class="question" id="question14" style="display:none;">
         <h3>14. Who is the father of Ismael?</h3>
         <div class="options">
@@ -370,7 +353,6 @@
         </div>
         <div class="navigation-buttons"><button onclick="previousQuestion(14)">Previous</button><button onclick="nextQuestion(14)">Next</button></div>
     </div>
-    <!-- Question 15 -->
     <div class="question" id="question15" style="display:none;">
         <h3>15. All these people are those Angels communicated to through dream except ______</h3>
         <div class="options">
@@ -382,7 +364,6 @@
             <button onclick="previousQuestion(15)">Previous</button>
             <button onclick="nextQuestion(15)">Next</button></div>
     </div>
-    <!-- Question 16 -->
     <div class="question" id="question16" style="display:none;">
         <h3>16. All these people are those that angels communicated to one-on-one except ______</h3>
         <div class="options">
@@ -394,7 +375,6 @@
             <button onclick="previousQuestion(16)">Previous</button>
             <button onclick="nextQuestion(16)">Next</button></div>
     </div>
-    <!-- Question 17 -->
     <div class="question" id="question17" style="display:none;">
         <h3>17. Are Angels ghost?</h3>
         <div class="options">
@@ -405,7 +385,6 @@
         <div class="navigation-buttons"> <button onclick="previousQuestion(17)">Previous</button>
             <button onclick="nextQuestion(17)">Next</button> </div>
     </div>
-    <!-- Question 18 -->
     <div class="question" id="question18" style="display:none;">
         <h3>18. What is the name of the Angel that wages war against Satan?</h3>
         <div class="options">
@@ -416,7 +395,6 @@
         <div class="navigation-buttons"><button onclick="previousQuestion(18)">Previous</button>
             <button onclick="nextQuestion(18)">Next</button></div>
     </div>
-    <!-- Question 19 -->
     <div class="question" id="question19" style="display:none;">
         <h3>19. Who was the first Pastor of the first gospel Church?</h3>
         <div class="options">
@@ -427,7 +405,6 @@
         <div class="navigation-buttons"><button onclick="previousQuestion(19)">Previous</button>
             <button onclick="nextQuestion(19)">Next</button></div>
     </div>
-    <!-- Question 20 -->
     <div class="question" id="question20" style="display:none;">
         <h3>20. How can one become prey to the devil?</h3>
         <div class="options">
@@ -440,12 +417,10 @@
             <button onclick="nextQuestion(20)">Submit</button>
         </div>
     </div>
-    <!-- Submit button -->
     <div id="submit-section" style="display:none;">
         <button onclick="confirmSubmit()">Submit Exam</button>
     </div>
 </div>
-    <!-- Result Page -->
     <div class="container" id="result-page" style="display:none;">
         <fieldset>
             <legend><b>EXAM SUCCESSFUL</b></legend>
@@ -455,12 +430,10 @@
             <div><center><b>Your result will be sent shortly...</b></center></div>
         </fieldset>
     </div>
-    <!-- Custom Message Box HTML - For general notifications (e.g., "Please fill all fields") -->
     <div id="customMessageBox" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:25px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.3); z-index:1001; text-align:center; font-family:'Comic Neue', cursive; color:#2c3e50; max-width:80%;">
         <p id="messageBoxText"></p>
         <button onclick="hideMessageBox()">OK</button>
     </div>
-    <!-- Custom Confirmation Modal HTML - For Yes/No questions (e.g., "Are you sure you want to submit?") -->
     <div id="confirmModal" class="custom-modal">
         <div class="modal-content">
             <p id="modalMessage">Are you sure you want to proceed?</p>
@@ -472,6 +445,20 @@
     </div>
 
 <script>
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyBcAU4wF6scW2wmBmDn2BbE8Lf_jbXsCrU",
+    authDomain: "sunday-cbt.firebaseapp.com",
+    projectId: "sunday-cbt",
+    storageBucket: "sunday-cbt.firebasestorage.app",
+    messagingSenderId: "1081445319494",
+    appId: "1:1081445319494:web:8149a46380b55ae85c5b47"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 let generatedId = '';
 let userName = '';
 let currentQuestion = 1;
@@ -551,7 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function generateID() {
     const firstName = DOM.firstNameInput.value;
     const lastName = DOM.lastNameInput.value;
-    const password = DOM.passwordInput.value;
+    const password = DOM.passwordInput.value; // Password is still collected but not used for Firebase Auth here
 
     if (!firstName || !lastName || !password) {
         showMessageBox('Please fill all fields');
@@ -571,7 +558,7 @@ function startExam() {
     const loginName = DOM.loginNameInput.value;
     const loginId = DOM.generatedIdInput.value;
 
-    if (loginId !== generatedId) {
+    if (loginId !== generatedId) { // This still relies on `generatedId` being in memory.
         showMessageBox('Invalid ID. Please try again.');
         return;
     }
@@ -687,11 +674,16 @@ function calculateScore() {
     }
     return score;
 }
-// Function to send results to localStorage
-function storeExamResult(result) {
-    let existingResults = JSON.parse(localStorage.getItem('examResults') || '[]');
-    existingResults.push(result);
-    localStorage.setItem('examResults', JSON.stringify(existingResults));
+// Function to send results to Firestore
+async function storeExamResult(result) {
+    try {
+        await db.collection('examResults').add(result);
+        console.log("Exam result successfully written to Firestore!");
+        // You can add a success message or redirect here if needed
+    } catch (error) {
+        console.error("Error writing exam result to Firestore: ", error);
+        showMessageBox("There was an error saving your result. Please try again later or contact support.");
+    }
 }
 </script>
 </body>

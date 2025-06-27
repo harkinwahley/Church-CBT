@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Exam Results</title>
-    <!-- Google Fonts Import for Comic Neue - for consistency -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
@@ -133,18 +132,16 @@
                     <th>Exam Name</th>
                     <th>Score</th>
                     <th>Percentage</th>
-                    <th>Missed Questions</th> <!-- NEW COLUMN -->
+                    <th>Missed Questions</th>
                     <th>Timestamp</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Results will be loaded here by JavaScript -->
-            </tbody>
+                </tbody>
         </table>
         <button id="clearResultsBtn">Clear All Results</button>
     </div>
 
-    <!-- Custom Confirmation Modal -->
     <div id="confirmModal" class="custom-modal">
         <div class="modal-content">
             <p id="modalMessage">Are you sure you want to clear all exam results? This cannot be undone.</p>
@@ -155,7 +152,24 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
     <script>
+        // Your Firebase project configuration
+    const firebaseConfig = {
+    apiKey: "AIzaSyBcAU4wF6scW2wmBmDn2BbE8Lf_jbXsCrU",
+    authDomain: "sunday-cbt.firebaseapp.com",
+    projectId: "sunday-cbt",
+    storageBucket: "sunday-cbt.firebasestorage.app",
+    messagingSenderId: "1081445319494",
+    appId: "1:1081445319494:web:8149a46380b55ae85c5b47"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
         document.addEventListener('DOMContentLoaded', () => {
             const resultsTableBody = document.querySelector('#resultsTable tbody');
             const clearResultsBtn = document.getElementById('clearResultsBtn');
@@ -192,55 +206,76 @@
                 return; // Stop script execution
             }
 
-            function loadResults() {
+            // Function to load results from Firestore
+            async function loadResults() {
                 resultsTableBody.innerHTML = ''; // Clear previous results
-                let results = JSON.parse(localStorage.getItem('examResults')) || [];
+                try {
+                    const querySnapshot = await db.collection('examResults').orderBy('timestamp', 'desc').get();
+                    const results = [];
+                    querySnapshot.forEach(doc => {
+                        results.push({ id: doc.id, ...doc.data() });
+                    });
 
-                if (results.length === 0) {
-                    const row = resultsTableBody.insertRow();
-                    row.innerHTML = '<td colspan="6" style="text-align: center; padding: 20px;">No exam results found.</td>'; // Updated colspan
-                    return;
-                }
+                    if (results.length === 0) {
+                        const row = resultsTableBody.insertRow();
+                        row.innerHTML = '<td colspan="6" style="text-align: center; padding: 20px;">No exam results found.</td>';
+                        return;
+                    }
 
-                results.forEach(result => {
-                    const row = resultsTableBody.insertRow();
-                    row.insertCell().textContent = result.name;
-                    row.insertCell().textContent = result.examName || 'Sunday School Exam'; // Default if not specified
-                    row.insertCell().textContent = `${result.score}/${result.totalQuestions}`;
-                    row.insertCell().textContent = result.percentage;
-                    
-                    // --- Calculate and display missed questions ---
-                    const missedQuestionsCell = row.insertCell();
-                    let missedQNums = [];
-                    // Ensure correctAnswers and answers exist before iterating
-                    if (result.correctAnswers && result.answers) {
-                        for (let i = 1; i <= result.totalQuestions; i++) {
-                            // Convert question number to string key for objects if necessary
-                            const qNumStr = String(i);
-                            if (result.answers[qNumStr] !== result.correctAnswers[qNumStr]) {
-                                missedQNums.push(i); // Add question number if answer is incorrect
+                    results.forEach(result => {
+                        const row = resultsTableBody.insertRow();
+                        row.insertCell().textContent = result.name;
+                        row.insertCell().textContent = result.examName || 'Sunday School Exam'; // Default if not specified
+                        row.insertCell().textContent = `${result.score}/${result.totalQuestions}`;
+                        row.insertCell().textContent = result.percentage;
+
+                        // --- Calculate and display missed questions ---
+                        const missedQuestionsCell = row.insertCell();
+                        let missedQNums = [];
+                        // Ensure correctAnswers and answers exist before iterating
+                        if (result.correctAnswers && result.answers) {
+                            for (let i = 1; i <= result.totalQuestions; i++) {
+                                const qNumStr = String(i);
+                                if (result.answers[qNumStr] !== result.correctAnswers[qNumStr]) {
+                                    missedQNums.push(i);
+                                }
                             }
                         }
-                    }
-                    
-                    if (missedQNums.length > 0) {
-                        missedQuestionsCell.textContent = missedQNums.join(', ');
-                        missedQuestionsCell.style.color = 'red'; // Highlight missed questions
-                        missedQuestionsCell.style.fontWeight = 'bold';
-                    } else {
-                        missedQuestionsCell.textContent = 'None';
-                        missedQuestionsCell.style.color = 'green';
-                    }
-                    // --- End calculate and display missed questions ---
 
-                    row.insertCell().textContent = result.timestamp;
-                });
+                        if (missedQNums.length > 0) {
+                            missedQuestionsCell.textContent = missedQNums.join(', ');
+                            missedQuestionsCell.style.color = 'red';
+                            missedQuestionsCell.style.fontWeight = 'bold';
+                        } else {
+                            missedQuestionsCell.textContent = 'None';
+                            missedQuestionsCell.style.color = 'green';
+                        }
+                        // --- End calculate and display missed questions ---
+
+                        row.insertCell().textContent = result.timestamp;
+                    });
+                } catch (error) {
+                    console.error("Error loading results from Firestore: ", error);
+                    const row = resultsTableBody.insertRow();
+                    row.innerHTML = '<td colspan="6" style="text-align: center; padding: 20px; color: red;">Error loading results. Please check console.</td>';
+                }
             }
 
-            function clearAllResults() {
-                localStorage.removeItem('examResults');
-                loadResults(); // Reload to show empty state
-                // You could add a temporary success message here
+            // Function to clear all results from Firestore
+            async function clearAllResults() {
+                try {
+                    const querySnapshot = await db.collection('examResults').get();
+                    const batch = db.batch();
+                    querySnapshot.forEach(doc => {
+                        batch.delete(doc.ref);
+                    });
+                    await batch.commit();
+                    console.log("All results cleared from Firestore.");
+                    loadResults(); // Reload to show empty state
+                } catch (error) {
+                    console.error("Error clearing results from Firestore: ", error);
+                    alert("Failed to clear results. Please check console for details.");
+                }
             }
 
             clearResultsBtn.addEventListener('click', () => {
