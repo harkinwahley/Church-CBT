@@ -3,380 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE WAY OF GOD BIBLE MINISTRY - Sunday School Exam</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Ministry Exam - Admin Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root{
-            --prime-txt:#2c3e50; --btn-green:#4CAF50; --btn-green-h:#45a049; --bg-grad-s:#ffecd2; --bg-grad-e:#fcb69f;
-            --card-bg:#fff; --brdr-clr:#ddd; --timer-clr:#e74c3c; --txt-light:#fff;
+        :root {
+            --prime-txt: #2c3e50;
+            --btn-green: #4CAF50;
+            --card-bg: #fff;
+            --bg-grad-s: #ffecd2;
+            --bg-grad-e: #fcb69f;
         }
 
-        body{
-            font-family:'Comic Neue',cursive;margin:0;padding:0;
-            background:linear-gradient(to right,var(--bg-grad-s),var(--bg-grad-e));
-            color:var(--prime-txt);text-align:center;
-            display:flex;justify-content:center;align-items:center;
-            min-height:100vh;font-size:18px;line-height:1.5;
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(to right, var(--bg-grad-s), var(--bg-grad-e));
+            margin: 0;
+            padding: 20px;
+            color: var(--prime-txt);
+            min-height: 100vh;
         }
 
-        .container{
-            background-color:var(--card-bg);border-radius:15px;
-            box-shadow:0 8px 20px rgba(0,0,0,.15);padding:30px;
-            width:100%;max-width:550px;box-sizing:border-box;margin:20px;
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            padding: 40px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 20px auto;
         }
 
-        .admin-container { max-width: 900px; }
-
-        h2,h3{margin:10px 0 25px;color:var(--prime-txt);font-weight:700;}
-        h2{font-size:2.2em; line-height: 1.2;}
-        h3{font-size:1.6em;}
-
-        .timer{
-            font-size:2.2em;color:var(--timer-clr);margin-bottom:25px;
-            font-weight:bold;
+        h1 {
+            color: var(--prime-txt);
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
 
-        input[type="text"],input[type="password"] {
-            width:calc(100% - 24px);padding:12px;margin-top:15px;
-            border:2px solid var(--btn-green);border-radius:8px;
-            font-size:1.1em;color:var(--prime-txt);box-sizing:border-box;
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
         }
 
-        button,.btn{
-            display:inline-block;background-color:var(--btn-green);
-            color:var(--txt-light);padding:14px 28px;margin:20px 10px 0;
-            border:none;border-radius:25px;font-size:1.1em;cursor:pointer;
-            transition:background-color .3s,transform .2s;
-            font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,.1);
-        }
-        button:hover,.btn:hover{
-            background-color:var(--btn-green-h);transform:translateY(-2px);
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
         }
 
-        .logo-img {
-            width: 140px; height: 140px; margin-bottom: 20px; border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); object-fit: cover;
-            border: 4px solid white; cursor: pointer;
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #eee;
         }
 
-        .question{
-            background:var(--card-bg);padding:25px;border-radius:15px;
-            box-shadow:0 4px 10px rgba(0,0,0,.1);margin-top:25px;
-            text-align:left;
-        }
-        .options{display:flex;flex-direction:column;gap:15px;}
-        .options label{
-            display:flex;align-items:center;padding:15px;
-            border:2px solid var(--brdr-clr);border-radius:10px;
-            cursor:pointer;font-size:1.1em;
-            background-color:#f9f9f9;
-        }
-        .options label:hover{ border-color:var(--btn-green); }
-        .options input[type="radio"]{ margin-right:15px; transform:scale(1.4); }
-        
-        #result-page fieldset{
-            border:3px solid var(--btn-green);border-radius:20px;
-            padding:30px;margin-top:25px;background-color:#f0fff0;
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
         }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: var(--btn-green); color: white; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
-
-        .navigation-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
-
-        #customMessageBox {
-            display: none; position: fixed; z-index: 2000; left: 0; top: 0;
-            width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
+        th {
+            background-color: #f8f9fa;
+            color: var(--prime-txt);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
         }
-        .msg-content {
-            background-color: #fff; margin: 15% auto; padding: 30px;
-            border-radius: 15px; width: 80%; max-width: 400px;
-            text-align: center; border: 3px solid var(--btn-green);
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #fcfcfc;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .badge-pass { background-color: #d4edda; color: #155724; }
+        .badge-fail { background-color: #f8d7da; color: #721c24; }
+
+        .btn-refresh {
+            background: var(--btn-green);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-refresh:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        #status-msg {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            th, td { padding: 10px; font-size: 0.85em; }
+            .controls { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-
-    <div class="container" id="signup-page">
-        <img src="-CHURCH LOGO-.jpg" alt="Logo" class="logo-img">
-        <h2>THE WAY OF GOD BIBLE MINISTRY</h2>
-        <h3>Sunday School Exam - Sign Up</h3>
-        <input type="text" placeholder="First Name" id="first-name">
-        <input type="text" placeholder="Last Name" id="last-name">
-        <input type="password" placeholder="Create Exam Password" id="password">
-        <button onclick="generateID()">Sign Up</button>
-        <p style="font-size: 0.8em; margin-top: 15px;">Already have an ID? <a href="#" onclick="showLogin()">Login here</a></p>
-    </div>
-
-    <div class="container" id="login-page" style="display:none;">
-        <img src="-CHURCH LOGO-.jpg" alt="Logo" class="logo-img" onclick="adminClick()">
-        <h2>Login to Exam</h2>
-        <input type="text" placeholder="Your Full Name" id="login-name">
-        <input type="text" placeholder="Generated ID" id="generated-id-input">
-        <button onclick="startExam()">Log In</button>
-        <p style="font-size: 0.7em; color: gray; margin-top: 10px;">Tip: Admins tap logo 5 times to see results</p>
-    </div>
-
-    <div class="container" id="instructions-page" style="display:none;">
-        <h2>Exam Instructions</h2>
-        <p style="text-align: left;">
-            1. Read all questions carefully.<br>
-            2. You have <b>10 minutes</b> for 20 questions.<br>
-            3. Each student receives a different order of questions.<br>
-            4. Your score will be automatically saved.
-        </p>
-        <button onclick="loadQuestions()">Begin Exam Now</button>
-    </div>
-
-    <div class="container" id="exam-page" style="display:none;">
-        <div class="timer" id="countdown">10:00</div>
-        <div id="question-container"></div>
-        <div id="submit-section" style="display:none; margin-top: 20px;">
-            <button onclick="confirmSubmit()">Submit Exam</button>
+    <div class="container">
+        <h1>📖 Exam Gradebook</h1>
+        <p class="subtitle">The Way of God Bible Ministry - Sunday School Department</p>
+        
+        <div class="controls">
+            <div id="count-display" style="font-weight: bold; color: #4CAF50;">Loading submissions...</div>
+            <button class="btn-refresh" onclick="location.reload()">🔄 Refresh Records</button>
         </div>
+
+        <div id="status-msg">Connecting to cloud database...</div>
+        
+        <table id="resultsTable" style="display:none;">
+            <thead>
+                <tr>
+                    <th>Submission Date</th>
+                    <th>Candidate Name</th>
+                    <th>Exam ID</th>
+                    <th>Score</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+        </table>
     </div>
 
-    <div class="container" id="result-page" style="display:none;">
-        <fieldset>
-            <legend>EXAM SUCCESSFUL</legend>
-            <p style="font-size: 1.5em;">🎉 CONGRATULATIONS! 🎉</p>
-            <p>Your responses have been securely submitted.</p>
-            <button onclick="location.reload()">Return Home</button>
-        </fieldset>
-    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <div class="container admin-container" id="admin-page" style="display:none;">
-        <h2>Admin Panel - Student Results</h2>
-        <button onclick="clearLocalStorage()" style="background: #e74c3c; margin-bottom: 10px;">Clear All Data</button>
-        <div style="overflow-x: auto;">
-            <table id="results-table">
-                <thead>
-                    <tr>
-                        <th>Date/Time</th>
-                        <th>Name</th>
-                        <th>ID</th>
-                        <th>Score</th>
-                        <th>Grade</th>
-                    </tr>
-                </thead>
-                <tbody id="results-body">
-                </tbody>
-            </table>
-        </div>
-        <button onclick="location.reload()">Close Admin Panel</button>
-    </div>
+        // Global configuration access
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyBcAU4wF6scW2wmBmDn2BbE8Lf_jbXsCrU",
+            authDomain: "sunday-cbt.firebaseapp.com",
+            projectId: "sunday-cbt",
+            storageBucket: "sunday-cbt.firebasestorage.app",
+            messagingSenderId: "1081445319494",
+            appId: "1:1081445319494:web:8149a46380b55ae85c5b47"
+        };
 
-    <div id="customMessageBox"><div class="msg-content"><p id="messageBoxText"></p><button onclick="hideMessageBox()">OK</button></div></div>
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-cbt';
 
-    <script>
-        let userName = '';
-        let generatedId = '';
-        let examPool = [];
-        let answers = {};
-        let timer;
-        let adminCounter = 0;
-        const ADMIN_PASS = "admin123";
+        const status = document.getElementById('status-msg');
+        const table = document.getElementById('resultsTable');
+        const body = document.getElementById('resultsBody');
+        const countDisplay = document.getElementById('count-display');
 
-        const MASTER_QUESTIONS = [
-            { id: 1, q: "Who is the Answer to all Questions?", options: {a: "Satan", b: "Jesus", c: "Joshua"}, correct: 'b' },
-            { id: 2, q: "In Act 3:7-8 _________ Ministered to a lame man in the name of Jesus?", options: {a: "Apostle Peter", b: "Apostle Paul", c: "Apostle Jesus"}, correct: 'a' },
-            { id: 3, q: "What are fox?", options: {a: "small carnivores", b: "An instrument", c: "A red pill"}, correct: 'a' },
-            { id: 4, q: "Wolves in the church are the animalistic behaviors of some leaders", options: {a: "True", b: "False", c: "I don't know"}, correct: 'a' },
-            { id: 5, q: "Who is entitled to divine provision?", options: {a: "Man", b: "Everyone", c: "Joseph"}, correct: 'b' },
-            { id: 6, q: "God wants man to obey some principles for his blessings", options: {a: "False", b: "True", c: "Both"}, correct: 'b' },
-            { id: 7, q: "If a seed man sown acceptably, what happens?", options: {a: "Bountiful harvest", b: "Failure", c: "New car"}, correct: 'a' },
-            { id: 8, q: "One benefit of covenant giving is________", options: {a: "Peace beyond understanding", b: "Failure", c: "Loss of money"}, correct: 'a' },
-            { id: 9, q: "Is seed sowing necessary for children?", options: {a: "Yes", b: "No", c: "I don't know"}, correct: 'a' },
-            { id: 10, q: "What is Christian marriage?", options: {a: "Lord's arrangement (Man/Woman)", b: "Boy/Girl arrangement", c: "Man/Man arrangement"}, correct: 'a' },
-            { id: 11, q: "Is it right for an unmarried lady to sleep in his house?", options: {a: "Yes", b: "No", c: "I don't know"}, correct: 'b' },
-            { id: 12, q: "What can cause a gap in Christian family?", options: {a: "Jesus", b: "Outsiders", c: "Family"}, correct: 'b' },
-            { id: 13, q: "Who will be your wife or husband?", options: {a: "He/She", b: "He/He", c: "She/She"}, correct: 'a' },
-            { id: 14, q: "A captive means, one who has been________", options: {a: "captured", b: "separated", c: "killed"}, correct: 'a' },
-            { id: 15, q: "Who needs deliverance?", options: {a: "Sinner", b: "Dancer", c: "Pastor"}, correct: 'a' },
-            { id: 16, q: "What is Spiritual warfare?", options: {a: "Spiritual merry", b: "Spiritual battle", c: "Exercise"}, correct: 'b' },
-            { id: 17, q: "Spiritual warfare strength comes from being fervent in the word.", options: {a: "True", b: "False", c: "Not sure"}, correct: 'a' },
-            { id: 18, q: "The temple of God is ________", options: {a: "Our body", b: "Our church", c: "Worship place"}, correct: 'a' },
-            { id: 19, q: "Should abominations be reported to pastor?", options: {a: "Yes", b: "No", c: "I don't care"}, correct: 'a' },
-            { id: 20, q: "What is the meaning of offence?", options: {a: "The act of offending", b: "Being happy", c: "Right exercising"}, correct: 'a' }
-        ];
-
-        function shuffle(arr) {
-            let a = [...arr];
-            for (let i = a.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [a[i], a[j]] = [a[j], a[i]];
-            }
-            return a;
-        }
-
-        function showMessageBox(msg) {
-            document.getElementById('messageBoxText').textContent = msg;
-            document.getElementById('customMessageBox').style.display = 'block';
-        }
-        function hideMessageBox() { document.getElementById('customMessageBox').style.display = 'none'; }
-
-        function showLogin() {
-            document.getElementById('signup-page').style.display = 'none';
-            document.getElementById('login-page').style.display = 'block';
-        }
-
-        function generateID() {
-            const fn = document.getElementById('first-name').value.trim();
-            const ln = document.getElementById('last-name').value.trim();
-            if(!fn || !ln) return showMessageBox("Please enter your names");
-            generatedId = (fn.substring(0,3) + ln.substring(0,3)).toUpperCase() + Math.floor(1000 + Math.random()*9000);
-            userName = `${fn} ${ln}`;
-            document.getElementById('signup-page').style.display = 'none';
-            document.getElementById('login-page').style.display = 'block';
-            showMessageBox(`YOUR EXAM ID IS: ${generatedId}. Please write it down!`);
-            document.getElementById('login-name').value = userName;
-            document.getElementById('generated-id-input').value = generatedId;
-        }
-
-        function startExam() {
-            userName = document.getElementById('login-name').value.trim();
-            const idInput = document.getElementById('generated-id-input').value.trim();
-            if(!userName || !idInput) return showMessageBox("Please fill in both name and ID");
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('instructions-page').style.display = 'block';
-        }
-
-        function loadQuestions() {
-            examPool = shuffle(MASTER_QUESTIONS); 
-            document.getElementById('instructions-page').style.display = 'none';
-            document.getElementById('exam-page').style.display = 'block';
-            renderQuestion(0);
-            startTimer();
-        }
-
-        function startTimer() {
-            let time = 600;
-            timer = setInterval(() => {
-                let m = Math.floor(time/60).toString().padStart(2,'0');
-                let s = (time%60).toString().padStart(2,'0');
-                document.getElementById('countdown').textContent = `${m}:${s}`;
-                if(time <= 0) { clearInterval(timer); submitFinal(); }
-                time--;
-            }, 1000);
-        }
-
-        function renderQuestion(idx) {
-            const q = examPool[idx];
-            const cont = document.getElementById('question-container');
-            cont.innerHTML = `
-                <div class="question">
-                    <h3>Question ${idx + 1} of 20</h3>
-                    <p>${q.q}</p>
-                    <div class="options">
-                        ${Object.keys(q.options).map(key => `
-                            <label>
-                                <input type="radio" name="examQ" value="${key}" ${answers[q.id] === key ? 'checked' : ''}>
-                                ${q.options[key]}
-                            </label>
-                        `).join('')}
-                    </div>
-                    <div class="navigation-buttons">
-                        ${idx > 0 ? `<button onclick="saveAndMove(${idx-1})">Previous</button>` : ''}
-                        ${idx < 19 ? `<button onclick="saveAndMove(${idx+1})">Next</button>` : ''}
-                    </div>
-                </div>
-            `;
-            if(idx === 19) document.getElementById('submit-section').style.display = 'block';
-        }
-
-        function saveAndMove(newIdx) {
-            const sel = document.querySelector('input[name="examQ"]:checked');
-            if(sel) {
-                const currentQ = examPool[currentIdx()];
-                answers[currentQ.id] = sel.value;
-            }
-            renderQuestion(newIdx);
-        }
-
-        function currentIdx() {
-            const text = document.querySelector('.question h3').textContent;
-            return parseInt(text.split(' ')[1]) - 1;
-        }
-
-        function confirmSubmit() {
-            const sel = document.querySelector('input[name="examQ"]:checked');
-            if(sel) {
-                const currentQ = examPool[currentIdx()];
-                answers[currentQ.id] = sel.value;
-            }
-            if(confirm("Submit your answers now?")) submitFinal();
-        }
-
-        async function submitFinal() {
-            clearInterval(timer);
-            let score = 0;
-            examPool.forEach(q => { if(answers[q.id] === q.correct) score++; });
+        const loadRecords = async (user) => {
+            if (!user) return;
             
-            const resultData = {
-                name: userName,
-                id: generatedId || document.getElementById('generated-id-input').value,
-                score,
-                total: 20,
-                percent: Math.round((score/20)*100) + "%",
-                date: new Date().toLocaleString(),
-                timestamp: Date.now()
-            };
+            try {
+                // RULE 1: Correct pathing for the public data
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+                
+                // RULE 2: Fetch all and sort locally to avoid index errors
+                const snapshot = await getDocs(query(colRef));
+                const results = snapshot.docs.map(doc => doc.data());
+                
+                // Sort by timestamp (newest first)
+                results.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-            // Save to LocalStorage for persistence on this device
-            let existingResults = JSON.parse(localStorage.getItem('churchExamResults') || "[]");
-            existingResults.push(resultData);
-            localStorage.setItem('churchExamResults', JSON.stringify(existingResults));
-
-            document.getElementById('exam-page').style.display = 'none';
-            document.getElementById('result-page').style.display = 'block';
-        }
-
-        function adminClick() {
-            adminCounter++;
-            if(adminCounter >= 5) {
-                const pass = prompt("Admin Secret Code:");
-                if(pass === ADMIN_PASS) {
-                    loadAdminResults();
+                body.innerHTML = '';
+                if (results.length === 0) {
+                    status.textContent = "No students have submitted the exam yet.";
+                    countDisplay.textContent = "Total Submissions: 0";
                 } else {
-                    alert("Wrong Code.");
-                    adminCounter = 0;
+                    results.forEach(r => {
+                        const scoreVal = parseInt(r.score) || 0;
+                        const totalVal = parseInt(r.total) || 20;
+                        const isPass = (scoreVal / totalVal) >= 0.5;
+
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${r.date || 'N/A'}</td>
+                            <td><strong>${r.name || 'Anonymous'}</strong></td>
+                            <td style="font-family: monospace; color: #666;">${r.id || '---'}</td>
+                            <td>${scoreVal} / ${totalVal}</td>
+                            <td>
+                                <span class="badge ${isPass ? 'badge-pass' : 'badge-fail'}">
+                                    ${r.percent || Math.round((scoreVal/totalVal)*100) + '%'}
+                                </span>
+                            </td>
+                        `;
+                        body.appendChild(tr);
+                    });
+                    status.style.display = 'none';
+                    table.style.display = 'table';
+                    countDisplay.textContent = `Total Submissions: ${results.length}`;
+                }
+            } catch (err) {
+                console.error("Database Error:", err);
+                status.textContent = "Access Error: Could not connect to Ministry database.";
+            }
+        };
+
+        // Authenticate before loading data
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loadRecords(user);
+            } else {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    signInAnonymously(auth);
                 }
             }
-        }
-
-        function loadAdminResults() {
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('admin-page').style.display = 'block';
-            const tableBody = document.getElementById('results-body');
-            
-            const data = JSON.parse(localStorage.getItem('churchExamResults') || "[]");
-            data.sort((a,b) => b.timestamp - a.timestamp);
-            
-            tableBody.innerHTML = '';
-            data.forEach(r => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${r.date}</td>
-                    <td>${r.name}</td>
-                    <td>${r.id}</td>
-                    <td>${r.score}/20</td>
-                    <td>${r.percent}</td>
-                `;
-                tableBody.appendChild(tr);
-            });
-            if(data.length === 0) tableBody.innerHTML = '<tr><td colspan="5">No submissions found on this device.</td></tr>';
-        }
-
-        function clearLocalStorage() {
-            if(confirm("Are you sure you want to delete ALL results?")) {
-                localStorage.removeItem('churchExamResults');
-                loadAdminResults();
-            }
-        }
+        });
     </script>
 </body>
 </html>
