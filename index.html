@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE WAY OF GOD BIBLE MINISTRY - Sunday School Exam</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,46 +27,39 @@
             width:100%;max-width:550px;box-sizing:border-box;margin:20px;
         }
 
-        /* Headings & Timer */
+        .admin-container { max-width: 900px; }
+
         h2,h3{margin:10px 0 25px;color:var(--prime-txt);font-weight:700;}
-        h2{font-size:2.5em;}
-        h3{font-size:1.8em;}
+        h2{font-size:2.2em; line-height: 1.2;}
+        h3{font-size:1.6em;}
 
         .timer{
             font-size:2.2em;color:var(--timer-clr);margin-bottom:25px;
             font-weight:bold;
         }
 
-        /* Input Fields */
-        input[type="text"],input[type="password"]{
+        input[type="text"],input[type="password"] {
             width:calc(100% - 24px);padding:12px;margin-top:15px;
             border:2px solid var(--btn-green);border-radius:8px;
             font-size:1.1em;color:var(--prime-txt);box-sizing:border-box;
-            transition:border-color .3s,box-shadow .3s;
-        }
-        input[type="text"]:focus,input[type="password"]:focus{
-            border-color:var(--btn-green-h);outline:none;
-            box-shadow:0 0 8px rgba(76,175,80,.3);
         }
 
         button,.btn{
             display:inline-block;background-color:var(--btn-green);
-            color:var(--txt-light);padding:14px 28px;margin:20px 10px 0; /* Adjusted margin for multiple buttons */
+            color:var(--txt-light);padding:14px 28px;margin:20px 10px 0;
             border:none;border-radius:25px;font-size:1.1em;cursor:pointer;
             transition:background-color .3s,transform .2s;
             font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,.1);
         }
         button:hover,.btn:hover{
             background-color:var(--btn-green-h);transform:translateY(-2px);
-            box-shadow:0 6px 12px rgba(0,0,0,.15);
         }
 
-        #logo {
-            width: 150px;
-            height: auto;
-            margin-bottom: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .logo-img {
+            width: 140px; height: 140px; margin-bottom: 20px; border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); object-fit: cover;
+            border: 4px solid white; cursor: pointer;
+        }
 
         .question{
             background:var(--card-bg);padding:25px;border-radius:15px;
@@ -77,555 +71,341 @@
             display:flex;align-items:center;padding:15px;
             border:2px solid var(--brdr-clr);border-radius:10px;
             cursor:pointer;font-size:1.1em;
-            transition:background-color .2s,border-color .2s,transform .1s;
             background-color:#f9f9f9;
         }
-        .options label:hover{
-            background-color:#f0f0f0;border-color:var(--btn-green);
-            transform:translateY(-1px);
-        }
-        .options input[type="radio"],.options input[type="checkbox"]{
-            margin-right:15px;transform:scale(1.4);
-            -webkit-appearance:none;appearance:none;
-            width:22px;height:22px;
-            border:2px solid var(--btn-green);border-radius:50%;
-            outline:none;cursor:pointer;position:relative;flex-shrink:0;
-            transition:background-color .2s,border-color .2s;
-        }
-        .options input[type="checkbox"]{border-radius:6px;}
-        .options input[type="radio"]:checked,.options input[type="checkbox"]:checked{
-            background-color:var(--btn-green);border-color:var(--btn-green);
-        }
-        .options input[type="radio"]:checked::before{
-            content:'';width:10px;height:10px;
-            background-color:var(--txt-light);border-radius:50%;
-            position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-        }
-        .options input[type="checkbox"]:checked::before{
-            content:'✔';font-size:14px;color:var(--txt-light);
-            position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-        }
-        .options input[type="radio"]:checked+label,
-        .options input[type="checkbox"]:checked+label{
-            background-color:var(--btn-green);color:var(--txt-light);
-            border-color:var(--btn-green);
-            box-shadow:0 2px 8px rgba(76,175,80,.3);
-        }
-        .options input[type="radio"]:checked+label:hover,.options input[type="checkbox"]:checked+label:hover{
-            background-color:var(--btn-green);
-        }
+        .options label:hover{ border-color:var(--btn-green); }
+        .options input[type="radio"]{ margin-right:15px; transform:scale(1.4); }
+        
         #result-page fieldset{
             border:3px solid var(--btn-green);border-radius:20px;
             padding:30px;margin-top:25px;background-color:#f0fff0;
-            box-shadow:0 6px 15px rgba(0,0,0,.1);
-        }
-        #result-page legend{
-            font-family:'Comic Neue',cursive;font-size:2em;
-            font-weight:bold;color:var(--btn-green);padding:0 20px;text-align:center;
-        }
-        #result-page p,#result-page div b{
-            font-size:1.3em;color:var(--prime-txt);margin:12px 0;
-        }
-        .congratulations-message{
-            color:var(--btn-green);font-weight:bold;font-size:1.6em;
-            margin-bottom:20px;
-        }
-        .navigation-buttons {
-            display: flex;justify-content: center;gap: 20px; margin-top: 30px;
-        }
-        .hidden{display:none;}
-        #submit-section{margin-top:30px;}
-        #customMessageBox {
-            position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);
-            background-color:white; padding:25px; border-radius:15px;
-            box-shadow:0 5px 15px rgba(0,0,0,0.3); z-index:1001; text-align:center;
-            font-family:'Comic Neue', cursive; color:#2c3e50; max-width:80%;
-            border: 2px solid var(--btn-green);
-        }
-        #customMessageBox button {
-            background-color:#4CAF50; color:white; padding:10px 20px;
-            border:none; border-radius:20px; cursor:pointer; margin-top:15px;
-            font-weight:bold; box-shadow: none;
-        }
-        #customMessageBox button:hover {
-            background-color:#45a049; transform:none;
-        }
-        .custom-modal {
-            display: none;
-            position: fixed; z-index: 1000; left: 0; top: 0;
-            width: 100%; height: 100%; overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-        .modal-content {
-            background-color: var(--card-bg); margin: 15% auto; padding: 20px;
-            border: 1px solid #888; border-radius: 10px;
-            width: 80%; max-width: 400px; text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .modal-buttons button {
-            margin: 10px; padding: 10px 20px;
-            font-size: 1em; border-radius: 20px;
-            box-shadow: none;
         }
 
-        .modal-buttons button.cancel {
-            background-color: #ccc; color: var(--prime-txt);
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: var(--btn-green); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+
+        .navigation-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+
+        #customMessageBox {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
         }
-        .modal-buttons button.cancel:hover {
-            background-color: #bbb; transform: none;
-        }
-        @media (max-width:600px){
-            body{padding:10px;}
-            .container{padding:20px;margin:10px;}
-            h2{font-size:2em;}
-            h3{font-size:1.5em;}
-            .timer{font-size:1.8em;}
-            input[type="text"],input[type="password"]{width:calc(100% - 20px);padding:10px;font-size:1em;}
-            button,.btn{padding:10px 20px;font-size:1em;margin-top:15px;}
-            .question h3{font-size:1.3em;}
-            .options label{padding:12px;font-size:1em;}
-            .options input[type="radio"],.options input[type="checkbox"]{transform:scale(1.2);margin-right:10px;}
-            .navigation-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
+        .msg-content {
+            background-color: #fff; margin: 15% auto; padding: 30px;
+            border-radius: 15px; width: 80%; max-width: 400px;
+            text-align: center; border: 3px solid var(--btn-green);
         }
     </style>
 </head>
 <body>
+
+    <!-- Signup Page -->
     <div class="container" id="signup-page">
-        <img src="./assets/-CHURCH LOGO-.jpg" alt="Church Logo" id="logo">
+        <img src="-CHURCH LOGO-.jpg" alt="Logo" class="logo-img">
         <h2>THE WAY OF GOD BIBLE MINISTRY</h2>
         <h3>Sunday School Exam - Sign Up</h3>
-        <div class="form-group"><input type="text" placeholder="First Name" id="first-name" required></div>
-        <div class="form-group"><input type="text" placeholder="Last Name" id="last-name" required></div>
-        <div class="form-group"><input type="password" placeholder="Password" id="password" required></div>
+        <input type="text" placeholder="First Name" id="first-name">
+        <input type="text" placeholder="Last Name" id="last-name">
+        <input type="password" placeholder="Create Exam Password" id="password">
         <button onclick="generateID()">Sign Up</button>
+        <p style="font-size: 0.8em; margin-top: 15px;">Already have an ID? <a href="#" onclick="showLogin()">Login here</a></p>
     </div>
 
+    <!-- Login Page -->
     <div class="container" id="login-page" style="display:none;">
-        <img src="./assets/-CHURCH LOGO-.jpg" alt="Church Logo" id="logo-login" style="width: 100px; height: auto; margin-bottom: 20px;">
+        <img src="-CHURCH LOGO-.jpg" alt="Logo" class="logo-img" onclick="adminClick()">
         <h2>Login to Exam</h2>
-        <div class="form-group"><input type="text" placeholder="Your Name" id="login-name" required></div>
-        <div class="form-group"><input type="text" placeholder="Generated ID" id="generated-id-input" required></div>
+        <input type="text" placeholder="Your Full Name" id="login-name">
+        <input type="text" placeholder="Generated ID" id="generated-id-input">
         <button onclick="startExam()">Log In</button>
     </div>
 
+    <!-- Instructions Page -->
     <div class="container" id="instructions-page" style="display:none;">
         <h2>Exam Instructions</h2>
-        <p>
-            - Read all questions carefully<br>
-            - Choose only ONE option<br>
-            - You have 10 minutes to complete<br>
-            - Exam malpractice is strictly prohibited
+        <p style="text-align: left;">
+            1. Read all questions carefully.<br>
+            2. You have <b>10 minutes</b> for 20 randomly selected questions.<br>
+            3. Each student receives a different order of questions.<br>
+            4. Your score will be automatically sent to the church office.
         </p>
-        <button onclick="loadQuestions()">Begin Exam</button>
+        <button onclick="loadQuestions()">Begin Exam Now</button>
     </div>
 
+    <!-- Exam Page -->
     <div class="container" id="exam-page" style="display:none;">
         <div class="timer" id="countdown">10:00</div>
-
         <div id="question-container"></div>
-
-        <div id="submit-section" style="display:none;">
+        <div id="submit-section" style="display:none; margin-top: 20px;">
             <button onclick="confirmSubmit()">Submit Exam</button>
         </div>
     </div>
+
+    <!-- Success Page -->
     <div class="container" id="result-page" style="display:none;">
         <fieldset>
-            <legend><b>EXAM SUCCESSFUL</b></legend>
-            <br>
-            <div><center class="congratulations-message">🎉 CONGRATULATIONS! 🎉 You have successfully ended the examinations .......</center></div>
-            <br>
-            <div><center><b>Your result will be sent shortly...</b></center></div>
+            <legend>EXAM SUCCESSFUL</legend>
+            <p style="font-size: 1.5em;">🎉 CONGRATULATIONS! 🎉</p>
+            <p>Your responses have been securely submitted.</p>
+            <button onclick="location.reload()">Return Home</button>
         </fieldset>
     </div>
-    <div id="customMessageBox" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:25px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.3); z-index:1001; text-align:center; font-family:'Comic Neue', cursive; color:#2c3e50; max-width:80%;">
-        <p id="messageBoxText"></p>
-        <button onclick="hideMessageBox()">OK</button>
-    </div>
-    <div id="confirmModal" class="custom-modal">
-        <div class="modal-content">
-            <p id="modalMessage">Are you sure you want to proceed?</p>
-            <div class="modal-buttons">
-                <button id="modalConfirmBtn">Yes</button>
-                <button id="modalCancelBtn" class="cancel">No</button>
-            </div>
+
+    <!-- Admin View -->
+    <div class="container admin-container" id="admin-page" style="display:none;">
+        <h2>Admin Panel - Student Results</h2>
+        <p>Sorted by most recent submission</p>
+        <div style="overflow-x: auto;">
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>Date/Time</th>
+                        <th>Name</th>
+                        <th>ID</th>
+                        <th>Score</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body">
+                    <!-- Data injected here -->
+                </tbody>
+            </table>
         </div>
+        <button onclick="location.reload()">Close Admin Panel</button>
     </div>
+
+    <!-- Message Box -->
+    <div id="customMessageBox"><div class="msg-content"><p id="messageBoxText"></p><button onclick="hideMessageBox()">OK</button></div></div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBcAU4wF6scW2wmBmDn2BbE8Lf_jbXsCrU",
-            authDomain: "sunday-cbt.firebaseapp.com",
-            projectId: "sunday-cbt",
-            storageBucket: "sunday-cbt.firebasestorage.app",
-            messagingSenderId: "1081445319494",
-            appId: "1:1081445319494:web:8149a46380b55ae85c5b47"
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "", authDomain: "", projectId: "", storageBucket: "", messagingSenderId: "", appId: ""
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-school-v2';
 
-        // Make db, collection, addDoc accessible globally for simplicity with standard script blocks
-        window.db = db;
-        window.collection = collection;
-        window.addDoc = addDoc;
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+        };
+        initAuth();
+
+        window.saveResult = async (data) => {
+            if (!auth.currentUser) return;
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+            await addDoc(colRef, { ...data, uid: auth.currentUser.uid });
+        };
+
+        window.fetchResultsFromCloud = async () => {
+            if (!auth.currentUser) return [];
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+            const snapshot = await getDocs(query(colRef));
+            return snapshot.docs.map(doc => doc.data());
+        };
     </script>
 
     <script>
+        let userName = '';
         let generatedId = '';
-        let userName = ''; // Stores full name: "First Last"
-        let currentQuestionIndex = 0; // Use 0-based index for shuffled array
-        let shuffledQuestions = []; // Array to hold the shuffled questions
-        let answers = {}; // Stores answers by original question ID { qId: 'selectedOption' }
+        let examPool = [];
+        let answers = {};
         let timer;
+        let adminCounter = 0;
+        const ADMIN_PASS = "admin123";
 
-        // ALL EXAM QUESTIONS DEFINED HERE
-        const ALL_QUESTIONS = [
-            { id: 1, questionText: "1. What kind of leaders were Moses and Joshua?", options: {a: "Bad leaders", b: "Corrupt leaders", c: "Good leaders"}, correctAnswer: 'c' },
-            { id: 2, questionText: "2. Whom did God instruct to go up against the Canaanites?", options: {a: "Israel", b: "Judah", c: "Jesus"}, correctAnswer: 'b' },
-            { id: 3, questionText: "3. What was the disobedience of the Israelites?", options: {a: "They love God", b: "They worshipped idols", c: "They worship Hindus"}, correctAnswer: 'b' },
-            { id: 4, questionText: "4. What was the result of the disobedience of Israelites?", options: {a: "They became prey of their enemies", b: "They were in the wilderness for 40 years", c: "They became very hungry"}, correctAnswer: 'a' },
-            { id: 5, questionText: "5. Who was Othniel and what role did he play in Israel?", options: {a: "He was the first judge to deliver Israel", b: "He was a corrupt leader", c: "He led Israel to idolatry"}, correctAnswer: 'a' },
-            { id: 6, questionText: "6. Who led the battle against Sisera?", options: {a: "Deborah", b: "Jael", c: "Jabin"}, correctAnswer: 'b' },
-            { id: 7, questionText: "7. Who prophesied the death of Sisera?", options: {a: "Jael", b: "Deborah", c: "Solomon"}, correctAnswer: 'b' },
-            { id: 8, questionText: "8. Who is Gideon?", options: {a: "The mighty man of valour", b: "The man with dread", c: "The big man"}, correctAnswer: 'a' },
-            { id: 9, questionText: "9. SIN can be defined as ________ ", options: {a: "Sun in Netherlands", b: "Simple Instruction Neglected", c: "Something in Nigeria"}, correctAnswer: 'b' },
-            { id: 10, questionText: "10. What is an Angel?", options: {a: "God's Servant to serve God's people", b: "Angels are human beings", c: "They are servants of Satan"}, correctAnswer: 'a' },
-            { id: 11, questionText: "11. How many daughters did Lot have?", options: {a: "4", b: "3", c: "2"}, correctAnswer: 'c' },
-            { id: 12, questionText: "12. Who looked back?", options: {a: "Deborah", b: "Lot's Wife", c: "Sarah"}, correctAnswer: 'b' },
-            { id: 13, questionText: "13. What is the name of Sarah's maidservant?", options: {a: "Hager", b: "Abigael", c: "Lola"}, correctAnswer: 'a' },
-            { id: 14, questionText: "14. Who is the father of Ismael?", options: {a: "Abraham", b: "Jacob", c: "Isaac"}, correctAnswer: 'a' },
-            { id: 15, questionText: "15. All these people are those Angels communicated to through dream except ______", options: {a: "Joseph", b: "Solomon", c: "Mary"}, correctAnswer: 'c' },
-            { id: 16, questionText: "16. All these people are those that angels communicated to one-on-one except ______", options: {a: "Mary", b: "Abraham", c: "Daniel"}, correctAnswer: 'c' },
-            { id: 17, questionText: "17. Are Angels ghost?", options: {a: "I don't know", b: "Yes", c: "No"}, correctAnswer: 'c' },
-            { id: 18, questionText: "18. What is the name of the Angel that wages war against Satan?", options: {a: "Angel Uriel", b: "Angel Michael", c: "Angel Echabod"}, correctAnswer: 'b' },
-            { id: 19, questionText: "19. Who was the first Pastor of the first gospel Church?", options: {a: "Peter", b: "Luke", c: "John"}, correctAnswer: 'a' },
-            { id: 20, questionText: "20. How can one become prey to the devil?", options: {a: "Without Prayer", b: "With Prayer", c: "By Praising God"}, correctAnswer: 'a' }
+        // EXAM QUESTIONS BAKE INTO THE APP
+        const MASTER_QUESTIONS = [
+            { id: 1, q: "Who is the Answer to all Questions?", options: {a: "Satan", b: "Jesus", c: "Joshua"}, correct: 'b' },
+            { id: 2, q: "In Act 3:7-8 _________ Ministered to a lame man in the name of Jesus?", options: {a: "Apostle Peter", b: "Apostle Paul", c: "Apostle Jesus"}, correct: 'a' },
+            { id: 3, q: "What are fox?", options: {a: "small carnivores", b: "An instrument", c: "A red pill"}, correct: 'a' },
+            { id: 4, q: "Wolves in the church are the animalistic behaviors of some leaders", options: {a: "True", b: "False", c: "I don't know"}, correct: 'a' },
+            { id: 5, q: "Who is entitled to divine provision?", options: {a: "Man", b: "Everyone", c: "Joseph"}, correct: 'b' },
+            { id: 6, q: "God wants man to obey some principles for his blessings", options: {a: "False", b: "True", c: "Both"}, correct: 'b' },
+            { id: 7, q: "If a seed man sown acceptably, what happens?", options: {a: "Bountiful harvest", b: "Failure", c: "New car"}, correct: 'a' },
+            { id: 8, q: "One benefit of covenant giving is________", options: {a: "Peace beyond understanding", b: "Failure", c: "Loss of money"}, correct: 'a' },
+            { id: 9, q: "Is seed sowing necessary for children?", options: {a: "Yes", b: "No", c: "I don't know"}, correct: 'a' },
+            { id: 10, q: "What is Christian marriage?", options: {a: "Lord's arrangement (Man/Woman)", b: "Boy/Girl arrangement", c: "Man/Man arrangement"}, correct: 'a' },
+            { id: 11, q: "Is it right for an unmarried lady to sleep in his house?", options: {a: "Yes", b: "No", c: "I don't know"}, correct: 'b' },
+            { id: 12, q: "What can cause a gap in Christian family?", options: {a: "Jesus", b: "Outsiders", c: "Family"}, correct: 'b' },
+            { id: 13, q: "Who will be your wife or husband?", options: {a: "He/She", b: "He/He", c: "She/She"}, correct: 'a' },
+            { id: 14, q: "A captive means, one who has been________", options: {a: "captured", b: "separated", c: "killed"}, correct: 'a' },
+            { id: 15, q: "Who needs deliverance?", options: {a: "Sinner", b: "Dancer", c: "Pastor"}, correct: 'a' },
+            { id: 16, q: "What is Spiritual warfare?", options: {a: "Spiritual merry", b: "Spiritual battle", c: "Exercise"}, correct: 'b' },
+            { id: 17, q: "Spiritual warfare strength comes from being fervent in the word.", options: {a: "True", b: "False", c: "Not sure"}, correct: 'a' },
+            { id: 18, q: "The temple of God is ________", options: {a: "Our body", b: "Our church", c: "Worship place"}, correct: 'a' },
+            { id: 19, q: "Should abominations be reported to pastor?", options: {a: "Yes", b: "No", c: "I don't care"}, correct: 'a' },
+            { id: 20, q: "What is the meaning of offence?", options: {a: "The act of offending", b: "Being happy", c: "Right exercising"}, correct: 'a' }
         ];
 
-        let totalQuestions = ALL_QUESTIONS.length; // Dynamically set total questions
-
-        // Cached DOM elements
-        const DOM = {};
-
-        // --- Custom Message Box for Notifications ---
-        function showMessageBox(message) {
-            DOM.messageBoxText.textContent = message;
-            DOM.customMessageBox.style.display = 'block';
-        }
-
-        function hideMessageBox() {
-            DOM.customMessageBox.style.display = 'none';
-        }
-
-        // --- Custom Confirmation Modal for Yes/No prompts ---
-        let pendingAction = null; // To store the function to execute on modal confirm
-
-        function showModal(message, onConfirm) {
-            DOM.modalMessage.textContent = message;
-            pendingAction = onConfirm;
-            DOM.confirmModal.style.display = 'block';
-        }
-
-        function hideModal() {
-            DOM.confirmModal.style.display = 'none';
-            pendingAction = null;
-        }
-
-        // Fisher-Yates (Knuth) Shuffle Algorithm
-        function shuffleArray(array) {
-            let currentIndex = array.length, randomIndex;
-            // While there remain elements to shuffle.
-            while (currentIndex !== 0) {
-                // Pick a remaining element.
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex--;
-                // And swap it with the current element.
-                [array[currentIndex], array[randomIndex]] = [
-                    array[randomIndex], array[currentIndex]];
+        function shuffle(arr) {
+            let a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
             }
-            return array;
+            return a;
         }
 
-        // Event listeners and DOM caching
-        document.addEventListener('DOMContentLoaded', () => {
-            // Cache common DOM elements
-            DOM.customMessageBox = document.getElementById('customMessageBox');
-            DOM.messageBoxText = document.getElementById('messageBoxText');
-            DOM.confirmModal = document.getElementById('confirmModal');
-            DOM.modalMessage = document.getElementById('modalMessage');
-            DOM.modalConfirmBtn = document.getElementById('modalConfirmBtn');
-            DOM.modalCancelBtn = document.getElementById('modalCancelBtn');
+        function showMessageBox(msg) {
+            document.getElementById('messageBoxText').textContent = msg;
+            document.getElementById('customMessageBox').style.display = 'block';
+        }
+        function hideMessageBox() { document.getElementById('customMessageBox').style.display = 'none'; }
 
-            DOM.signupPage = document.getElementById('signup-page');
-            DOM.loginPage = document.getElementById('login-page');
-            DOM.instructionsPage = document.getElementById('instructions-page');
-            DOM.examPage = document.getElementById('exam-page');
-            DOM.resultPage = document.getElementById('result-page');
-            DOM.firstNameInput = document.getElementById('first-name');
-            DOM.lastNameInput = document.getElementById('last-name');
-            DOM.passwordInput = document.getElementById('password');
-            DOM.loginNameInput = document.getElementById('login-name');
-            DOM.generatedIdInput = document.getElementById('generated-id-input');
-            DOM.countdownDisplay = document.getElementById('countdown');
-            DOM.submitSection = document.getElementById('submit-section');
-            DOM.questionContainer = document.getElementById('question-container'); // New: Placeholder for dynamic questions
+        function showLogin() {
+            document.getElementById('signup-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'block';
+        }
 
-            // Event listeners for the confirmation modal buttons
-            DOM.modalConfirmBtn.addEventListener('click', () => {
-                if (pendingAction) {
-                    pendingAction();
-                }
-                hideModal();
-            });
-
-            DOM.modalCancelBtn.addEventListener('click', hideModal);
-        });
-
-        // Generate unique ID for signup
         function generateID() {
-            const firstName = DOM.firstNameInput.value.trim();
-            const lastName = DOM.lastNameInput.value.trim();
-            const password = DOM.passwordInput.value.trim();
-
-            if (!firstName || !lastName || !password) {
-                showMessageBox('Please fill all fields');
-                return;
-            }
-
-            // Ensure at least 3 characters for substring, pad if shorter
-            const firstPart = firstName.length >= 3 ? firstName.substring(0, 3).toUpperCase() : firstName.toUpperCase().padEnd(3, 'X');
-            const lastPart = lastName.length >= 3 ? lastName.substring(lastName.length - 3).toUpperCase() : lastName.toUpperCase().padStart(3, 'X');
-
-            generatedId = firstPart + lastPart + Math.floor(1000 + Math.random() * 9000);
-
-            // Store the full name for the exam result
-            userName = `${firstName} ${lastName}`;
-
-            DOM.signupPage.style.display = 'none';
-            DOM.loginPage.style.display = 'block';
-            showMessageBox(`Your Generated ID is: ${generatedId}. Please remember it!`);
-            // Pre-fill login name with full name for convenience
-            DOM.loginNameInput.value = userName;
+            const fn = document.getElementById('first-name').value.trim();
+            const ln = document.getElementById('last-name').value.trim();
+            if(!fn || !ln) return showMessageBox("Please enter your names");
+            generatedId = (fn.substring(0,3) + ln.substring(0,3)).toUpperCase() + Math.floor(1000 + Math.random()*9000);
+            userName = `${fn} ${ln}`;
+            document.getElementById('signup-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'block';
+            showMessageBox(`YOUR EXAM ID IS: ${generatedId}. Please write it down!`);
+            document.getElementById('login-name').value = userName;
+            document.getElementById('generated-id-input').value = generatedId;
         }
 
-        // Login Function
         function startExam() {
-            const loginName = DOM.loginNameInput.value.trim();
-            const loginId = DOM.generatedIdInput.value.trim();
-
-            if (loginId !== generatedId) {
-                showMessageBox('Invalid ID. Please try again.');
-                return;
-            }
-
-            if (!userName) {
-                 userName = loginName;
-            }
-
-            DOM.loginPage.style.display = 'none';
-            DOM.instructionsPage.style.display = 'block';
+            userName = document.getElementById('login-name').value.trim();
+            const idInput = document.getElementById('generated-id-input').value.trim();
+            if(!userName || !idInput) return showMessageBox("Please fill in both name and ID");
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('instructions-page').style.display = 'block';
         }
 
-        // Load Questions - Now shuffles and displays the first question
         function loadQuestions() {
-            DOM.instructionsPage.style.display = 'none';
-            DOM.examPage.style.display = 'block';
-
-            // Shuffle the questions when the exam begins
-            shuffledQuestions = shuffleArray([...ALL_QUESTIONS]); // Create a shallow copy to shuffle
-
-            currentQuestionIndex = 0; // Start at the first question in the shuffled array (0-based)
-            displayQuestion(currentQuestionIndex); // Display the first shuffled question
+            examPool = shuffle(MASTER_QUESTIONS); 
+            document.getElementById('instructions-page').style.display = 'none';
+            document.getElementById('exam-page').style.display = 'block';
+            renderQuestion(0);
             startTimer();
         }
 
-        // Timer Function
         function startTimer() {
-            let timeLeft = 600; // 10 minutes
-
+            let time = 600;
             timer = setInterval(() => {
-                const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-                const seconds = (timeLeft % 60).toString().padStart(2, '0');
-                DOM.countdownDisplay.textContent = `${minutes}:${seconds}`;
-
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    submitExam(); // Auto submit when time ends
-                }
-                timeLeft--;
+                let m = Math.floor(time/60).toString().padStart(2,'0');
+                let s = (time%60).toString().padStart(2,'0');
+                document.getElementById('countdown').textContent = `${m}:${s}`;
+                if(time <= 0) { clearInterval(timer); submitFinal(); }
+                time--;
             }, 1000);
         }
 
-        // Helper to manage question display
-        // qIndex is the 0-based index in the shuffledQuestions array
-        function displayQuestion(qIndex) {
-            DOM.questionContainer.innerHTML = ''; // Clear previous question
-
-            const q = shuffledQuestions[qIndex];
-            if (!q) {
-                // Should not happen if logic is correct, but as a safeguard
-                showMessageBox('Error: Question not found.');
-                return;
-            }
-
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-
-            const questionText = document.createElement('h3');
-            // Display question number based on its position in the shuffled order
-            questionText.textContent = `${qIndex + 1}. ${q.questionText.substring(q.questionText.indexOf(' ') + 1)}`; // Remove original number if present
-
-            const optionsDiv = document.createElement('div');
-            optionsDiv.className = 'options';
-
-            // Iterate over options object (a, b, c, ...)
-            for (const optionKey in q.options) {
-                const label = document.createElement('label');
-                const input = document.createElement('input');
-                input.type = 'radio';
-                input.name = 'currentQ'; // Use a generic name as questions are dynamic
-                input.value = optionKey;
-
-                label.appendChild(input);
-                label.appendChild(document.createTextNode(q.options[optionKey])); // Option text
-                optionsDiv.appendChild(label);
-            }
-
-            const navigationDiv = document.createElement('div');
-            navigationDiv.className = 'navigation-buttons';
-
-            if (qIndex > 0) {
-                const prevBtn = document.createElement('button');
-                prevBtn.textContent = 'Previous';
-                prevBtn.onclick = () => previousQuestion(qIndex);
-                navigationDiv.appendChild(prevBtn);
-            }
-
-            const nextBtn = document.createElement('button');
-            nextBtn.textContent = (qIndex === totalQuestions - 1) ? 'Submit' : 'Next';
-            nextBtn.onclick = () => nextQuestion(qIndex);
-            navigationDiv.appendChild(nextBtn);
-
-
-            questionDiv.appendChild(questionText);
-            questionDiv.appendChild(optionsDiv);
-            questionDiv.appendChild(navigationDiv);
-
-            DOM.questionContainer.appendChild(questionDiv);
-
-            // Set currentQuestionIndex to the one being displayed
-            currentQuestionIndex = qIndex;
-
-            // Re-select the previously chosen answer if it exists for this original question ID
-            const currentQId = shuffledQuestions[currentQuestionIndex].id;
-            if (answers[currentQId]) {
-                const selectedOption = document.querySelector(`input[name="currentQ"][value="${answers[currentQId]}"]`);
-                if (selectedOption) {
-                    selectedOption.checked = true;
-                }
-            }
-
-            // Show submit button only on the last question in the shuffled order
-            if (currentQuestionIndex === totalQuestions - 1) {
-                DOM.submitSection.style.display = 'block';
-            } else {
-                DOM.submitSection.style.display = 'none';
-            }
+        function renderQuestion(idx) {
+            const q = examPool[idx];
+            const cont = document.getElementById('question-container');
+            cont.innerHTML = `
+                <div class="question">
+                    <h3>Question ${idx + 1} of 20</h3>
+                    <p>${q.q}</p>
+                    <div class="options">
+                        ${Object.keys(q.options).map(key => `
+                            <label>
+                                <input type="radio" name="examQ" value="${key}" ${answers[q.id] === key ? 'checked' : ''}>
+                                ${q.options[key]}
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div class="navigation-buttons">
+                        ${idx > 0 ? `<button onclick="saveAndMove(${idx-1})">Previous</button>` : ''}
+                        ${idx < 19 ? `<button onclick="saveAndMove(${idx+1})">Next</button>` : ''}
+                    </div>
+                </div>
+            `;
+            if(idx === 19) document.getElementById('submit-section').style.display = 'block';
         }
 
-        // Navigate to the next question
-        function nextQuestion(qIndex) {
-            const currentQId = shuffledQuestions[qIndex].id;
-            const selectedOption = document.querySelector(`input[name="currentQ"]:checked`);
-
-            if (selectedOption) {
-                answers[currentQId] = selectedOption.value; // Store answer by original question ID
-            } else {
-                showMessageBox('Please select an answer before proceeding.');
-                return; // Prevent moving if no option is selected
-            }
-
-            if (qIndex === totalQuestions - 1) { // If it's the last question
-                confirmSubmit(); // Call confirmSubmit for the final question
-                return;
-            }
-
-            displayQuestion(qIndex + 1);
+        function saveAndMove(newIdx) {
+            const sel = document.querySelector('input[name="examQ"]:checked');
+            if(sel) answers[examPool[currentIdx()].id] = sel.value;
+            renderQuestion(newIdx);
         }
 
-        // Navigate to the previous question
-        function previousQuestion(qIndex) {
-            if (qIndex > 0) {
-                const currentQId = shuffledQuestions[qIndex].id;
-                // Store current answer before going back (in case user changes it then goes back)
-                const selectedOption = document.querySelector(`input[name="currentQ"]:checked`);
-                if (selectedOption) {
-                    answers[currentQId] = selectedOption.value;
-                }
-                displayQuestion(qIndex - 1);
-            }
+        function currentIdx() {
+            const text = document.querySelector('.question h3').textContent;
+            return parseInt(text.split(' ')[1]) - 1;
         }
 
-        // Confirm Submission - Now uses custom modal
         function confirmSubmit() {
-            showModal('Are you sure you want to submit the exam?', submitExam);
+            const sel = document.querySelector('input[name="examQ"]:checked');
+            if(sel) answers[examPool[currentIdx()].id] = sel.value;
+            if(confirm("Submit your answers now?")) submitFinal();
         }
 
-        // Submit Exam
-        async function submitExam() {
-            clearInterval(timer); // Stop the timer
-
-            const score = calculateScore();
-
-            DOM.examPage.style.display = 'none';
-            DOM.resultPage.style.display = 'block';
-
-            const examResult = {
+        async function submitFinal() {
+            clearInterval(timer);
+            let score = 0;
+            examPool.forEach(q => { if(answers[q.id] === q.correct) score++; });
+            
+            const results = {
                 name: userName,
-                examId: generatedId, // Store the generated ID
-                timestamp: new Date().toLocaleString(),
-                score: score,
-                totalQuestions: totalQuestions,
-                percentage: ((score / totalQuestions) * 100).toFixed(2) + '%',
-                answers: answers, // Candidate's answers by original question ID
-                shuffledOrder: shuffledQuestions.map(q => q.id), // The order in which questions were presented (original IDs)
-                // We don't need to save ALL_QUESTIONS or CORRECT_ANSWERS here
-                // as the admin panel can compute based on the original ALL_QUESTIONS
+                id: generatedId || document.getElementById('generated-id-input').value,
+                score,
+                total: 20,
+                percent: Math.round((score/20)*100) + "%",
+                date: new Date().toLocaleString(),
+                timestamp: Date.now()
             };
 
-            // Store exam result in Firebase
-            try {
-                if (window.db && window.collection && window.addDoc) {
-                    const docRef = await window.addDoc(window.collection(window.db, "examResults"), examResult);
-                    console.log("Exam result saved to Firestore with ID: ", docRef.id);
+            document.getElementById('exam-page').style.display = 'none';
+            document.getElementById('result-page').style.display = 'block';
+            
+            if(window.saveResult) await window.saveResult(results);
+        }
+
+        function adminClick() {
+            adminCounter++;
+            if(adminCounter >= 5) {
+                const pass = prompt("Admin Secret Code:");
+                if(pass === ADMIN_PASS) {
+                    loadAdminResults();
                 } else {
-                    console.error("Firebase Firestore database functions not initialized or accessible.");
-                    showMessageBox("Error: Could not save results to server. Please contact support.");
+                    alert("Wrong Code.");
+                    adminCounter = 0;
                 }
-            } catch (e) {
-                console.error("Error adding document to Firebase: ", e);
-                showMessageBox("Error saving exam results. Please check your internet connection.");
             }
         }
 
-        // Score Calculation Function
-        function calculateScore() {
-            let score = 0;
-            for (let i = 0; i < shuffledQuestions.length; i++) {
-                const q = shuffledQuestions[i];
-                if (answers[q.id] === q.correctAnswer) { // Compare using original ID and its correct answer
-                    score++;
-                }
-            }
-            return score;
+        async function loadAdminResults() {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('admin-page').style.display = 'block';
+            const tableBody = document.getElementById('results-body');
+            tableBody.innerHTML = '<tr><td colspan="5">Fetching latest scores...</td></tr>';
+            
+            const data = await window.fetchResultsFromCloud();
+            data.sort((a,b) => b.timestamp - a.timestamp);
+            
+            tableBody.innerHTML = '';
+            data.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${r.date}</td>
+                    <td>${r.name}</td>
+                    <td>${r.id}</td>
+                    <td>${r.score}/20</td>
+                    <td>${r.percent}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+            if(data.length === 0) tableBody.innerHTML = '<tr><td colspan="5">No submissions found.</td></tr>';
         }
     </script>
 </body>
