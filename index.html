@@ -8,102 +8,158 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root{
-            --prime-txt:#2c3e50; --btn-green:#4CAF50; --btn-green-h:#45a049; --bg-grad-s:#ffecd2; --bg-grad-e:#fcb69f;
-            --card-bg:#fff; --brdr-clr:#ddd; --timer-clr:#e74c3c; --txt-light:#fff;
+        :root {
+            --prime-txt: #2c3e50;
+            --btn-green: #4CAF50;
+            --btn-green-h: #45a049;
+            --bg-grad-s: #ffecd2;
+            --bg-grad-e: #fcb69f;
+            --card-bg: #fff;
+            --brdr-clr: #ddd;
+            --timer-clr: #e74c3c;
+            --txt-light: #fff;
         }
 
-        body{
-            font-family:'Comic Neue',cursive;margin:0;padding:0;
-            background:linear-gradient(to right,var(--bg-grad-s),var(--bg-grad-e));
-            color:var(--prime-txt);text-align:center;
-            display:flex;justify-content:center;align-items:center;
-            min-height:100vh;font-size:18px;line-height:1.5;
+        body {
+            font-family: 'Comic Neue', cursive;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, var(--bg-grad-s), var(--bg-grad-e));
+            color: var(--prime-txt);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-size: 18px;
+            line-height: 1.5;
         }
 
-        .container{
-            background-color:var(--card-bg);border-radius:15px;
-            box-shadow:0 8px 20px rgba(0,0,0,.15);padding:30px;
-            width:100%;max-width:550px;box-sizing:border-box;margin:20px;
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+            padding: 30px;
+            width: 100%;
+            max-width: 550px;
+            box-sizing: border-box;
+            margin: 20px;
         }
 
         .admin-container { max-width: 900px; }
 
-        h2,h3{margin:10px 0 25px;color:var(--prime-txt);font-weight:700;}
-        h2{font-size:2.2em; line-height: 1.2;}
-        h3{font-size:1.6em;}
+        h2, h3 { margin: 10px 0 25px; color: var(--prime-txt); font-weight: 700; }
+        h2 { font-size: 1.8em; line-height: 1.2; }
+        h3 { font-size: 1.4em; }
 
-        .timer{
-            font-size:2.2em;color:var(--timer-clr);margin-bottom:25px;
-            font-weight:bold;
-        }
-
-        input[type="text"],input[type="password"] {
-            width:calc(100% - 24px);padding:12px;margin-top:15px;
-            border:2px solid var(--btn-green);border-radius:8px;
-            font-size:1.1em;color:var(--prime-txt);box-sizing:border-box;
-        }
-
-        button,.btn{
-            display:inline-block;background-color:var(--btn-green);
-            color:var(--txt-light);padding:14px 28px;margin:20px 10px 0;
-            border:none;border-radius:25px;font-size:1.1em;cursor:pointer;
-            transition:background-color .3s,transform .2s;
-            font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,.1);
-        }
-        button:hover,.btn:hover{
-            background-color:var(--btn-green-h);transform:translateY(-2px);
+        .timer {
+            font-size: 2.2em;
+            color: var(--timer-clr);
+            margin-bottom: 25px;
+            font-weight: bold;
+            background: #fff5f5;
+            border-radius: 50px;
+            padding: 10px;
+            border: 2px solid #fadbd8;
         }
 
-        .logo-img {
-            width: 140px; height: 140px; margin-bottom: 20px; border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); object-fit: cover;
-            border: 4px solid white; cursor: pointer;
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: 2px solid var(--btn-green);
+            border-radius: 8px;
+            font-size: 1.1em;
+            color: var(--prime-txt);
+            box-sizing: border-box;
         }
 
-        .question{
-            background:var(--card-bg);padding:25px;border-radius:15px;
-            box-shadow:0 4px 10px rgba(0,0,0,.1);margin-top:25px;
-            text-align:left;
-        }
-        .options{display:flex;flex-direction:column;gap:15px;}
-        .options label{
-            display:flex;align-items:center;padding:15px;
-            border:2px solid var(--brdr-clr);border-radius:10px;
-            cursor:pointer;font-size:1.1em;
-            background-color:#f9f9f9;
-        }
-        .options label:hover{ border-color:var(--btn-green); }
-        .options input[type="radio"]{ margin-right:15px; transform:scale(1.4); }
-        
-        #result-page fieldset{
-            border:3px solid var(--btn-green);border-radius:20px;
-            padding:30px;margin-top:25px;background-color:#f0fff0;
+        button {
+            display: inline-block;
+            background-color: var(--btn-green);
+            color: var(--txt-light);
+            padding: 14px 28px;
+            margin: 20px 10px 0;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color .3s, transform .2s;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
         }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        button:hover {
+            background-color: var(--btn-green-h);
+            transform: translateY(-2px);
+        }
+
+        .logo-placeholder { font-size: 80px; margin-bottom: 10px; cursor: pointer; user-select: none; }
+
+        .question {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .options { display: flex; flex-direction: column; gap: 12px; }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid var(--brdr-clr);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            background-color: #f9f9f9;
+        }
+
+        .options label:hover {
+            border-color: var(--btn-green);
+            background-color: #f0fff0;
+        }
+
+        .options input[type="radio"] { margin-right: 15px; transform: scale(1.3); }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.85em; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         th { background-color: var(--btn-green); color: white; }
         tr:nth-child(even) { background-color: #f2f2f2; }
 
-        .navigation-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+        .navigation-buttons { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; }
 
         #customMessageBox {
-            display: none; position: fixed; z-index: 2000; left: 0; top: 0;
-            width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
         }
+
         .msg-content {
-            background-color: #fff; margin: 15% auto; padding: 30px;
-            border-radius: 15px; width: 80%; max-width: 400px;
-            text-align: center; border: 3px solid var(--btn-green);
+            background-color: #fff;
+            margin: 20% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 85%;
+            max-width: 400px;
+            text-align: center;
+            border: 3px solid var(--btn-green);
         }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- Signup Page -->
+    <!-- Signup -->
     <div class="container" id="signup-page">
-        <img src="-CHURCH LOGO-.jpg" alt="Logo" class="logo-img">
+        <div class="logo-placeholder" onclick="adminClick()">📖</div>
         <h2>THE WAY OF GOD BIBLE MINISTRY</h2>
         <h3>Sunday School Exam - Sign Up</h3>
         <input type="text" placeholder="First Name" id="first-name">
@@ -113,85 +169,89 @@
         <p style="font-size: 0.8em; margin-top: 15px;">Already have an ID? <a href="#" onclick="showLogin()">Login here</a></p>
     </div>
 
-    <!-- Login Page -->
-    <div class="container" id="login-page" style="display:none;">
-        <img src="-CHURCH LOGO-.jpg" alt="Logo" class="logo-img" onclick="adminClick()">
+    <!-- Login -->
+    <div class="container hidden" id="login-page">
+        <div class="logo-placeholder" id="bible-icon" onclick="adminClick()">📖</div>
         <h2>Login to Exam</h2>
         <input type="text" placeholder="Your Full Name" id="login-name">
         <input type="text" placeholder="Generated ID" id="generated-id-input">
         <button onclick="startExam()">Log In</button>
+        <p style="font-size: 0.7em; margin-top: 20px; opacity: 0.5;">Admin: Tap Bible icon 5 times</p>
     </div>
 
-    <!-- Instructions Page -->
-    <div class="container" id="instructions-page" style="display:none;">
+    <!-- Instructions -->
+    <div class="container hidden" id="instructions-page">
         <h2>Exam Instructions</h2>
-        <p style="text-align: left;">
+        <p style="text-align: left; font-size: 0.9em;">
             1. Read all questions carefully.<br>
-            2. You have <b>10 minutes</b> for 20 randomly selected questions.<br>
-            3. Each student receives a different order of questions.<br>
-            4. Your score will be automatically sent to the church office.
+            2. You have <b>10 minutes</b> for 20 questions.<br>
+            3. Questions are randomly selected from our pool of 24.<br>
+            4. Each student receives a unique version.<br>
+            5. Scores are sent automatically upon completion.
         </p>
-        <button onclick="loadQuestions()">Begin Exam Now</button>
+        <button onclick="prepareExam()">Begin Exam Now</button>
     </div>
 
-    <!-- Exam Page -->
-    <div class="container" id="exam-page" style="display:none;">
+    <!-- Exam Content -->
+    <div class="container hidden" id="exam-page">
         <div class="timer" id="countdown">10:00</div>
         <div id="question-container"></div>
-        <div id="submit-section" style="display:none; margin-top: 20px;">
-            <button onclick="confirmSubmit()">Submit Exam</button>
+        <div id="submit-section" class="hidden" style="margin-top: 20px;">
+            <button onclick="confirmSubmit()" style="background-color: #e67e22; width: 100%;">Final Submission</button>
         </div>
     </div>
 
-    <!-- Success Page -->
-    <div class="container" id="result-page" style="display:none;">
-        <fieldset>
-            <legend>EXAM SUCCESSFUL</legend>
-            <p style="font-size: 1.5em;">🎉 CONGRATULATIONS! 🎉</p>
-            <p>Your responses have been securely submitted.</p>
+    <!-- Success -->
+    <div class="container hidden" id="result-page">
+        <div style="border:3px solid var(--btn-green); border-radius:20px; padding:30px; background-color:#f0fff0;">
+            <p style="font-size: 1.5em;">🎉 WELL DONE! 🎉</p>
+            <p id="score-display" style="font-size: 1.2em; font-weight: bold;"></p>
+            <p>Your results have been securely saved to the Ministry database.</p>
             <button onclick="location.reload()">Return Home</button>
-        </fieldset>
+        </div>
     </div>
 
     <!-- Admin View -->
-    <div class="container admin-container" id="admin-page" style="display:none;">
-        <h2>Admin Panel - Student Results</h2>
-        <p>Sorted by most recent submission</p>
+    <div class="container admin-container hidden" id="admin-page">
+        <h2>Admin Dashboard</h2>
+        <p>Results are sorted by most recent submission</p>
         <div style="overflow-x: auto;">
             <table id="results-table">
                 <thead>
                     <tr>
-                        <th>Date/Time</th>
-                        <th>Name</th>
-                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Student Name</th>
+                        <th>Exam ID</th>
                         <th>Score</th>
-                        <th>Grade</th>
+                        <th>%</th>
                     </tr>
                 </thead>
-                <tbody id="results-body">
-                    <!-- Data injected here -->
-                </tbody>
+                <tbody id="results-body"></tbody>
             </table>
         </div>
-        <button onclick="location.reload()">Close Admin Panel</button>
+        <button onclick="location.reload()">Back to Login</button>
     </div>
 
-    <!-- Message Box -->
-    <div id="customMessageBox"><div class="msg-content"><p id="messageBoxText"></p><button onclick="hideMessageBox()">OK</button></div></div>
+    <!-- Messages -->
+    <div id="customMessageBox">
+        <div class="msg-content">
+            <p id="messageBoxText"></p>
+            <button onclick="hideMessageBox()">OK</button>
+        </div>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "", authDomain: "", projectId: "", storageBucket: "", messagingSenderId: "", appId: ""
-        };
-
+        const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-school-v2';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-school-24-pool';
+
+        let user = null;
 
         const initAuth = async () => {
             if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -200,19 +260,26 @@
                 await signInAnonymously(auth);
             }
         };
+
+        onAuthStateChanged(auth, (u) => { user = u; });
         initAuth();
 
-        window.saveResult = async (data) => {
-            if (!auth.currentUser) return;
-            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
-            await addDoc(colRef, { ...data, uid: auth.currentUser.uid });
+        window.saveResultToCloud = async (data) => {
+            if (!user) return false;
+            try {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+                await addDoc(colRef, { ...data, uid: user.uid });
+                return true;
+            } catch (err) { return false; }
         };
 
-        window.fetchResultsFromCloud = async () => {
-            if (!auth.currentUser) return [];
-            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
-            const snapshot = await getDocs(query(colRef));
-            return snapshot.docs.map(doc => doc.data());
+        window.fetchCloudResults = async () => {
+            if (!user) return [];
+            try {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+                const snapshot = await getDocs(query(colRef));
+                return snapshot.docs.map(doc => doc.data());
+            } catch (err) { return []; }
         };
     </script>
 
@@ -221,12 +288,12 @@
         let generatedId = '';
         let examPool = [];
         let answers = {};
+        let currentIdx = 0;
         let timer;
         let adminCounter = 0;
         const ADMIN_PASS = "admin123";
 
-        // EXAM QUESTIONS BAKE INTO THE APP
-        const MASTER_QUESTIONS = [
+        const ALL_QUESTIONS = [
             { id: 1, q: "Who is the Answer to all Questions?", options: {a: "Satan", b: "Jesus", c: "Joshua"}, correct: 'b' },
             { id: 2, q: "In Act 3:7-8 _________ Ministered to a lame man in the name of Jesus?", options: {a: "Apostle Peter", b: "Apostle Paul", c: "Apostle Jesus"}, correct: 'a' },
             { id: 3, q: "What are fox?", options: {a: "small carnivores", b: "An instrument", c: "A red pill"}, correct: 'a' },
@@ -246,7 +313,11 @@
             { id: 17, q: "Spiritual warfare strength comes from being fervent in the word.", options: {a: "True", b: "False", c: "Not sure"}, correct: 'a' },
             { id: 18, q: "The temple of God is ________", options: {a: "Our body", b: "Our church", c: "Worship place"}, correct: 'a' },
             { id: 19, q: "Should abominations be reported to pastor?", options: {a: "Yes", b: "No", c: "I don't care"}, correct: 'a' },
-            { id: 20, q: "What is the meaning of offence?", options: {a: "The act of offending", b: "Being happy", c: "Right exercising"}, correct: 'a' }
+            { id: 20, q: "What is the meaning of offence?", options: {a: "The act of offending", b: "Being happy", c: "Right exercising"}, correct: 'a' },
+            { id: 21, q: "Who was thrown into the lion's den?", options: {a: "Daniel", b: "Darius", c: "David"}, correct: 'a' },
+            { id: 22, q: "How many days did Jesus fast?", options: {a: "7", b: "40", c: "12"}, correct: 'b' },
+            { id: 23, q: "Which book comes after Genesis?", options: {a: "Leviticus", b: "Exodus", c: "Numbers"}, correct: 'b' },
+            { id: 24, q: "Who is known as the father of many nations?", options: {a: "Isaac", b: "Jacob", c: "Abraham"}, correct: 'c' }
         ];
 
         function shuffle(arr) {
@@ -262,44 +333,46 @@
             document.getElementById('messageBoxText').textContent = msg;
             document.getElementById('customMessageBox').style.display = 'block';
         }
+
         function hideMessageBox() { document.getElementById('customMessageBox').style.display = 'none'; }
 
-        function showLogin() {
-            document.getElementById('signup-page').style.display = 'none';
-            document.getElementById('login-page').style.display = 'block';
+        window.showLogin = function() {
+            document.getElementById('signup-page').classList.add('hidden');
+            document.getElementById('login-page').classList.remove('hidden');
         }
 
-        function generateID() {
+        window.generateID = function() {
             const fn = document.getElementById('first-name').value.trim();
             const ln = document.getElementById('last-name').value.trim();
-            if(!fn || !ln) return showMessageBox("Please enter your names");
+            if(!fn || !ln) return showMessageBox("Please enter your Full Names");
             generatedId = (fn.substring(0,3) + ln.substring(0,3)).toUpperCase() + Math.floor(1000 + Math.random()*9000);
             userName = `${fn} ${ln}`;
-            document.getElementById('signup-page').style.display = 'none';
-            document.getElementById('login-page').style.display = 'block';
-            showMessageBox(`YOUR EXAM ID IS: ${generatedId}. Please write it down!`);
+            document.getElementById('signup-page').classList.add('hidden');
+            document.getElementById('login-page').classList.remove('hidden');
+            showMessageBox(`ID GENERATED: ${generatedId}. Keep this ID to log in!`);
             document.getElementById('login-name').value = userName;
             document.getElementById('generated-id-input').value = generatedId;
         }
 
-        function startExam() {
+        window.startExam = function() {
             userName = document.getElementById('login-name').value.trim();
-            const idInput = document.getElementById('generated-id-input').value.trim();
-            if(!userName || !idInput) return showMessageBox("Please fill in both name and ID");
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('instructions-page').style.display = 'block';
+            const idInp = document.getElementById('generated-id-input').value.trim();
+            if(!userName || !idInp) return showMessageBox("Enter both name and ID");
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('instructions-page').classList.remove('hidden');
         }
 
-        function loadQuestions() {
-            examPool = shuffle(MASTER_QUESTIONS); 
-            document.getElementById('instructions-page').style.display = 'none';
-            document.getElementById('exam-page').style.display = 'block';
+        window.prepareExam = function() {
+            const fullPool = shuffle(ALL_QUESTIONS);
+            examPool = fullPool.slice(0, 20); 
+            document.getElementById('instructions-page').classList.add('hidden');
+            document.getElementById('exam-page').classList.remove('hidden');
             renderQuestion(0);
             startTimer();
         }
 
         function startTimer() {
-            let time = 600;
+            let time = 600; 
             timer = setInterval(() => {
                 let m = Math.floor(time/60).toString().padStart(2,'0');
                 let s = (time%60).toString().padStart(2,'0');
@@ -310,12 +383,13 @@
         }
 
         function renderQuestion(idx) {
+            currentIdx = idx;
             const q = examPool[idx];
             const cont = document.getElementById('question-container');
             cont.innerHTML = `
                 <div class="question">
-                    <h3>Question ${idx + 1} of 20</h3>
-                    <p>${q.q}</p>
+                    <h3 style="color:#4CAF50;">Question ${idx + 1} of 20</h3>
+                    <p style="font-weight:bold; margin-bottom: 20px;">${q.q}</p>
                     <div class="options">
                         ${Object.keys(q.options).map(key => `
                             <label>
@@ -324,30 +398,27 @@
                             </label>
                         `).join('')}
                     </div>
-                    <div class="navigation-buttons">
-                        ${idx > 0 ? `<button onclick="saveAndMove(${idx-1})">Previous</button>` : ''}
-                        ${idx < 19 ? `<button onclick="saveAndMove(${idx+1})">Next</button>` : ''}
-                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    ${idx > 0 ? `<button onclick="saveAndMove(${idx-1})">Previous</button>` : '<span></span>'}
+                    ${idx < 19 ? `<button onclick="saveAndMove(${idx+1})">Next Question</button>` : '<span></span>'}
                 </div>
             `;
-            if(idx === 19) document.getElementById('submit-section').style.display = 'block';
+            const subSec = document.getElementById('submit-section');
+            if(idx === 19) subSec.classList.remove('hidden');
+            else subSec.classList.add('hidden');
         }
 
-        function saveAndMove(newIdx) {
+        window.saveAndMove = function(nextIdx) {
             const sel = document.querySelector('input[name="examQ"]:checked');
-            if(sel) answers[examPool[currentIdx()].id] = sel.value;
-            renderQuestion(newIdx);
+            if(sel) answers[examPool[currentIdx].id] = sel.value;
+            renderQuestion(nextIdx);
         }
 
-        function currentIdx() {
-            const text = document.querySelector('.question h3').textContent;
-            return parseInt(text.split(' ')[1]) - 1;
-        }
-
-        function confirmSubmit() {
+        window.confirmSubmit = async function() {
             const sel = document.querySelector('input[name="examQ"]:checked');
-            if(sel) answers[examPool[currentIdx()].id] = sel.value;
-            if(confirm("Submit your answers now?")) submitFinal();
+            if(sel) answers[examPool[currentIdx].id] = sel.value;
+            if(confirm("Ready to submit your exam?")) { await submitFinal(); }
         }
 
         async function submitFinal() {
@@ -357,55 +428,53 @@
             
             const results = {
                 name: userName,
-                id: generatedId || document.getElementById('generated-id-input').value,
+                id: generatedId || "GUEST",
                 score,
                 total: 20,
                 percent: Math.round((score/20)*100) + "%",
-                date: new Date().toLocaleString(),
+                date: new Date().toLocaleDateString(),
                 timestamp: Date.now()
             };
 
-            document.getElementById('exam-page').style.display = 'none';
-            document.getElementById('result-page').style.display = 'block';
+            document.getElementById('exam-page').classList.add('hidden');
+            document.getElementById('score-display').textContent = `Result: ${score} / 20 (${results.percent})`;
+            document.getElementById('result-page').classList.remove('hidden');
             
-            if(window.saveResult) await window.saveResult(results);
+            if(window.saveResultToCloud) { await window.saveResultToCloud(results); }
         }
 
-        function adminClick() {
+        window.adminClick = function() {
             adminCounter++;
             if(adminCounter >= 5) {
-                const pass = prompt("Admin Secret Code:");
-                if(pass === ADMIN_PASS) {
-                    loadAdminResults();
-                } else {
-                    alert("Wrong Code.");
-                    adminCounter = 0;
-                }
+                const pass = prompt("Admin Passcode:");
+                if(pass === ADMIN_PASS) { showAdminDashboard(); } 
+                else { alert("Incorrect"); adminCounter = 0; }
             }
         }
 
-        async function loadAdminResults() {
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('admin-page').style.display = 'block';
-            const tableBody = document.getElementById('results-body');
-            tableBody.innerHTML = '<tr><td colspan="5">Fetching latest scores...</td></tr>';
+        async function showAdminDashboard() {
+            document.getElementById('signup-page').classList.add('hidden');
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('admin-page').classList.remove('hidden');
+            const body = document.getElementById('results-body');
+            body.innerHTML = '<tr><td colspan="5">Fetching Ministry Records...</td></tr>';
             
-            const data = await window.fetchResultsFromCloud();
+            const data = await window.fetchCloudResults();
             data.sort((a,b) => b.timestamp - a.timestamp);
             
-            tableBody.innerHTML = '';
+            body.innerHTML = '';
             data.forEach(r => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${r.date}</td>
-                    <td>${r.name}</td>
+                    <td>${r.date || 'N/A'}</td>
+                    <td><b>${r.name}</b></td>
                     <td>${r.id}</td>
                     <td>${r.score}/20</td>
-                    <td>${r.percent}</td>
+                    <td style="color:${parseInt(r.percent) >= 50 ? 'green' : 'red'}">${r.percent}</td>
                 `;
-                tableBody.appendChild(tr);
+                body.appendChild(tr);
             });
-            if(data.length === 0) tableBody.innerHTML = '<tr><td colspan="5">No submissions found.</td></tr>';
+            if(data.length === 0) body.innerHTML = '<tr><td colspan="5">No records found.</td></tr>';
         }
     </script>
 </body>
