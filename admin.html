@@ -78,10 +78,6 @@
             font-size: 0.9em;
         }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
-
         tr:hover {
             background-color: #fcfcfc;
         }
@@ -107,22 +103,11 @@
             transition: all 0.3s;
         }
 
-        .btn-refresh:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-        }
-
         #status-msg {
             text-align: center;
             padding: 40px;
             font-size: 1.2em;
             color: #888;
-        }
-
-        @media (max-width: 768px) {
-            .container { padding: 15px; }
-            th, td { padding: 10px; font-size: 0.85em; }
-            .controls { flex-direction: column; }
         }
     </style>
 </head>
@@ -155,16 +140,15 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global configuration provided by environment
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         
-        // This appId MUST match the one used in the main exam page index.html
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-school-exam-final';
+        // Synced appId for results visibility
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-school-exam-v2';
 
         const statusMsg = document.getElementById('status-msg');
         const resultsTable = document.getElementById('resultsTable');
@@ -173,20 +157,14 @@
 
         const startLiveSync = (user) => {
             if (!user) return;
-            
-            // Collection path aligns with Rule 1
             const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
             
-            // Using onSnapshot for real-time updates as per Rule 2 (Simple query, sort in JS)
             onSnapshot(colRef, (snapshot) => {
                 const results = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                
-                // Sort by timestamp descending (newest first) in memory
                 results.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
                 if (results.length === 0) {
-                    statusMsg.textContent = "No student submissions found yet. Waiting for candidates...";
-                    statusMsg.style.display = 'block';
+                    statusMsg.textContent = "No student submissions found yet.";
                     resultsTable.style.display = 'none';
                     countDisplay.textContent = "Total Submissions: 0";
                 } else {
@@ -197,51 +175,31 @@
                     resultsBody.innerHTML = '';
                     results.forEach(res => {
                         const row = document.createElement('tr');
-                        const score = res.score || 0;
-                        const total = res.total || 20;
-                        const percentage = res.percent || (Math.round((score / total) * 100) + "%");
-                        const isPass = (score / total) >= 0.5;
-
+                        const isPass = parseInt(res.percent) >= 50;
                         row.innerHTML = `
                             <td style="font-size: 0.85em; color: #7f8c8d;">${res.date || 'N/A'}</td>
                             <td><strong>${res.name || 'Anonymous'}</strong></td>
                             <td style="font-family: monospace; color: #2980b9;">${res.id || '---'}</td>
-                            <td style="font-weight: bold;">${score} / ${total}</td>
-                            <td>
-                                <span class="badge ${isPass ? 'badge-pass' : 'badge-fail'}">
-                                    ${percentage}
-                                </span>
-                            </td>
+                            <td style="font-weight: bold;">${res.score} / 20</td>
+                            <td><span class="badge ${isPass ? 'badge-pass' : 'badge-fail'}">${res.percent}</span></td>
                         `;
                         resultsBody.appendChild(row);
                     });
                 }
             }, (error) => {
-                console.error("Firestore Error:", error);
-                statusMsg.textContent = "Error loading records. Please check database permissions.";
+                statusMsg.textContent = "Error loading records. Check database permissions.";
             });
         };
 
-        // Strict Auth Rule: Sign in first, then listen for state to trigger data load
         const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (err) {
-                console.error("Authentication Error:", err);
-                statusMsg.textContent = "Authentication failed. Unable to view secure results.";
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
             }
         };
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                startLiveSync(user);
-            }
-        });
-
+        onAuthStateChanged(auth, (user) => { if (user) startLiveSync(user); });
         initAuth();
     </script>
 </body>
