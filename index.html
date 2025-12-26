@@ -46,6 +46,11 @@
             margin: 20px;
         }
 
+        .admin-container { 
+            max-width: 900px; 
+            display: none; /* Hidden by default */
+        }
+
         h2, h3 { margin: 10px 0 25px; color: var(--prime-txt); font-weight: 700; }
         h2 { font-size: 1.8em; line-height: 1.2; }
         h3 { font-size: 1.4em; }
@@ -153,6 +158,16 @@
             border: 3px solid var(--btn-green);
         }
 
+        /* Admin Table Styles */
+        #admin-page table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
+        #admin-page th, #admin-page td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        #admin-page th { background-color: var(--btn-green); color: white; }
+        #admin-page tr:nth-child(even) { background-color: #f2f2f2; }
+        
+        .badge { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8em; }
+        .badge-pass { background-color: #27ae60; }
+        .badge-fail { background-color: #c0392b; }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -212,6 +227,29 @@
         </div>
     </div>
 
+    <!-- Admin Dashboard (Integrated) -->
+    <div class="container admin-container hidden" id="admin-page">
+        <h2>📖 Admin Dashboard</h2>
+        <p>Live Exam Results</p>
+        <div style="overflow-x: auto;">
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Student Name</th>
+                        <th>Exam ID</th>
+                        <th>Score</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body">
+                    <tr><td colspan="5">Loading data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <button onclick="location.reload()" style="margin-top: 20px; background-color: #7f8c8d;">Logout Admin</button>
+    </div>
+
     <!-- Message Box -->
     <div id="customMessageBox">
         <div class="msg-content">
@@ -223,7 +261,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // APP ID and Firebase configuration consistent with Ministry database
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-school-exam-v2';
@@ -261,6 +299,50 @@
                 return false;
             }
         };
+
+        // Fetch results logic specifically for Admin Panel
+        window.loadAdminData = () => {
+            if (!user) {
+                alert("Database connection initializing... please try again in a moment.");
+                return;
+            }
+            
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+            const tbody = document.getElementById('results-body');
+            tbody.innerHTML = '<tr><td colspan="5">Syncing with cloud...</td></tr>';
+
+            // Real-time listener for admin
+            onSnapshot(query(colRef), (snapshot) => {
+                const results = [];
+                snapshot.forEach(doc => results.push(doc.data()));
+                
+                // Sort by timestamp descending
+                results.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+                tbody.innerHTML = '';
+                if (results.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5">No submissions found yet.</td></tr>';
+                    return;
+                }
+
+                results.forEach(r => {
+                    const scoreNum = parseInt(r.score || 0);
+                    const isPass = scoreNum >= 10; // 50% pass mark
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${r.date || 'N/A'}</td>
+                        <td><b>${r.name}</b></td>
+                        <td style="font-family: monospace;">${r.id}</td>
+                        <td>${r.score} / 20</td>
+                        <td><span class="badge ${isPass ? 'badge-pass' : 'badge-fail'}">${r.percent}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }, (error) => {
+                console.error("Admin Fetch Error:", error);
+                tbody.innerHTML = '<tr><td colspan="5" style="color:red;">Error loading data. Check permissions.</td></tr>';
+            });
+        };
     </script>
 
     <script>
@@ -296,7 +378,7 @@
             { id: 20, q: "How do you understand the word offence", options: {a: "The act of offending", b: "A state of being happy", c: "The act of exercising one's right"}, correct: 'a' },
             { id: 21, q: "Where there is no discipline, what happens to the church system?", options: {a: "Rapid growth", b: "Failure in administration", c: "There is defaulters"}, correct: 'b' },
             { id: 22, q: "Who is to be at the battlefield when the year was expired?", options: {a: "Kings", b: "warlords", c: "slaves"}, correct: 'a' },
-            { id: 23, q: "When should Christians seek God's face for the new year?", options: {a: "when the year has gotten to the middle", b: "when the year is about to end", c: "when the new year has started"}, correct: 'b' },
+            { id: 23, q: "When should Christians seek God face for the new New year?", options: {a: "when the year has gotten to the middle", b: "when the year is about to end", c: "when the new year has started"}, correct: 'b' },
             { id: 24, q: "Who is the reason for the season?", options: {a: "Jesus", b: "God", c: "Holy spirit"}, correct: 'a' }
         ];
 
@@ -429,8 +511,14 @@
             adminCounter++;
             if(adminCounter >= 5) {
                 const pass = prompt("Admin Secret Code:");
-                if(pass === ADMIN_PASS) { window.location.href = 'admin.html'; } 
-                else { alert("Incorrect Code"); adminCounter = 0; }
+                if(pass === ADMIN_PASS) { 
+                    document.getElementById('signup-page').classList.add('hidden');
+                    document.getElementById('login-page').classList.add('hidden');
+                    document.getElementById('admin-page').classList.remove('hidden');
+                    if(window.loadAdminData) window.loadAdminData();
+                } else { 
+                    alert("Incorrect Code"); adminCounter = 0; 
+                }
             }
         }
     </script>
