@@ -46,11 +46,6 @@
             margin: 20px;
         }
 
-        .admin-container { 
-            max-width: 900px; 
-            display: none; /* Hidden by default */
-        }
-
         h2, h3 { margin: 10px 0 25px; color: var(--prime-txt); font-weight: 700; }
         h2 { font-size: 1.8em; line-height: 1.2; }
         h3 { font-size: 1.4em; }
@@ -158,17 +153,24 @@
             border: 3px solid var(--btn-green);
         }
 
-        /* Admin Table Styles */
-        #admin-page table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
-        #admin-page th, #admin-page td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        #admin-page th { background-color: var(--btn-green); color: white; }
-        #admin-page tr:nth-child(even) { background-color: #f2f2f2; }
-        
-        .badge { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8em; }
-        .badge-pass { background-color: #27ae60; }
-        .badge-fail { background-color: #c0392b; }
-
         .hidden { display: none !important; }
+        
+        /* Admin Table Styles */
+        .admin-container { 
+            max-width: 900px; 
+        }
+        #results-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.85em;
+        }
+        #results-table th, #results-table td {
+            border: 1px solid #ddd; padding: 10px; text-align: left;
+        }
+        #results-table th {
+            background-color: var(--btn-green); color: white;
+        }
+        #results-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
@@ -226,11 +228,11 @@
             <button onclick="location.reload()">Return Home</button>
         </div>
     </div>
-
-    <!-- Admin Dashboard (Integrated) -->
+    
+    <!-- Admin View -->
     <div class="container admin-container hidden" id="admin-page">
-        <h2>📖 Admin Dashboard</h2>
-        <p>Live Exam Results</p>
+        <h2>Admin Dashboard</h2>
+        <p>Results are sorted by most recent submission</p>
         <div style="overflow-x: auto;">
             <table id="results-table">
                 <thead>
@@ -239,15 +241,15 @@
                         <th>Student Name</th>
                         <th>Exam ID</th>
                         <th>Score</th>
-                        <th>Status</th>
+                        <th>%</th>
                     </tr>
                 </thead>
                 <tbody id="results-body">
-                    <tr><td colspan="5">Loading data...</td></tr>
+                    <tr><td colspan="5">Connecting to database...</td></tr>
                 </tbody>
             </table>
         </div>
-        <button onclick="location.reload()" style="margin-top: 20px; background-color: #7f8c8d;">Logout Admin</button>
+        <button onclick="location.reload()">Back to Login</button>
     </div>
 
     <!-- Message Box -->
@@ -261,19 +263,31 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // APP ID and Firebase configuration consistent with Ministry database
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-school-exam-v2';
-        const firebaseConfig = JSON.parse(__firebase_config);
+        // APP CONFIGURATION - Using the config you provided earlier
+        const firebaseConfig = {
+            apiKey: "AIzaSyBcAU4wF6scW2wmBmDn2BbE8Lf_jbXsCrU",
+            authDomain: "sunday-cbt.firebaseapp.com",
+            projectId: "sunday-cbt",
+            storageBucket: "sunday-cbt.firebasestorage.app",
+            messagingSenderId: "1081445319494",
+            appId: "1:1081445319494:web:8149a46380b55ae85c5b47"
+        };
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        
+        // Ensure this matches across your application
+        const collectionName = 'examResults';
 
         let user = null;
 
         const initAuth = async () => {
             try {
+                // Check if we have a custom token from environment (for preview)
+                // Otherwise fall back to anonymous auth
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
@@ -287,61 +301,39 @@
         onAuthStateChanged(auth, (u) => { user = u; });
         initAuth();
 
+        // Save result function
         window.saveResultToCloud = async (data) => {
-            if (!user) return false;
+            if (!user) {
+                console.error("User not authenticated, cannot save.");
+                return false;
+            }
             try {
-                // RULE 1: Standard public path
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+                // Using a standard path structure
+                // Adjust path if you have specific strict rules, e.g. artifacts/APP_ID/...
+                // For direct usage with your config:
+                const colRef = collection(db, collectionName);
                 await addDoc(colRef, { ...data, uid: user.uid });
                 return true;
             } catch (err) {
-                console.error("Cloud Error:", err);
+                console.error("Cloud Save Error:", err);
                 return false;
             }
         };
-
-        // Fetch results logic specifically for Admin Panel
-        window.loadAdminData = () => {
+        
+        // Fetch results function
+        window.fetchCloudResults = async () => {
             if (!user) {
-                alert("Database connection initializing... please try again in a moment.");
-                return;
+                console.error("User not authenticated, cannot fetch.");
+                return [];
             }
-            
-            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
-            const tbody = document.getElementById('results-body');
-            tbody.innerHTML = '<tr><td colspan="5">Syncing with cloud...</td></tr>';
-
-            // Real-time listener for admin
-            onSnapshot(query(colRef), (snapshot) => {
-                const results = [];
-                snapshot.forEach(doc => results.push(doc.data()));
-                
-                // Sort by timestamp descending
-                results.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-
-                tbody.innerHTML = '';
-                if (results.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5">No submissions found yet.</td></tr>';
-                    return;
-                }
-
-                results.forEach(r => {
-                    const scoreNum = parseInt(r.score || 0);
-                    const isPass = scoreNum >= 10; // 50% pass mark
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${r.date || 'N/A'}</td>
-                        <td><b>${r.name}</b></td>
-                        <td style="font-family: monospace;">${r.id}</td>
-                        <td>${r.score} / 20</td>
-                        <td><span class="badge ${isPass ? 'badge-pass' : 'badge-fail'}">${r.percent}</span></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }, (error) => {
-                console.error("Admin Fetch Error:", error);
-                tbody.innerHTML = '<tr><td colspan="5" style="color:red;">Error loading data. Check permissions.</td></tr>';
-            });
+            try {
+                const colRef = collection(db, collectionName);
+                const snapshot = await getDocs(query(colRef));
+                return snapshot.docs.map(doc => doc.data());
+            } catch (err) {
+                console.error("Fetch Error:", err);
+                return [];
+            }
         };
     </script>
 
@@ -378,7 +370,7 @@
             { id: 20, q: "How do you understand the word offence", options: {a: "The act of offending", b: "A state of being happy", c: "The act of exercising one's right"}, correct: 'a' },
             { id: 21, q: "Where there is no discipline, what happens to the church system?", options: {a: "Rapid growth", b: "Failure in administration", c: "There is defaulters"}, correct: 'b' },
             { id: 22, q: "Who is to be at the battlefield when the year was expired?", options: {a: "Kings", b: "warlords", c: "slaves"}, correct: 'a' },
-            { id: 23, q: "When should Christians seek God face for the new New year?", options: {a: "when the year has gotten to the middle", b: "when the year is about to end", c: "when the new year has started"}, correct: 'b' },
+            { id: 23, q: "When should Christians seek God face for the new year?", options: {a: "when the year has gotten to the middle", b: "when the year is about to end", c: "when the new year has started"}, correct: 'b' },
             { id: 24, q: "Who is the reason for the season?", options: {a: "Jesus", b: "God", c: "Holy spirit"}, correct: 'a' }
         ];
 
@@ -516,11 +508,36 @@
                     document.getElementById('login-page').classList.add('hidden');
                     document.getElementById('admin-page').classList.remove('hidden');
                     if(window.loadAdminData) window.loadAdminData();
+                    else showAdminDashboard();
                 } else { 
                     alert("Incorrect Code"); adminCounter = 0; 
                 }
             }
         }
+
+        async function showAdminDashboard() {
+            // Fallback if the window function isn't ready
+            const body = document.getElementById('results-body');
+            body.innerHTML = '<tr><td colspan="5">Loading data...</td></tr>';
+            const data = await window.fetchCloudResults();
+            data.sort((a,b) => b.timestamp - a.timestamp);
+            body.innerHTML = '';
+            data.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${r.date || 'N/A'}</td>
+                    <td><b>${r.name}</b></td>
+                    <td>${r.id}</td>
+                    <td>${r.score}/20</td>
+                    <td style="color:${parseInt(r.percent) >= 50 ? 'green' : 'red'}">${r.percent}</td>
+                `;
+                body.appendChild(tr);
+            });
+            if(data.length === 0) body.innerHTML = '<tr><td colspan="5">No records found.</td></tr>';
+        }
+        
+        // Link the specific admin loader if needed
+        window.loadAdminData = showAdminDashboard;
     </script>
 </body>
 </html>
