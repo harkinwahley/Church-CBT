@@ -132,20 +132,20 @@
         <p class="subtitle">The Way of God Bible Ministry - Sunday School Department</p>
         
         <div class="controls">
-            <div id="count-display" style="font-weight: bold; color: #4CAF50;">Loading submissions...</div>
-            <button class="btn-refresh" onclick="location.reload()">🔄 Refresh Records</button>
+            <div id="count-display" style="font-weight: bold; color: #4CAF50;">Connecting to Cloud...</div>
+            <button class="btn-refresh" onclick="location.reload()">🔄 Refresh Table</button>
         </div>
 
-        <div id="status-msg">Connecting to cloud database...</div>
+        <div id="status-msg">Initializing Ministry Database...</div>
         
         <table id="resultsTable" style="display:none;">
             <thead>
                 <tr>
-                    <th>Submission Date</th>
+                    <th>Date Submitted</th>
                     <th>Candidate Name</th>
                     <th>Exam ID</th>
                     <th>Score</th>
-                    <th>Result</th>
+                    <th>Result (%)</th>
                 </tr>
             </thead>
             <tbody id="resultsBody"></tbody>
@@ -155,88 +155,94 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global configuration access
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "AIzaSyBcAU4wF6scW2wmBmDn2BbE8Lf_jbXsCrU",
-            authDomain: "sunday-cbt.firebaseapp.com",
-            projectId: "sunday-cbt",
-            storageBucket: "sunday-cbt.firebasestorage.app",
-            messagingSenderId: "1081445319494",
-            appId: "1:1081445319494:web:8149a46380b55ae85c5b47"
-        };
-
+        // Global configuration provided by environment
+        const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-cbt';
+        
+        // This appId MUST match the one used in the main exam page index.html
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-school-exam-final';
 
-        const status = document.getElementById('status-msg');
-        const table = document.getElementById('resultsTable');
-        const body = document.getElementById('resultsBody');
+        const statusMsg = document.getElementById('status-msg');
+        const resultsTable = document.getElementById('resultsTable');
+        const resultsBody = document.getElementById('resultsBody');
         const countDisplay = document.getElementById('count-display');
 
-        const loadRecords = async (user) => {
+        const startLiveSync = (user) => {
             if (!user) return;
             
-            try {
-                // RULE 1: Correct pathing for the public data
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+            // Collection path aligns with Rule 1
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+            
+            // Using onSnapshot for real-time updates as per Rule 2 (Simple query, sort in JS)
+            onSnapshot(colRef, (snapshot) => {
+                const results = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
-                // RULE 2: Fetch all and sort locally to avoid index errors
-                const snapshot = await getDocs(query(colRef));
-                const results = snapshot.docs.map(doc => doc.data());
-                
-                // Sort by timestamp (newest first)
+                // Sort by timestamp descending (newest first) in memory
                 results.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-                body.innerHTML = '';
                 if (results.length === 0) {
-                    status.textContent = "No students have submitted the exam yet.";
+                    statusMsg.textContent = "No student submissions found yet. Waiting for candidates...";
+                    statusMsg.style.display = 'block';
+                    resultsTable.style.display = 'none';
                     countDisplay.textContent = "Total Submissions: 0";
                 } else {
-                    results.forEach(r => {
-                        const scoreVal = parseInt(r.score) || 0;
-                        const totalVal = parseInt(r.total) || 20;
-                        const isPass = (scoreVal / totalVal) >= 0.5;
+                    statusMsg.style.display = 'none';
+                    resultsTable.style.display = 'table';
+                    countDisplay.textContent = `Total Submissions: ${results.length}`;
+                    
+                    resultsBody.innerHTML = '';
+                    results.forEach(res => {
+                        const row = document.createElement('tr');
+                        const score = res.score || 0;
+                        const total = res.total || 20;
+                        const percentage = res.percent || (Math.round((score / total) * 100) + "%");
+                        const isPass = (score / total) >= 0.5;
 
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${r.date || 'N/A'}</td>
-                            <td><strong>${r.name || 'Anonymous'}</strong></td>
-                            <td style="font-family: monospace; color: #666;">${r.id || '---'}</td>
-                            <td>${scoreVal} / ${totalVal}</td>
+                        row.innerHTML = `
+                            <td style="font-size: 0.85em; color: #7f8c8d;">${res.date || 'N/A'}</td>
+                            <td><strong>${res.name || 'Anonymous'}</strong></td>
+                            <td style="font-family: monospace; color: #2980b9;">${res.id || '---'}</td>
+                            <td style="font-weight: bold;">${score} / ${total}</td>
                             <td>
                                 <span class="badge ${isPass ? 'badge-pass' : 'badge-fail'}">
-                                    ${r.percent || Math.round((scoreVal/totalVal)*100) + '%'}
+                                    ${percentage}
                                 </span>
                             </td>
                         `;
-                        body.appendChild(tr);
+                        resultsBody.appendChild(row);
                     });
-                    status.style.display = 'none';
-                    table.style.display = 'table';
-                    countDisplay.textContent = `Total Submissions: ${results.length}`;
+                }
+            }, (error) => {
+                console.error("Firestore Error:", error);
+                statusMsg.textContent = "Error loading records. Please check database permissions.";
+            });
+        };
+
+        // Strict Auth Rule: Sign in first, then listen for state to trigger data load
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
                 }
             } catch (err) {
-                console.error("Database Error:", err);
-                status.textContent = "Access Error: Could not connect to Ministry database.";
+                console.error("Authentication Error:", err);
+                statusMsg.textContent = "Authentication failed. Unable to view secure results.";
             }
         };
 
-        // Authenticate before loading data
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                loadRecords(user);
-            } else {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    signInAnonymously(auth);
-                }
+                startLiveSync(user);
             }
         });
+
+        initAuth();
     </script>
 </body>
 </html>
