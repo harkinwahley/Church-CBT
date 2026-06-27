@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ministry Exam - Admin Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght=700&display=swap" rel="stylesheet">
     <style>
         :root {
             --prime-txt: #2c3e50;
@@ -115,14 +115,14 @@
     <div class="container">
         <h1>📖 Exam Gradebook</h1>
         <p class="subtitle">The Way of God Bible Ministry - Sunday School Department</p>
-        
+         
         <div class="controls">
             <div id="count-display" style="font-weight: bold; color: #4CAF50;">Connecting to Cloud...</div>
             <button class="btn-refresh" onclick="location.reload()">🔄 Refresh Table</button>
         </div>
 
         <div id="status-msg">Initializing Ministry Database...</div>
-        
+         
         <table id="resultsTable" style="display:none;">
             <thead>
                 <tr>
@@ -139,16 +139,14 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // Added signInWithEmailAndPassword to imports
+        import { getAuth, signInWithCustomToken, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        
-        // Synced appId for results visibility
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sunday-school-exam-v2';
 
         const statusMsg = document.getElementById('status-msg');
         const resultsTable = document.getElementById('resultsTable');
@@ -157,7 +155,9 @@
 
         const startLiveSync = (user) => {
             if (!user) return;
-            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'examResults');
+            
+            // Updated collection reference path to match your Firestore security rules exactly
+            const colRef = collection(db, 'examResults');
             
             onSnapshot(colRef, (snapshot) => {
                 const results = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -187,20 +187,60 @@
                     });
                 }
             }, (error) => {
-                statusMsg.textContent = "Error loading records. Check database permissions.";
+                console.error("Firestore error:", error);
+                statusMsg.textContent = "Error loading records. Check database permissions or admin login state.";
             });
+        };
+
+        // Custom function to handle admin authorization prompts securely
+        const promptAdminLogin = async () => {
+            const adminEmail = prompt("Enter Examiner Admin Email:");
+            if (!adminEmail) {
+                statusMsg.textContent = "Access Denied: Admin authentication cancelled.";
+                return;
+            }
+            const adminPassword = prompt("Enter Admin Password:");
+            if (!adminPassword) {
+                statusMsg.textContent = "Access Denied: Admin password required.";
+                return;
+            }
+
+            try {
+                statusMsg.textContent = "Verifying admin credentials...";
+                await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+            } catch (err) {
+                console.error(err);
+                statusMsg.textContent = "Authentication Failed: Incorrect admin credentials.";
+                // Let the admin retry after a brief pause
+                setTimeout(promptAdminLogin, 2000);
+            }
         };
 
         const initAuth = async () => {
             if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
+                try {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } catch(e) {
+                    await promptAdminLogin();
+                }
             } else {
-                await signInAnonymously(auth);
+                // Replaced anonymous log-in with secure admin prompt
+                await promptAdminLogin();
             }
         };
 
-        onAuthStateChanged(auth, (user) => { if (user) startLiveSync(user); });
-        initAuth();
+        // Strictly verify that the user identity matches your security rule UID before pulling data
+        onAuthStateChanged(auth, (user) => { 
+            if (user) {
+                if (user.uid === "xtUcMxPKSwbj8FpXwJeIYyXds5u2") {
+                    startLiveSync(user); 
+                } else {
+                    statusMsg.textContent = "Access Denied: Logged-in account does not match administrative rules.";
+                }
+            } else {
+                initAuth();
+            }
+        });
     </script>
 </body>
 </html>
