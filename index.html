@@ -6,7 +6,7 @@
     <title>THE WAY OF GOD BIBLE MINISTRY - Sunday School Exam </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght=700&display=swap" rel="stylesheet">
     <style>
         :root {
             --prime-txt: #2c3e50;
@@ -175,7 +175,6 @@
 </head>
 <body>
 
-    <!-- Signup Page -->
     <div class="container" id="signup-page">
         <div class="logo-placeholder" onclick="adminClick()">📖</div>
         <h2>THE WAY OF GOD BIBLE MINISTRY</h2>
@@ -187,7 +186,6 @@
         <p style="font-size: 0.8em; margin-top: 15px;">Already have an ID? <a href="#" onclick="showLogin()">Login here</a></p>
     </div>
 
-    <!-- Login Page -->
     <div class="container hidden" id="login-page">
         <div class="logo-placeholder" id="bible-icon" onclick="adminClick()">📖</div>
         <h2>Login to Exam</h2>
@@ -197,7 +195,6 @@
         <p style="font-size: 0.7em; margin-top: 20px; opacity: 0.5;">Admin: Tap Bible icon 5 times</p>
     </div>
 
-    <!-- Instructions Page -->
     <div class="container hidden" id="instructions-page">
         <h2>Exam Instructions</h2>
         <p style="text-align: left; font-size: 0.9em;">
@@ -210,7 +207,6 @@
         <button onclick="prepareExam()">Begin Exam Now</button>
     </div>
 
-    <!-- Exam Content -->
     <div class="container hidden" id="exam-page">
         <div class="timer" id="countdown">10:00</div>
         <div id="question-container"></div>
@@ -219,7 +215,6 @@
         </div>
     </div>
 
-    <!-- Success Page -->
     <div class="container hidden" id="result-page">
         <div style="border:3px solid var(--btn-green); border-radius:20px; padding:30px; background-color:#f0fff0;">
             <p style="font-size: 1.5em;">🎉 WELL DONE! 🎉</p>
@@ -229,7 +224,6 @@
         </div>
     </div>
     
-    <!-- Admin View -->
     <div class="container admin-container hidden" id="admin-page">
         <h2>Admin Dashboard</h2>
         <p>Results are sorted by most recent submission</p>
@@ -252,7 +246,6 @@
         <button onclick="location.reload()">Back to Login</button>
     </div>
 
-    <!-- Message Box -->
     <div id="customMessageBox">
         <div class="msg-content">
             <p id="messageBoxText"></p>
@@ -262,10 +255,10 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // APP CONFIGURATION - Using the config you provided earlier
+        // Firebase Setup
         const firebaseConfig = {
             apiKey: "AIzaSyBcAU4wF6scW2wmBmDn2BbE8Lf_jbXsCrU",
             authDomain: "sunday-cbt.firebaseapp.com",
@@ -278,66 +271,22 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        
-        // Ensure this matches across your application
         const collectionName = 'examResults';
 
         let user = null;
 
-        const initAuth = async () => {
-            try {
-                // Check if we have a custom token from environment (for preview)
-                // Otherwise fall back to anonymous auth
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (e) {
-                console.error("Auth failed", e);
-            }
-        };
-
-        onAuthStateChanged(auth, (u) => { user = u; });
-        initAuth();
-
-        // Save result function
-        window.saveResultToCloud = async (data) => {
-            if (!user) {
-                console.error("User not authenticated, cannot save.");
-                return false;
-            }
-            try {
-                // Using a standard path structure
-                // Adjust path if you have specific strict rules, e.g. artifacts/APP_ID/...
-                // For direct usage with your config:
-                const colRef = collection(db, collectionName);
-                await addDoc(colRef, { ...data, uid: user.uid });
-                return true;
-            } catch (err) {
-                console.error("Cloud Save Error:", err);
-                return false;
-            }
-        };
+        // Initialize Authentication smoothly
+        onAuthStateChanged(auth, (u) => { 
+            user = u; 
+        });
         
-        // Fetch results function
-        window.fetchCloudResults = async () => {
-            if (!user) {
-                console.error("User not authenticated, cannot fetch.");
-                return [];
-            }
-            try {
-                const colRef = collection(db, collectionName);
-                const snapshot = await getDocs(query(colRef));
-                return snapshot.docs.map(doc => doc.data());
-            } catch (err) {
-                console.error("Fetch Error:", err);
-                return [];
-            }
-        };
-    </script>
+        try {
+            await signInAnonymously(auth);
+        } catch (e) {
+            console.error("Auth failed", e);
+        }
 
-    <script>
+        // Global Application Variables
         let userName = '';
         let generatedId = '';
         let examPool = [];
@@ -347,58 +296,33 @@
         let adminCounter = 0;
         const ADMIN_PASS = "admin123";
 
-    
-const ALL_QUESTIONS = [
-    { id: 1, q: "The Bible is known to be the holy book and also the words of ______.", options: { a: "God", b: "Satan", c: "Abraham", d: "I don't know" }, correct: "a" },
-
-    { id: 2, q: "The segments of the Bible are divided into ______.", options: { a: "3", b: "4", c: "2", d: "7" }, correct: "c" },
-
-    { id: 3, q: "The Old Testament is one of the _________ of the Bible.", options: { a: "Segments", b: "Book", c: "Scripture", d: "Pages" }, correct: "a" },
-
-    { id: 4, q: "The segments of the Bible are divided into __________ and New Testament.", options: { a: "Old Testament", b: "New Testament", c: "Middle Testament", d: "Personal Testament" }, correct: "a" },
-
-    { id: 5, q: "In Genesis 1:3 God said, 'Let there be ________.'", options: { a: "Light", b: "Darkness", c: "Cloud", d: "Rain" }, correct: "a" },
-
-    { id: 6, q: "In the beginning God created heaven and the ________.", options: { a: "Sky", b: "Earth", c: "Cloud", d: "Rain" }, correct: "b" },
-
-    { id: 7, q: "________ was the first man whom God created in His own image.", options: { a: "Noah", b: "Adam", c: "Abraham", d: "Segun" }, correct: "b" },
-
-    { id: 8, q: "Exodus means a sudden departure of ______ people.", options: { a: "Large", b: "Small", c: "Giant", d: "Short" }, correct: "a" },
-
-    { id: 9, q: "In the book of _________ God said the life of every creature is in the blood.", options: { a: "Leviticus", b: "Genesis", c: "Numbers", d: "Deuteronomy" }, correct: "a" },
-
-    { id: 10, q: "In the book of ________ God warned and renewed His covenant with the Israelites.", options: { a: "Genesis", b: "Deuteronomy", c: "Numbers", d: "Exodus" }, correct: "b" },
-
-    { id: 11, q: "In Joshua 1:8 God told Joshua, 'This book of the law shall not depart out of thy mouth...' The book of the law is the ______.", options: { a: "Law", b: "Word", c: "Jesus", d: "Israelite" }, correct: "b" },
-
-    { id: 12, q: "Meditate is derived from the word ______.", options: { a: "Meditation", b: "Medication", c: "Immediate", d: "Ministry" }, correct: "a" },
-
-    { id: 13, q: "Meditation means _________.", options: { a: "Careful and thorough thought", b: "Foolish thought", c: "Unreasonable thought", d: "Fearful thought" }, correct: "a" },
-
-    { id: 14, q: "How many spies did Joshua send out of Shittim to spy secretly in Joshua 2:1?", options: { a: "3", b: "2", c: "4", d: "1" }, correct: "b" },
-
-    { id: 15, q: "In Joshua 6:1, how many times did God tell Joshua to compass the city of Jericho?", options: { a: "7", b: "2", c: "13", d: "20" }, correct: "a" },
-
-    { id: 16, q: "The book of Judges is another book to study in the ______ Testament.", options: { a: "New Testament", b: "Old Testament", c: "Both", d: "I don't know" }, correct: "b" },
-
-    { id: 17, q: "Judah was the fourth child of _______.", options: { a: "Jacob", b: "Noah", c: "Jesus", d: "Abraham" }, correct: "a" },
-
-    { id: 18, q: "Deborah was a _________.", options: { a: "Fighter", b: "Prophetess", c: "Princess", d: "Woman" }, correct: "b" },
-
-    { id: 19, q: "Jephthah the Gileadite was a _______ man.", options: { a: "Mighty", b: "Lazy", c: "Stupid", d: "Tall" }, correct: "a" },
-
-    { id: 20, q: "The book of Samuel is found in the ________.", options: { a: "Old Testament", b: "New Testament", c: "Both", d: "I don't know" }, correct: "a" },
-
-    { id: 21, q: "How did Samson lose his eyes, his vision, and his ministry?", options: { a: "Through disobedience", b: "Through vengeance", c: "Through laziness", d: "Through lies" }, correct: "a" },
-
-    { id: 22, q: "After the death of Elimelech, Naomi and _______ returned to Bethlehem.", options: { a: "Deborah", b: "Ruth", c: "Esther", d: "Mary" }, correct: "b" },
-
-    { id: 23, q: "Ruth got remarried to _______.", options: { a: "Boaz", b: "Samuel", c: "Jonathan", d: "David" }, correct: "a" },
-
-    { id: 24, q: "The book of First Samuel consists of _____ chapters and _______ verses.", options: { a: "23 chapters and 23 verses", b: "31 chapters and 810 verses", c: "51 chapters and 86 verses", d: "12 chapters and 8 verses" }, correct: "b" },
-
-    { id: 25, q: "In the book of II Samuel, God incited David to number _____ and _______.", options: { a: "Israel and Judah", b: "Bethlehem and Judea", c: "Israel and Egypt", d: "All of the above" }, correct: "a" }
-];  
+        const ALL_QUESTIONS = [
+            { id: 1, q: "The Bible is known to be the holy book and also the words of ______.", options: { a: "God", b: "Satan", c: "Abraham", d: "I don't know" }, correct: "a" },
+            { id: 2, q: "The segments of the Bible are divided into ______.", options: { a: "3", b: "4", c: "2", d: "7" }, correct: "c" },
+            { id: 3, q: "The Old Testament is one of the _________ of the Bible.", options: { a: "Segments", b: "Book", c: "Scripture", d: "Pages" }, correct: "a" },
+            { id: 4, q: "The segments of the Bible are divided into __________ and New Testament.", options: { a: "Old Testament", b: "New Testament", c: "Middle Testament", d: "Personal Testament" }, correct: "a" },
+            { id: 5, q: "In Genesis 1:3 God said, 'Let there be ________.'", options: { a: "Light", b: "Darkness", c: "Cloud", d: "Rain" }, correct: "a" },
+            { id: 6, q: "In the beginning God created heaven and the ________.", options: { a: "Sky", b: "Earth", c: "Cloud", d: "Rain" }, correct: "b" },
+            { id: 7, q: "________ was the first man whom God created in His own image.", options: { a: "Noah", b: "Adam", c: "Abraham", d: "Segun" }, correct: "b" },
+            { id: 8, q: "Exodus means a sudden departure of ______ people.", options: { a: "Large", b: "Small", c: "Giant", d: "Short" }, correct: "a" },
+            { id: 9, q: "In the book of _________ God said the life of every creature is in the blood.", options: { a: "Leviticus", b: "Genesis", c: "Numbers", d: "Deuteronomy" }, correct: "a" },
+            { id: 10, q: "In the book of ________ God warned and renewed His covenant with the Israelites.", options: { a: "Genesis", b: "Deuteronomy", c: "Numbers", d: "Exodus" }, correct: "b" },
+            { id: 11, q: "In Joshua 1:8 God told Joshua, 'This book of the law shall not depart out of thy mouth...' The book of the law is the ______.", options: { a: "Law", b: "Word", c: "Jesus", d: "Israelite" }, correct: "b" },
+            { id: 12, q: "Meditate is derived from the word ______.", options: { a: "Meditation", b: "Medication", c: "Immediate", d: "Ministry" }, correct: "a" },
+            { id: 13, q: "Meditation means _________.", options: { a: "Careful and thorough thought", b: "Foolish thought", c: "Unreasonable thought", d: "Fearful thought" }, correct: "a" },
+            { id: 14, q: "How many spies did Joshua send out of Shittim to spy secretly in Joshua 2:1?", options: { a: "3", b: "2", c: "4", d: "1" }, correct: "b" },
+            { id: 15, q: "In Joshua 6:1, how many times did God tell Joshua to compass the city of Jericho?", options: { a: "7", b: "2", c: "13", d: "20" }, correct: "a" },
+            { id: 16, q: "The book of Judges is another book to study in the ______ Testament.", options: { a: "New Testament", b: "Old Testament", c: "Both", d: "I don't know" }, correct: "b" },
+            { id: 17, q: "Judah was the fourth child of _______.", options: { a: "Jacob", b: "Noah", c: "Jesus", d: "Abraham" }, correct: "a" },
+            { id: 18, q: "Deborah was a _________.", options: { a: "Fighter", b: "Prophetess", c: "Princess", d: "Woman" }, correct: "b" },
+            { id: 19, q: "Jephthah the Gileadite was a _______ man.", options: { a: "Mighty", b: "Lazy", c: "Stupid", d: "Tall" }, correct: "a" },
+            { id: 20, q: "The book of Samuel is found in the ________.", options: { a: "Old Testament", b: "New Testament", c: "Both", d: "I don't know" }, correct: "a" },
+            { id: 21, q: "How did Samson lose his eyes, his vision, and his ministry?", options: { a: "Through disobedience", b: "Through vengeance", c: "Through laziness", d: "Through lies" }, correct: "a" },
+            { id: 22, q: "After the death of Elimelech, Naomi and _______ returned to Bethlehem.", options: { a: "Deborah", b: "Ruth", c: "Esther", d: "Mary" }, correct: "b" },
+            { id: 23, q: "Ruth got remarried to _______.", options: { a: "Boaz", b: "Samuel", c: "Jonathan", d: "David" }, correct: "a" },
+            { id: 24, q: "The book of First Samuel consists of _____ chapters and _______ verses.", options: { a: "23 chapters and 23 verses", b: "31 chapters and 810 verses", c: "51 chapters and 86 verses", d: "12 chapters and 8 verses" }, correct: "b" },
+            { id: 25, q: "In the book of II Samuel, God incited David to number _____ and _______.", options: { a: "Israel and Judah", b: "Bethlehem and Judea", c: "Israel and Egypt", d: "All of the above" }, correct: "a" }
+        ];  
 
         function shuffle(arr) {
             let a = [...arr];
@@ -414,7 +338,11 @@ const ALL_QUESTIONS = [
             document.getElementById('customMessageBox').style.display = 'block';
         }
 
-        function hideMessageBox() { document.getElementById('customMessageBox').style.display = 'none'; }
+        function hideMessageBox() { 
+            document.getElementById('customMessageBox').style.display = 'none'; 
+        }
+
+        window.hideMessageBox = hideMessageBox;
 
         window.showLogin = function() {
             document.getElementById('signup-page').classList.add('hidden');
@@ -436,14 +364,13 @@ const ALL_QUESTIONS = [
 
         window.startExam = function() {
             userName = document.getElementById('login-name').value.trim();
-            const idInp = document.getElementById('generated-id-input').value.trim();
-            if(!userName || !idInp) return showMessageBox("Enter name and ID");
+            generatedId = document.getElementById('generated-id-input').value.trim(); // Fixed: assigned variable to prevent "GUEST" issue
+            if(!userName || !generatedId) return showMessageBox("Enter name and ID");
             document.getElementById('login-page').classList.add('hidden');
             document.getElementById('instructions-page').classList.remove('hidden');
         }
 
         window.prepareExam = function() {
-            // Select 20 random questions from the 24 available
             const shuffledPool = shuffle(ALL_QUESTIONS);
             examPool = shuffledPool.slice(0, 20); 
             
@@ -518,11 +445,18 @@ const ALL_QUESTIONS = [
                 timestamp: Date.now()
             };
 
+            // Immediately show the layout changes to the student
             document.getElementById('exam-page').classList.add('hidden');
             document.getElementById('score-display').textContent = `Score: ${score} / 20 (${results.percent})`;
             document.getElementById('result-page').classList.remove('hidden');
             
-            if(window.saveResultToCloud) { await window.saveResultToCloud(results); }
+            // Securely back up to Firestore cloud database instantly
+            try {
+                const colRef = collection(db, collectionName);
+                await addDoc(colRef, { ...results, uid: user ? user.uid : 'anon' });
+            } catch (err) {
+                console.error("Cloud Save Error:", err);
+            }
         }
 
         window.adminClick = function() {
@@ -533,8 +467,7 @@ const ALL_QUESTIONS = [
                     document.getElementById('signup-page').classList.add('hidden');
                     document.getElementById('login-page').classList.add('hidden');
                     document.getElementById('admin-page').classList.remove('hidden');
-                    if(window.loadAdminData) window.loadAdminData();
-                    else showAdminDashboard();
+                    showAdminDashboard();
                 } else { 
                     alert("Incorrect Code"); adminCounter = 0; 
                 }
@@ -542,28 +475,39 @@ const ALL_QUESTIONS = [
         }
 
         async function showAdminDashboard() {
-            // Fallback if the window function isn't ready
             const body = document.getElementById('results-body');
             body.innerHTML = '<tr><td colspan="5">Loading data...</td></tr>';
-            const data = await window.fetchCloudResults();
-            data.sort((a,b) => b.timestamp - a.timestamp);
-            body.innerHTML = '';
-            data.forEach(r => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${r.date || 'N/A'}</td>
-                    <td><b>${r.name}</b></td>
-                    <td>${r.id}</td>
-                    <td>${r.score}/20</td>
-                    <td style="color:${parseInt(r.percent) >= 50 ? 'green' : 'red'}">${r.percent}</td>
-                `;
-                body.appendChild(tr);
-            });
-            if(data.length === 0) body.innerHTML = '<tr><td colspan="5">No records found.</td></tr>';
+            
+            try {
+                const colRef = collection(db, collectionName);
+                const snapshot = await getDocs(query(colRef));
+                const data = snapshot.docs.map(doc => doc.data());
+                
+                // Sort by real-time timestamps
+                data.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
+                body.innerHTML = '';
+                
+                if(data.length === 0) {
+                    body.innerHTML = '<tr><td colspan="5">No student records found.</td></tr>';
+                    return;
+                }
+
+                data.forEach(r => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${r.date || 'N/A'}</td>
+                        <td><b>${r.name}</b></td>
+                        <td>${r.id}</td>
+                        <td>${r.score}/20</td>
+                        <td style="color:${parseInt(r.percent) >= 50 ? 'green' : 'red'}">${r.percent}</td>
+                    `;
+                    body.appendChild(tr);
+                });
+            } catch (err) {
+                console.error("Fetch Error:", err);
+                body.innerHTML = `<tr><td colspan="5" style="color:red;">Failed to retrieve records: ${err.message}</td></tr>`;
+            }
         }
-        
-        // Link the specific admin loader if needed
-        window.loadAdminData = showAdminDashboard;
     </script>
 </body>
 </html>
