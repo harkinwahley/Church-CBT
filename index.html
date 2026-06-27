@@ -93,14 +93,17 @@
             transform: translateY(-2px);
         }
 
-        .logo-placeholder { 
-            font-size: 80px; 
-            margin-bottom: 10px; 
-            cursor: pointer; 
-            user-select: none; 
-            transition: transform 0.2s; 
-        }
-        .logo-placeholder:active { transform: scale(0.9); }
+      .logo-placeholder { 
+    max-width: 120px; /* Controls the size of your logo */
+    width: 100%;
+    height: auto;
+    margin: 0 auto 15px; 
+    cursor: pointer; 
+    user-select: none; 
+    transition: transform 0.2s; 
+    display: block;
+}
+.logo-placeholder:active { transform: scale(0.9); }
 
         .question {
             background: var(--card-bg);
@@ -176,7 +179,7 @@
 <body>
 
     <div class="container" id="signup-page">
-        <div class="logo-placeholder" onclick="adminClick()">📖</div>
+       <img src="logo.png" class="logo-placeholder" onclick="adminClick()" alt="Church Logo">
         <h2>THE WAY OF GOD BIBLE MINISTRY</h2>
         <h3>Sunday School Exam - (JUNE 2026)</h3>
         <input type="text" placeholder="First Name" id="first-name">
@@ -187,7 +190,7 @@
     </div>
 
     <div class="container hidden" id="login-page">
-        <div class="logo-placeholder" id="bible-icon" onclick="adminClick()">📖</div>
+        <img src="logo.png" class="logo-placeholder" id="bible-icon" onclick="adminClick()" alt="Church Logo">
         <h2>Login to Exam</h2>
         <input type="text" placeholder="Your Full Name" id="login-name">
         <input type="text" placeholder="Generated ID" id="generated-id-input">
