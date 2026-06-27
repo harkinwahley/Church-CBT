@@ -181,7 +181,7 @@
         <h3>Sunday School Exam - (JUNE 2026)</h3>
         <input type="text" placeholder="First Name" id="first-name">
         <input type="text" placeholder="Last Name" id="last-name">
-        <input type="password" placeholder="Create Exam Password" id="password">
+        <input type="password" placeholder="Enter Exam Access Password" id="password">
         <button onclick="generateID()">Sign Up</button>
         <p style="font-size: 0.8em; margin-top: 15px;">Already have an ID? <a href="#" onclick="showLogin()">Login here</a></p>
     </div>
@@ -191,6 +191,7 @@
         <h2>Login to Exam</h2>
         <input type="text" placeholder="Your Full Name" id="login-name">
         <input type="text" placeholder="Generated ID" id="generated-id-input">
+        <input type="password" placeholder="Enter Exam Access Password" id="login-password">
         <button onclick="startExam()">Log In</button>
         <p style="font-size: 0.7em; margin-top: 20px; opacity: 0.5;">Admin: Tap Bible icon 5 times</p>
     </div>
@@ -294,7 +295,10 @@
         let currentIdx = 0;
         let timer;
         let adminCounter = 0;
+        
+        // Security Passwords configuration
         const ADMIN_PASS = "admin123";
+        const EXAM_PASSWORD = "WAYOFGOD2026"; // Change this to the single password you want every student to use
 
         const ALL_QUESTIONS = [
             { id: 1, q: "The Bible is known to be the holy book and also the words of ______.", options: { a: "God", b: "Satan", c: "Abraham", d: "I don't know" }, correct: "a" },
@@ -322,7 +326,7 @@
             { id: 23, q: "Ruth got remarried to _______.", options: { a: "Boaz", b: "Samuel", c: "Jonathan", d: "David" }, correct: "a" },
             { id: 24, q: "The book of First Samuel consists of _____ chapters and _______ verses.", options: { a: "23 chapters and 23 verses", b: "31 chapters and 810 verses", c: "51 chapters and 86 verses", d: "12 chapters and 8 verses" }, correct: "b" },
             { id: 25, q: "In the book of II Samuel, God incited David to number _____ and _______.", options: { a: "Israel and Judah", b: "Bethlehem and Judea", c: "Israel and Egypt", d: "All of the above" }, correct: "a" }
-        ];  
+        ];   
 
         function shuffle(arr) {
             let a = [...arr];
@@ -352,20 +356,39 @@
         window.generateID = function() {
             const fn = document.getElementById('first-name').value.trim();
             const ln = document.getElementById('last-name').value.trim();
-            if(!fn || !ln) return showMessageBox("Please enter your names");
+            const pwd = document.getElementById('password').value.trim();
+            
+            if(!fn || !ln || !pwd) return showMessageBox("Please fill in all fields");
+            
+            // Check against master exam access password
+            if(pwd !== EXAM_PASSWORD) {
+                return showMessageBox("Incorrect Exam Access Password. Please use the password provided by the Ministry.");
+            }
+
             generatedId = (fn.substring(0,3) + ln.substring(0,3)).toUpperCase() + Math.floor(1000 + Math.random()*9000);
             userName = `${fn} ${ln}`;
+            
             document.getElementById('signup-page').classList.add('hidden');
             document.getElementById('login-page').classList.remove('hidden');
             showMessageBox(`ID GENERATED: ${generatedId}. Please write it down to log in!`);
+            
             document.getElementById('login-name').value = userName;
             document.getElementById('generated-id-input').value = generatedId;
+            document.getElementById('login-password').value = pwd; // Autofill password field for fluid transition
         }
 
         window.startExam = function() {
             userName = document.getElementById('login-name').value.trim();
-            generatedId = document.getElementById('generated-id-input').value.trim(); // Fixed: assigned variable to prevent "GUEST" issue
-            if(!userName || !generatedId) return showMessageBox("Enter name and ID");
+            generatedId = document.getElementById('generated-id-input').value.trim(); 
+            const loginPwd = document.getElementById('login-password').value.trim();
+
+            if(!userName || !generatedId || !loginPwd) return showMessageBox("Enter name, ID, and exam password");
+            
+            // Ensure security validation matches the universal password on direct login
+            if(loginPwd !== EXAM_PASSWORD) {
+                return showMessageBox("Incorrect Exam Access Password. Access Denied.");
+            }
+
             document.getElementById('login-page').classList.add('hidden');
             document.getElementById('instructions-page').classList.remove('hidden');
         }
